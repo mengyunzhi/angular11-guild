@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import {Component} from '@angular/core';
 
 @Component({
   selector: 'app-root',
@@ -7,4 +7,23 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'first-app';
+
+  // 定义教师数组
+  teachers = [{
+    id: 1,
+    name: '张三',
+    username: 'zhangsan',
+    email: 'zhangsan@yunzhiclub.com',
+    sex: '男'
+  }, {
+    id: 2,
+    name: '李四',
+    username: 'lisi',
+    email: 'lisi@yunzhiclub.com',
+    sex: '女',
+  }];
+
+  constructor() {
+    console.log('constructor');
+  }
 }
