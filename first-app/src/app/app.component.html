@@ -10,20 +10,12 @@
     <th>性别</th>
     <th>操作</th>
   </tr>
-  <tr>
-    <td>1</td>
-    <td>张三</td>
-    <td>zhangsan</td>
-    <td>zhangsan@yunzhiclub.com</td>
-    <td>男</td>
-    <td>删除</td>
-  </tr>
-  <tr>
-    <td>2</td>
-    <td>李四</td>
-    <td>lisi</td>
-    <td>lisi@yunzhiclub.com</td>
-    <td>女</td>
+  <tr *ngFor="let teacher of teachers; index as i">
+    <td>{{ i + 1 }}</td>
+    <td>{{ teacher.name }}</td>
+    <td>{{ teacher.username }}</td>
+    <td>{{ teacher.email }}</td>
+    <td>{{ teacher.sex }}</td>
     <td>删除</td>
   </tr>
 </table>
