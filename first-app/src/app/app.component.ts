@@ -14,13 +14,13 @@ export class AppComponent {
     name: '张三',
     username: 'zhangsan',
     email: 'zhangsan@yunzhiclub.com',
-    sex: '男'
+    sex: true
   }, {
     id: 2,
     name: '李四',
     username: 'lisi',
     email: 'lisi@yunzhiclub.com',
-    sex: '女',
+    sex: false,
   }];
 
   constructor() {

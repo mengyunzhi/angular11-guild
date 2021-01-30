@@ -15,7 +15,11 @@
     <td>{{ teacher.name }}</td>
     <td>{{ teacher.username }}</td>
     <td>{{ teacher.email }}</td>
-    <td>{{ teacher.sex }}</td>
+    <td *ngIf="teacher.sex; else femaleBlock">男</td>
     <td>删除</td>
   </tr>
 </table>
+
+<ng-template #femaleBlock>
+  <td>女</td>
+</ng-template>
