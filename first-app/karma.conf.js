@@ -12,6 +12,12 @@ module.exports = function (config) {
       require('karma-coverage'),
       require('@angular-devkit/build-angular/plugins/karma')
     ],
+    files: [
+      {pattern: './src/assets/**', watched: true, included: false, nocache: false, served: true}
+    ],
+    proxies: {
+      '/assets/': '/base/src/assets/'
+    },
     client: {
       jasmine: {
         // you can add configuration options for Jasmine here
@@ -28,8 +34,8 @@ module.exports = function (config) {
       dir: require('path').join(__dirname, './coverage/first-app'),
       subdir: '.',
       reporters: [
-        { type: 'html' },
-        { type: 'text-summary' }
+        {type: 'html'},
+        {type: 'text-summary'}
       ]
     },
     reporters: ['progress', 'kjhtml'],
@@ -40,5 +46,5 @@ module.exports = function (config) {
     browsers: ['Chrome'],
     singleRun: false,
     restartOnFileChange: true
-  });
-};
+  })
+}
