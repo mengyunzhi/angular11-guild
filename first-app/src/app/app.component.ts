@@ -1,4 +1,5 @@
 import {Component} from '@angular/core';
+import {HttpClient} from '@angular/common/http';
 
 @Component({
   selector: 'app-root',
@@ -23,7 +24,7 @@ export class AppComponent {
     sex: false,
   }];
 
-  constructor() {
-    console.log('constructor');
+  constructor(private httpClient: HttpClient) {
+    console.log(httpClient);
   }
 }
