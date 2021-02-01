@@ -8,7 +8,7 @@ import {HttpClient} from '@angular/common/http';
 })
 export class AppComponent implements OnInit {
   // 初始化教师数组
-  teachers = [];
+  teachers = [] as any[];
 
   constructor(private httpClient: HttpClient) {
     console.log(httpClient);
