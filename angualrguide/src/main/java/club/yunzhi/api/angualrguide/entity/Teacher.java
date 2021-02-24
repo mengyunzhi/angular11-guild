@@ -24,6 +24,16 @@ public class Teacher {
 
   private String username;
 
+  public Teacher() {
+  }
+
+  public Teacher(String name, String username, String email, boolean sex) {
+    this.setName(name);
+    this.setUsername(username);
+    this.setEmail(email);
+    this.setSex(sex);
+  }
+
   public Long getId() {
     return id;
   }

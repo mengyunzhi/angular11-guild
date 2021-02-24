@@ -2,6 +2,8 @@ package club.yunzhi.api.angualrguide.controller;
 
 import club.yunzhi.api.angualrguide.entity.Teacher;
 import club.yunzhi.api.angualrguide.repository.TeacherRepository;
+import com.fasterxml.jackson.annotation.JsonView;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -15,19 +17,54 @@ public class TeacherController {
     this.teacherRepository = teacherRepository;
   }
 
+  @DeleteMapping("{id}")
+  @ResponseStatus(HttpStatus.NO_CONTENT)
+  public void deleteById(@PathVariable Long id) {
+    this.teacherRepository.deleteById(id);
+  }
+
   @GetMapping
+  @JsonView(GetAllJsonView.class)
   public List<Teacher> getAll() {
     return (List<Teacher>) this.teacherRepository.findAll();
   }
 
-  @PostMapping
-  public Teacher save(@RequestBody Teacher teacher) {
-    return this.teacherRepository.save(teacher);
-  }
-
   @GetMapping("{id}")
+  @JsonView(GetByIdJsonView.class)
   public Teacher getById(@PathVariable Long id) {
     return this.teacherRepository.findById(id)
         .orElseThrow();
   }
+
+  @PostMapping
+  @ResponseStatus(HttpStatus.CREATED)
+  @JsonView(SaveJsonView.class)
+  public Teacher save(@RequestBody Teacher teacher) {
+    return this.teacherRepository.save(teacher);
+  }
+
+  @PutMapping("{id}")
+  @ResponseStatus(HttpStatus.ACCEPTED)
+  @JsonView(UpdateJsonView.class)
+  public Teacher update(@PathVariable Long id, @RequestBody Teacher teacher) {
+    Teacher oldTeacher = this.teacherRepository.findById(id).orElseThrow();
+    oldTeacher.setName(teacher.getName());
+    oldTeacher.setEmail(teacher.getEmail());
+    oldTeacher.setSex(teacher.getSex());
+    oldTeacher.setUsername(teacher.getUsername());
+    return this.teacherRepository.save(oldTeacher);
+  }
+
+  private interface GetAllJsonView {
+  }
+
+  private interface GetByIdJsonView {
+  }
+
+  private interface SaveJsonView {
+  }
+
+  private interface UpdateJsonView {
+  }
+
 }
