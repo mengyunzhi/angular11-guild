@@ -1,31 +1,37 @@
-<form class="container-sm">
+<form class="container-sm" (ngSubmit)="onSubmit()">
   <div class="mb-3 row">
     <label for="name" class="col-sm-2 col-form-label">姓名</label>
     <div class="col-sm-10">
-      <input type="text" class="form-control" id="name">
+      <input type="text" class="form-control" name="name" [(ngModel)]="teacher.name" id="name">
     </div>
   </div>
   <div class="mb-3 row">
     <label for="username" class="col-sm-2 col-form-label">用户名</label>
     <div class="col-sm-10">
-      <input type="text" class="form-control" id="username">
+      <input type="text" class="form-control" name="username" [(ngModel)]="teacher.username" id="username">
     </div>
   </div>
   <div class="mb-3 row">
     <label for="email" class="col-sm-2 col-form-label">Email</label>
     <div class="col-sm-10">
-      <input type="text" class="form-control" id="email">
+      <input type="text" class="form-control" name="email" [(ngModel)]="teacher.email" id="email">
     </div>
   </div>
   <div class="mb-3 row">
     <label class="col-sm-2 col-form-label">性别</label>
     <div class="col-sm-10">
       <div class="form-check form-check-inline">
-        <input class="form-check-input" type="radio" name="inlineRadioOptions" id="sex-male" value="option1">
+        <input class="form-check-input" type="radio" id="sex-male"
+               name="sex"
+               [(ngModel)]="teacher.sex"
+               [value]="true">
         <label class="form-check-label" for="sex-male">男</label>
       </div>
       <div class="form-check form-check-inline">
-        <input class="form-check-input" type="radio" name="inlineRadioOptions" id="sex-female" value="option2">
+        <input class="form-check-input" type="radio" id="sex-female"
+               name="sex"
+               [(ngModel)]="teacher.sex"
+               [value]="false">
         <label class="form-check-label" for="sex-female">女</label>
       </div>
     </div>
