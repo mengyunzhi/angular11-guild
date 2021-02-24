@@ -10,7 +10,7 @@
 	</parent>
 	<groupId>club.yunzhi.api</groupId>
 	<artifactId>angualrguide</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>2.0</version>
 	<name>angualrguide</name>
 	<description>Demo project for Spring Boot</description>
 	<properties>
