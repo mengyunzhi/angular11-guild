@@ -25,7 +25,8 @@ public class MvcSecurityConfig extends WebSecurityConfigurerAdapter {
     http
         .authorizeRequests()
         .antMatchers("/teacher/**").permitAll()
-        .and().cors();
+        .and().cors()
+        .and().csrf().disable();
   }
 
 
