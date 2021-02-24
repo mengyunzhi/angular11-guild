@@ -7,6 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 
 @RestController
 @RequestMapping("teacher")
@@ -33,7 +34,7 @@ public class TeacherController {
   @JsonView(GetByIdJsonView.class)
   public Teacher getById(@PathVariable Long id) {
     return this.teacherRepository.findById(id)
-        .orElseThrow();
+        .orElseThrow(() -> new NoSuchElementException());
   }
 
   @PostMapping
@@ -47,7 +48,7 @@ public class TeacherController {
   @ResponseStatus(HttpStatus.ACCEPTED)
   @JsonView(UpdateJsonView.class)
   public Teacher update(@PathVariable Long id, @RequestBody Teacher teacher) {
-    Teacher oldTeacher = this.teacherRepository.findById(id).orElseThrow();
+    Teacher oldTeacher = this.teacherRepository.findById(id).orElseThrow(() -> new NoSuchElementException());
     oldTeacher.setName(teacher.getName());
     oldTeacher.setEmail(teacher.getEmail());
     oldTeacher.setSex(teacher.getSex());
