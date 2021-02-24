@@ -2,6 +2,7 @@ import {ComponentFixture, TestBed} from '@angular/core/testing';
 
 import {AddComponent} from './add.component';
 import {FormsModule} from '@angular/forms';
+import {HttpClientModule} from '@angular/common/http';
 
 fdescribe('AddComponent', () => {
   let component: AddComponent;
@@ -10,7 +11,7 @@ fdescribe('AddComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [AddComponent],
-      imports: [FormsModule]
+      imports: [FormsModule, HttpClientModule]
     })
       .compileComponents();
   });

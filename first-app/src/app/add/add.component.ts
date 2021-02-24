@@ -1,4 +1,5 @@
 import {Component, OnInit} from '@angular/core';
+import {HttpClient} from '@angular/common/http';
 
 @Component({
   selector: 'app-add',
@@ -13,7 +14,7 @@ export class AddComponent implements OnInit {
     sex: true
   };
 
-  constructor() {
+  constructor(private httpClient: HttpClient) {
   }
 
   ngOnInit(): void {
@@ -21,5 +22,10 @@ export class AddComponent implements OnInit {
 
   onSubmit(): void {
     console.log(this.teacher);
+    this.httpClient
+      .post('http://angular.api.codedemo.club:81/teacher', this.teacher)
+      .subscribe((result) => {
+        console.log('接收到返回数据', result);
+      });
   }
 }
