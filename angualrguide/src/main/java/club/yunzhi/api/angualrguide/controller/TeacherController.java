@@ -6,6 +6,7 @@ import com.fasterxml.jackson.annotation.JsonView;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import javax.persistence.EntityExistsException;
 import java.util.List;
 import java.util.NoSuchElementException;
 
@@ -41,6 +42,9 @@ public class TeacherController {
   @ResponseStatus(HttpStatus.CREATED)
   @JsonView(SaveJsonView.class)
   public Teacher save(@RequestBody Teacher teacher) {
+    if (this.teacherRepository.existsByUsername(teacher.getUsername())) {
+      throw new EntityExistsException("用户名已存在");
+    }
     return this.teacherRepository.save(teacher);
   }
 
