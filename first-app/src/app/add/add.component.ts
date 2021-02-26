@@ -26,6 +26,8 @@ export class AddComponent implements OnInit {
       .post('http://angular.api.codedemo.club:81/teacher', this.teacher)
       .subscribe((result) => {
         console.log('接收到返回数据', result);
+      }, (error) => {
+        console.log('请求失败', error);
       });
   }
 }
