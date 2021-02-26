@@ -7,6 +7,7 @@ import {HttpClientModule} from '@angular/common/http';
 import {AddComponent} from './add/add.component';
 import {FormsModule} from '@angular/forms';
 import {EditComponent} from './edit/edit.component';
+import {RouterModule} from '@angular/router';
 
 
 @NgModule({
@@ -19,7 +20,8 @@ import {EditComponent} from './edit/edit.component';
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
-    FormsModule
+    FormsModule,
+    RouterModule
   ],
   providers: [],
   bootstrap: [AppComponent]
