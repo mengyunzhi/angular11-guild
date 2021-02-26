@@ -18,7 +18,7 @@ export class AppComponent implements OnInit {
    * 组件初始化完成后将被自动执行一次
    */
   ngOnInit(): void {
-    this.httpClient.get<[]>('assets/teacher-all.json')
+    this.httpClient.get<[]>('http://angular.api.codedemo.club:81/teacher')
       .subscribe(teachers => this.teachers = teachers);
   }
 }
