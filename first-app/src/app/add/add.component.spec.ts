@@ -4,7 +4,7 @@ import {AddComponent} from './add.component';
 import {FormsModule} from '@angular/forms';
 import {HttpClientModule} from '@angular/common/http';
 
-fdescribe('AddComponent', () => {
+describe('AddComponent', () => {
   let component: AddComponent;
   let fixture: ComponentFixture<AddComponent>;
 
