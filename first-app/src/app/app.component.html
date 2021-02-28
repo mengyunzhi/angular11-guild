@@ -1,4 +1,5 @@
 <router-outlet></router-outlet>
+<a routerLink="add">新增</a>
 <table class="table table-striped">
   <thead>
     <tr class="table-primary">
@@ -17,7 +18,7 @@
       <td>{{ teacher.username }}</td>
       <td>{{ teacher.email }}</td>
       <td *ngIf="teacher.sex; else femaleBlock">男</td>
-      <td (click)="onDelete(teacher.id)">删除</td>
+      <td><span (click)="onDelete(teacher.id)">删除</span> <a [routerLink]="'edit/' + teacher.id">编辑</a></td>
     </tr>
   </tbody>
 </table>
