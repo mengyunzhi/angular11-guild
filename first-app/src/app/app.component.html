@@ -1,7 +1,7 @@
 <router-outlet></router-outlet>
 <div class="row">
   <div class="col-12 text-right">
-    <a class="btn btn-primary mr-2" routerLink="add">新增</a>
+    <a class="btn btn-primary mr-2" routerLink="add"><i class="fas fa-plus"></i>新增</a>
   </div>
 </div>
 
@@ -24,8 +24,12 @@
       <td>{{ teacher.email }}</td>
       <td *ngIf="teacher.sex; else femaleBlock">男</td>
       <td>
-        <a class="btn btn-outline-primary btn-sm" [routerLink]="'edit/' + teacher.id">编辑</a>
-        <span class="btn btn-sm btn-outline-danger" (click)="onDelete(teacher.id)">删除</span>
+        <a class="btn btn-outline-primary btn-sm" [routerLink]="'edit/' + teacher.id">
+          <i class="fas fa-pen"></i>编辑
+        </a>
+        <span class="btn btn-sm btn-outline-danger" (click)="onDelete(teacher.id)">
+          <i class="far fa-trash-alt"></i>删除
+        </span>
       </td>
     </tr>
   </tbody>

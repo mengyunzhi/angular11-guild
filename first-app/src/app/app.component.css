@@ -1,0 +1,7 @@
+.btn {
+  margin-right: 0.5em;
+}
+
+.btn > svg {
+  margin-right: 0.3em;
+}
