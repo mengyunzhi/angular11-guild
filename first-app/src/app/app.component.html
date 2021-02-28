@@ -1,6 +1,11 @@
 <router-outlet></router-outlet>
-<a routerLink="add">新增</a>
-<table class="table table-striped">
+<div class="row">
+  <div class="col-12 text-right">
+    <a class="btn btn-primary mr-2" routerLink="add">新增</a>
+  </div>
+</div>
+
+<table class="table table-striped mt-2">
   <thead>
     <tr class="table-primary">
       <th>序号</th>
@@ -18,7 +23,10 @@
       <td>{{ teacher.username }}</td>
       <td>{{ teacher.email }}</td>
       <td *ngIf="teacher.sex; else femaleBlock">男</td>
-      <td><span (click)="onDelete(teacher.id)">删除</span> <a [routerLink]="'edit/' + teacher.id">编辑</a></td>
+      <td>
+        <a class="btn btn-outline-primary btn-sm" [routerLink]="'edit/' + teacher.id">编辑</a>
+        <span class="btn btn-sm btn-outline-danger" (click)="onDelete(teacher.id)">删除</span>
+      </td>
     </tr>
   </tbody>
 </table>
