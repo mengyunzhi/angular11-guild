@@ -4,6 +4,7 @@ import club.yunzhi.api.angualrguide.entity.Teacher;
 import club.yunzhi.api.angualrguide.repository.TeacherRepository;
 import com.fasterxml.jackson.annotation.JsonView;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.web.bind.annotation.*;
 
 import javax.persistence.EntityExistsException;
@@ -21,7 +22,10 @@ public class TeacherController {
 
   @DeleteMapping("{id}")
   @ResponseStatus(HttpStatus.NO_CONTENT)
-  public void deleteById(@PathVariable Long id) {
+  public void deleteById(@PathVariable long id) {
+    if (id < 3) {
+      throw new AccessDeniedException("无权删除系统预留教师");
+    }
     this.teacherRepository.deleteById(id);
   }
 

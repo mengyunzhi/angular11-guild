@@ -17,7 +17,7 @@
       <td>{{ teacher.username }}</td>
       <td>{{ teacher.email }}</td>
       <td *ngIf="teacher.sex; else femaleBlock">男</td>
-      <td>删除</td>
+      <td (click)="onDelete(teacher.id)">删除</td>
     </tr>
   </tbody>
 </table>

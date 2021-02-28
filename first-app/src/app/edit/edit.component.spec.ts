@@ -6,7 +6,7 @@ import {HttpClientTestingModule} from '@angular/common/http/testing';
 import {AppComponent} from '../app.component';
 import {FormsModule} from '@angular/forms';
 
-fdescribe('EditComponent', () => {
+describe('EditComponent', () => {
   let component: EditComponent;
   let fixture: ComponentFixture<EditComponent>;
 
