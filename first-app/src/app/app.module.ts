@@ -8,13 +8,15 @@ import {AddComponent} from './add/add.component';
 import {FormsModule} from '@angular/forms';
 import {EditComponent} from './edit/edit.component';
 import {RouterModule} from '@angular/router';
+import { LoginComponent } from './login/login.component';
 
 
 @NgModule({
   declarations: [
     AppComponent,
     AddComponent,
-    EditComponent
+    EditComponent,
+    LoginComponent
   ],
   imports: [
     BrowserModule,
