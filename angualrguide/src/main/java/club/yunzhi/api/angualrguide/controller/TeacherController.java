@@ -2,12 +2,16 @@ package club.yunzhi.api.angualrguide.controller;
 
 import club.yunzhi.api.angualrguide.entity.Teacher;
 import club.yunzhi.api.angualrguide.repository.TeacherRepository;
+import club.yunzhi.api.angualrguide.service.TeacherService;
 import com.fasterxml.jackson.annotation.JsonView;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.web.bind.annotation.*;
 
 import javax.persistence.EntityExistsException;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+import java.security.Principal;
 import java.util.List;
 import java.util.NoSuchElementException;
 
@@ -15,9 +19,10 @@ import java.util.NoSuchElementException;
 @RequestMapping("teacher")
 public class TeacherController {
   private final TeacherRepository teacherRepository;
-
-  public TeacherController(TeacherRepository teacherRepository) {
+  private final TeacherService teacherService;
+  public TeacherController(TeacherRepository teacherRepository, TeacherService teacherService) {
     this.teacherRepository = teacherRepository;
+    this.teacherService = teacherService;
   }
 
   @DeleteMapping("{id}")
@@ -42,6 +47,12 @@ public class TeacherController {
         .orElseThrow(() -> new NoSuchElementException());
   }
 
+  @RequestMapping("login")
+  @JsonView(LoginJsonView.class)
+  public Teacher login(Principal user) {
+    return this.teacherRepository.findByUsername(user.getName());
+  }
+
   @PostMapping
   @ResponseStatus(HttpStatus.CREATED)
   @JsonView(SaveJsonView.class)
@@ -62,6 +73,10 @@ public class TeacherController {
     oldTeacher.setSex(teacher.getSex());
     oldTeacher.setUsername(teacher.getUsername());
     return this.teacherRepository.save(oldTeacher);
+  }
+
+  private interface LoginJsonView {
+
   }
 
   private interface GetAllJsonView {
