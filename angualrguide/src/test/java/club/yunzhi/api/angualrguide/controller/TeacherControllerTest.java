@@ -62,6 +62,8 @@ class TeacherControllerTest {
     String url = "http://localhost:" + port + "/teacher/login";
     RestTemplate restTemplate = this.restTemplateBuilder.build();
     HttpHeaders headers = this.getChromeHeaders();
+
+    // 没有认证信息时401
     Assertions.assertThrows(HttpClientErrorException.class, () -> restTemplate.getForObject(url, JSONObject.class));
     try {
       HttpEntity entity = new HttpEntity(headers);
@@ -70,6 +72,7 @@ class TeacherControllerTest {
       Assertions.assertEquals(e.getStatusCode().value(), HttpStatus.UNAUTHORIZED.value());
     }
 
+    // basic认证模式
     headers = this.getChromeHeaders();
     String auth = Base64.getEncoder().encodeToString("zhangsan:codedemo.club".getBytes("utf-8"));
     headers.add("Authorization", "Basic " + auth);
@@ -80,11 +83,11 @@ class TeacherControllerTest {
     Teacher body = result.getBody();
     Assertions.assertEquals("zhangsan", body.getUsername());
 
+    // x-auth-token认证
     headers = this.getChromeHeaders();
     headers.add("x-auth-token", xAuthToken);
     Teacher teacher = restTemplate.exchange(url, HttpMethod.GET, entity, Teacher.class).getBody();
     Assertions.assertEquals("zhangsan", teacher.getUsername());
-
   }
 
   private HttpHeaders getChromeHeaders() {
