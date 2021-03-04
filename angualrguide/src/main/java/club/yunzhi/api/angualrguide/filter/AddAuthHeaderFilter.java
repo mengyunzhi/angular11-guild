@@ -2,7 +2,6 @@ package club.yunzhi.api.angualrguide.filter;
 
 import club.yunzhi.api.angualrguide.config.MvcSecurityConfig;
 import club.yunzhi.api.angualrguide.service.TeacherService;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
@@ -41,7 +40,7 @@ public class AddAuthHeaderFilter extends OncePerRequestFilter {
       String xAuthToken = request.getHeader(MvcSecurityConfig.xAuthTokenKey);
       if (null == xAuthToken) {
         xAuthToken = UUID.randomUUID().toString();
-        this.teacherService.bindLoginUser(xAuthToken, authResult.getName());
+        this.teacherService.bindAuthTokenLoginUsername(xAuthToken, authResult.getName());
       }
       response.setHeader(MvcSecurityConfig.xAuthTokenKey, xAuthToken);
     }
