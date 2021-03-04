@@ -5,6 +5,7 @@ import club.yunzhi.api.angualrguide.entity.Teacher;
 import club.yunzhi.api.angualrguide.filter.HeaderAuthenticationFilter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
@@ -41,6 +42,7 @@ public class MvcSecurityConfig extends WebSecurityConfigurerAdapter {
         .authorizeRequests()
         .antMatchers("/teacher/login").authenticated()
         .antMatchers("/teacher/**").permitAll()
+        .antMatchers(HttpMethod.OPTIONS, "/**").permitAll()
         .and().cors()
         .and().httpBasic()
         .and().csrf().disable()
@@ -59,7 +61,7 @@ public class MvcSecurityConfig extends WebSecurityConfigurerAdapter {
     CorsConfiguration configuration = new CorsConfiguration();
     configuration.setAllowedOrigins(Arrays.asList("http://localhost:9876", "http://localhost:4200"));
     configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "PATCH", "DELETE"));
-    configuration.setAllowedHeaders(Arrays.asList("content-type", "x-auth-token"));
+    configuration.setAllowedHeaders(Arrays.asList("x-auth-token", "authorization"));
     UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
     source.registerCorsConfiguration("/**", configuration);
     return source;
