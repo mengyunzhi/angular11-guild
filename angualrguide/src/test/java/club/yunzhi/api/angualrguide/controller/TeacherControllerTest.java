@@ -61,13 +61,33 @@ class TeacherControllerTest {
   void login() throws UnsupportedEncodingException {
     String url = "http://localhost:" + port + "/teacher/login";
     RestTemplate restTemplate = this.restTemplateBuilder.build();
+    HttpHeaders headers = this.getChromeHeaders();
     Assertions.assertThrows(HttpClientErrorException.class, () -> restTemplate.getForObject(url, JSONObject.class));
     try {
-      restTemplate.getForObject(url, JSONObject.class);
+      HttpEntity entity = new HttpEntity(headers);
+      restTemplate.exchange(url, HttpMethod.GET, entity, Teacher.class);
     } catch (HttpClientErrorException e) {
       Assertions.assertEquals(e.getStatusCode().value(), HttpStatus.UNAUTHORIZED.value());
     }
 
+    headers = this.getChromeHeaders();
+    String auth = Base64.getEncoder().encodeToString("zhangsan:codedemo.club".getBytes("utf-8"));
+    headers.add("Authorization", "Basic " + auth);
+    HttpEntity entity = new HttpEntity(headers);
+    ResponseEntity<Teacher> result = restTemplate.exchange(url, HttpMethod.GET, entity, Teacher.class);
+    String xAuthToken = result.getHeaders().get("x-auth-token").get(0);
+    Assertions.assertNotNull(xAuthToken);
+    Teacher body = result.getBody();
+    Assertions.assertEquals("zhangsan", body.getUsername());
+
+    headers = this.getChromeHeaders();
+    headers.add("x-auth-token", xAuthToken);
+    Teacher teacher = restTemplate.exchange(url, HttpMethod.GET, entity, Teacher.class).getBody();
+    Assertions.assertEquals("zhangsan", teacher.getUsername());
+
+  }
+
+  private HttpHeaders getChromeHeaders() {
     HttpHeaders headers = new HttpHeaders();
     headers.add("Proxy-Connection", "keep-alive");
     headers.add("Pragma", "no-cache");
@@ -78,19 +98,6 @@ class TeacherControllerTest {
     headers.add("Referer", "http://localhost:4200/");
     headers.add("Accept-Encoding", "gzip, deflate");
     headers.add("Accept-Language", "en-GB,en;q=0.9,zh-CN;q=0.8,zh;q=0.7");
-
-    String auth = Base64.getEncoder().encodeToString("zhangsan:codedemo.club".getBytes("utf-8"));
-    headers.add("Authorization", "Basic " + auth);
-    HttpEntity entity = new HttpEntity(headers);
-    ResponseEntity<Teacher> result = restTemplate.exchange(url, HttpMethod.GET, entity, Teacher.class);
-    String xAuthToken = result.getHeaders().get("x-auth-token").get(0);
-    Assertions.assertNotNull(xAuthToken);
-    Teacher body = result.getBody();
-    Assertions.assertEquals("zhangsan", body.getUsername());
-
-    headers.clear();
-    headers.add("x-auth-token", xAuthToken);
-    restTemplate.exchange(url, HttpMethod.GET, entity, Teacher.class);
-
+    return headers;
   }
 }
