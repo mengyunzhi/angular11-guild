@@ -1,2 +1,2 @@
 <app-root *ngIf="login"></app-root>
-<app-login *ngIf="!login" ></app-login>
+<app-login *ngIf="!login" (beLogin)="onLogin($event)" ></app-login>

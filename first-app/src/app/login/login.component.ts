@@ -1,6 +1,5 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, EventEmitter, OnInit, Output} from '@angular/core';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
-import {IndexComponent} from '../index/index.component';
 
 @Component({
   selector: 'app-login',
@@ -13,8 +12,10 @@ export class LoginComponent implements OnInit {
     password: string
   };
 
-  constructor(private httpClient: HttpClient,
-              private indexComponent: IndexComponent) {
+  @Output()
+  beLogin = new EventEmitter<{ username: string, name: string, email: string, sex: boolean }>();
+
+  constructor(private httpClient: HttpClient) {
   }
 
   ngOnInit(): void {
@@ -30,10 +31,10 @@ export class LoginComponent implements OnInit {
     httpHeaders = httpHeaders.append('Authorization', 'Basic ' + authToken);
 
     this.httpClient
-      .get(
+      .get<any>(
         'http://angular.api.codedemo.club:81/teacher/login',
         {headers: httpHeaders})
-      .subscribe(teacher => this.indexComponent.login = true,
+      .subscribe(teacher => this.beLogin.emit(teacher),
         error => console.log('发生错误, 登录失败', error));
   }
 }

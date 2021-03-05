@@ -15,4 +15,8 @@ export class IndexComponent implements OnInit {
   ngOnInit(): void {
   }
 
+  onLogin(teacher: { username: string, name: string, email: string, sex: boolean }): void {
+    console.log(new Date().toTimeString(), '子组件进行了数据弹射', teacher);
+    this.login = true;
+  }
 }
