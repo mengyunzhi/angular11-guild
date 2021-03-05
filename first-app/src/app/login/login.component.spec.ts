@@ -4,7 +4,7 @@ import {LoginComponent} from './login.component';
 import {FormsModule} from '@angular/forms';
 import {HttpClientModule} from '@angular/common/http';
 
-fdescribe('LoginComponent', () => {
+describe('LoginComponent', () => {
   let component: LoginComponent;
   let fixture: ComponentFixture<LoginComponent>;
 
@@ -42,7 +42,7 @@ fdescribe('LoginComponent', () => {
     expect(component.onSubmit).toHaveBeenCalledTimes(1);
   });
 
-  fit('onSubmit 用户登录', () => {
+  it('onSubmit 用户登录', () => {
     // 启动自动变更检测
     fixture.autoDetectChanges();
     component.teacher = {username: '张三', password: 'codedemo.club'};

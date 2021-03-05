@@ -1,5 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
+import {IndexComponent} from '../index/index.component';
 
 @Component({
   selector: 'app-login',
@@ -12,7 +13,8 @@ export class LoginComponent implements OnInit {
     password: string
   };
 
-  constructor(private httpClient: HttpClient) {
+  constructor(private httpClient: HttpClient,
+              private indexComponent: IndexComponent) {
   }
 
   ngOnInit(): void {
@@ -31,7 +33,7 @@ export class LoginComponent implements OnInit {
       .get(
         'http://angular.api.codedemo.club:81/teacher/login',
         {headers: httpHeaders})
-      .subscribe(teacher => console.log(teacher),
+      .subscribe(teacher => this.indexComponent.login = true,
         error => console.log('发生错误, 登录失败', error));
   }
 }

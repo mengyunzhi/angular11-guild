@@ -8,7 +8,8 @@ import {AddComponent} from './add/add.component';
 import {FormsModule} from '@angular/forms';
 import {EditComponent} from './edit/edit.component';
 import {RouterModule} from '@angular/router';
-import { LoginComponent } from './login/login.component';
+import {LoginComponent} from './login/login.component';
+import {IndexComponent} from './index/index.component';
 
 
 @NgModule({
@@ -16,7 +17,8 @@ import { LoginComponent } from './login/login.component';
     AppComponent,
     AddComponent,
     EditComponent,
-    LoginComponent
+    LoginComponent,
+    IndexComponent
   ],
   imports: [
     BrowserModule,
@@ -26,7 +28,7 @@ import { LoginComponent } from './login/login.component';
     RouterModule
   ],
   providers: [],
-  bootstrap: [AppComponent]
+  bootstrap: [IndexComponent]
 })
 export class AppModule {
 }
