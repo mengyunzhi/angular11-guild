@@ -1,4 +1,5 @@
 import {Component, OnInit} from '@angular/core';
+import {HttpClient, HttpHeaders} from '@angular/common/http';
 
 @Component({
   selector: 'app-login',
@@ -11,7 +12,7 @@ export class LoginComponent implements OnInit {
     password: string
   };
 
-  constructor() {
+  constructor(private httpClient: HttpClient) {
   }
 
   ngOnInit(): void {
@@ -19,5 +20,18 @@ export class LoginComponent implements OnInit {
 
   onSubmit(): void {
     console.log('点击了登录按钮');
+    const authString = encodeURIComponent(this.teacher.username) + ':' + this.teacher.password;
+    console.log(authString);
+    const authToken = btoa(authString);
+    console.log(authToken);
+    let httpHeaders = new HttpHeaders();
+    httpHeaders = httpHeaders.append('Authorization', 'Basic ' + authToken);
+
+    this.httpClient
+      .get(
+        'http://angular.api.codedemo.club:81/teacher/login',
+        {headers: httpHeaders})
+      .subscribe(teacher => console.log(teacher),
+        error => console.log('发生错误, 登录失败', error));
   }
 }
