@@ -3,6 +3,7 @@ import {ComponentFixture, TestBed} from '@angular/core/testing';
 import {LoginComponent} from './login.component';
 import {FormsModule} from '@angular/forms';
 import {HttpClientModule} from '@angular/common/http';
+import {Teacher} from '../entity/teacher';
 
 describe('LoginComponent', () => {
   let component: LoginComponent;
@@ -45,7 +46,7 @@ describe('LoginComponent', () => {
   it('onSubmit 用户登录', () => {
     // 启动自动变更检测
     fixture.autoDetectChanges();
-    component.teacher = {username: '张三', password: 'codedemo.club'};
+    component.teacher = {username: '张三', password: 'codedemo.club'} as Teacher;
     component.onSubmit();
   });
 });

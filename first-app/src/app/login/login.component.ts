@@ -1,5 +1,6 @@
 import {Component, EventEmitter, OnInit, Output} from '@angular/core';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
+import {Teacher} from '../entity/teacher';
 
 @Component({
   selector: 'app-login',
@@ -7,13 +8,10 @@ import {HttpClient, HttpHeaders} from '@angular/common/http';
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent implements OnInit {
-  teacher = {} as {
-    username: string,
-    password: string
-  };
+  teacher = {} as Teacher;
 
   @Output()
-  beLogin = new EventEmitter<{ username: string, name: string, email: string, sex: boolean }>();
+  beLogin = new EventEmitter<Teacher>();
 
   constructor(private httpClient: HttpClient) {
   }
@@ -31,7 +29,7 @@ export class LoginComponent implements OnInit {
     httpHeaders = httpHeaders.append('Authorization', 'Basic ' + authToken);
 
     this.httpClient
-      .get<any>(
+      .get<Teacher>(
         'http://angular.api.codedemo.club:81/teacher/login',
         {headers: httpHeaders})
       .subscribe(teacher => this.beLogin.emit(teacher),

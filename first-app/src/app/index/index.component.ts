@@ -1,4 +1,5 @@
 import {Component, OnInit} from '@angular/core';
+import {Teacher} from '../entity/teacher';
 
 @Component({
   selector: 'app-index',
@@ -15,7 +16,7 @@ export class IndexComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  onLogin(teacher: { username: string, name: string, email: string, sex: boolean }): void {
+  onLogin(teacher: Teacher): void {
     console.log(new Date().toTimeString(), '子组件进行了数据弹射', teacher);
     this.login = true;
   }
