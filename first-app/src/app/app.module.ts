@@ -10,6 +10,7 @@ import {EditComponent} from './edit/edit.component';
 import {RouterModule} from '@angular/router';
 import {LoginComponent} from './login/login.component';
 import {IndexComponent} from './index/index.component';
+import { PersonalCenterComponent } from './personal-center/personal-center.component';
 
 
 @NgModule({
@@ -18,7 +19,8 @@ import {IndexComponent} from './index/index.component';
     AddComponent,
     EditComponent,
     LoginComponent,
-    IndexComponent
+    IndexComponent,
+    PersonalCenterComponent
   ],
   imports: [
     BrowserModule,
