@@ -41,6 +41,7 @@ public class MvcSecurityConfig extends WebSecurityConfigurerAdapter {
     http
         .authorizeRequests()
         .antMatchers("/teacher/login").authenticated()
+        .antMatchers("/teacher/me").authenticated()
         .antMatchers("/teacher/**").permitAll()
         .antMatchers(HttpMethod.OPTIONS, "/**").permitAll()
         .and().cors()
@@ -61,7 +62,7 @@ public class MvcSecurityConfig extends WebSecurityConfigurerAdapter {
     CorsConfiguration configuration = new CorsConfiguration();
     configuration.setAllowedOrigins(Arrays.asList("http://localhost:9876", "http://localhost:4200"));
     configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "PATCH", "DELETE"));
-    configuration.setAllowedHeaders(Arrays.asList("x-auth-token", "authorization"));
+    configuration.setAllowedHeaders(Arrays.asList("content-type", "x-auth-token", "authorization"));
     UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
     source.registerCorsConfiguration("/**", configuration);
     return source;

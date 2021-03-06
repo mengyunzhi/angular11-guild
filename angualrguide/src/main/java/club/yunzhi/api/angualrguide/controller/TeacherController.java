@@ -9,8 +9,6 @@ import org.springframework.security.access.AccessDeniedException;
 import org.springframework.web.bind.annotation.*;
 
 import javax.persistence.EntityExistsException;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 import java.security.Principal;
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -53,6 +51,13 @@ public class TeacherController {
     return this.teacherRepository.findByUsername(user.getName());
   }
 
+  @GetMapping("me")
+  @JsonView(MeJsonView.class)
+  public Teacher me(Principal user) {
+    return this.teacherRepository.findByUsername(user.getName());
+  }
+
+
   @PostMapping
   @ResponseStatus(HttpStatus.CREATED)
   @JsonView(SaveJsonView.class)
@@ -83,6 +88,8 @@ public class TeacherController {
   }
 
   private interface GetByIdJsonView {
+  }
+  private interface MeJsonView {
   }
 
   private interface SaveJsonView {
