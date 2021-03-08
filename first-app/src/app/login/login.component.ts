@@ -21,7 +21,8 @@ export class LoginComponent implements OnInit {
 
   onSubmit(): void {
     console.log('点击了登录按钮');
-    const authString = encodeURIComponent(this.teacher.username) + ':' + this.teacher.password;
+    const authString = encodeURIComponent(this.teacher.username) + ':'
+      + encodeURIComponent(this.teacher.password);
     console.log(authString);
     const authToken = btoa(authString);
     console.log(authToken);

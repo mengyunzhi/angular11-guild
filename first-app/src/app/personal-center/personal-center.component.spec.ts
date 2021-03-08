@@ -2,6 +2,7 @@ import {ComponentFixture, TestBed} from '@angular/core/testing';
 
 import {PersonalCenterComponent} from './personal-center.component';
 import {SexPipe} from './sex.pipe';
+import {HttpClientModule} from '@angular/common/http';
 
 describe('PersonalCenterComponent', () => {
   let component: PersonalCenterComponent;
@@ -9,7 +10,8 @@ describe('PersonalCenterComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [PersonalCenterComponent, SexPipe]
+      declarations: [PersonalCenterComponent, SexPipe],
+      imports: [HttpClientModule]
     })
       .compileComponents();
   });
@@ -20,7 +22,7 @@ describe('PersonalCenterComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create', () => {
+  fit('should create', () => {
     expect(component).toBeTruthy();
     fixture.autoDetectChanges();
   });

@@ -1,7 +1,7 @@
 import { SexPipe } from './sex.pipe';
 
 describe('SexPipe', () => {
-  fit('create an instance', () => {
+  it('create an instance', () => {
     const pipe = new SexPipe();
     expect(pipe).toBeTruthy();
     // 预测输入true时，输出男
