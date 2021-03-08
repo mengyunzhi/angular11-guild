@@ -17,10 +17,12 @@ import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.HttpClientErrorException;
+import org.springframework.web.client.HttpStatusCodeException;
 import org.springframework.web.client.RestTemplate;
 
 import java.io.UnsupportedEncodingException;
 import java.util.Base64;
+import java.util.UUID;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @Transactional
@@ -90,6 +92,51 @@ class TeacherControllerTest {
     Assertions.assertEquals("zhangsan", teacher.getUsername());
   }
 
+  @Test
+  void xAuthToken() throws UnsupportedEncodingException {
+    // 第一次请求，获取x-auth-token
+    String url = "http://localhost:" + port + "/teacher/login";
+    RestTemplate restTemplate = this.restTemplateBuilder.build();
+    HttpHeaders headers = this.getChromeHeaders();
+    HttpEntity entity = new HttpEntity(headers);
+    String xAuthToken = null;
+    try {
+      restTemplate.exchange(url, HttpMethod.GET, entity, Teacher.class);
+    } catch (HttpStatusCodeException exception) {
+      HttpHeaders headers1 = exception.getResponseHeaders();
+      xAuthToken = headers1.getFirst("x-auth-token");
+    }
+    Assertions.assertNotNull(xAuthToken);
+
+    // 第二次请求，携带第一次的token，响应的token不变
+    headers.add("x-auth-token", xAuthToken);
+    String responseToken = null;
+    try {
+      restTemplate.exchange(url, HttpMethod.GET, entity, Teacher.class);
+    } catch (HttpStatusCodeException exception) {
+      HttpHeaders headers1 = exception.getResponseHeaders();
+      responseToken = headers1.getFirst("x-auth-token");
+    }
+    Assertions.assertNotNull(xAuthToken, responseToken);
+
+    // 第三次请求，加入登录信息
+    String auth = Base64.getEncoder().encodeToString("zhangsan:codedemo.club".getBytes("utf-8"));
+    headers.add("Authorization", "Basic " + auth);
+    restTemplate.exchange(url, HttpMethod.GET, entity, Teacher.class);
+
+    // 第四次请求，去除登录信息，直接使用token，请求成功
+    headers.remove("Authorization");
+    restTemplate.exchange(url, HttpMethod.GET, entity, Teacher.class);
+
+    // 第五次，随便写个token
+    headers.remove("x-auth-token");
+    headers.add("x-auth-token", UUID.randomUUID().toString());
+    Assertions.assertThrows(HttpStatusCodeException.class, () ->
+        restTemplate.exchange(url, HttpMethod.GET, entity, Teacher.class));
+  }
+
+
+
   private HttpHeaders getChromeHeaders() {
     HttpHeaders headers = new HttpHeaders();
     headers.add("Proxy-Connection", "keep-alive");
@@ -103,4 +150,6 @@ class TeacherControllerTest {
     headers.add("Accept-Language", "en-GB,en;q=0.9,zh-CN;q=0.8,zh;q=0.7");
     return headers;
   }
+
+
 }

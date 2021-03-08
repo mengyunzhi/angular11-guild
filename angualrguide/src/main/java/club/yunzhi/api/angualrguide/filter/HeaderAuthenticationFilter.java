@@ -16,7 +16,8 @@ import java.io.IOException;
 import java.util.*;
 
 /**
- * header中x-auth认证
+ * header中x-auth-token认证
+ * 如果xAuthToken有效，则设置认证信息PreAuthenticatedAuthenticationToken
  */
 @Component
 public class HeaderAuthenticationFilter extends OncePerRequestFilter {
@@ -28,25 +29,29 @@ public class HeaderAuthenticationFilter extends OncePerRequestFilter {
 
   @Override
   protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
+    // 获取token，且token为已认证，则设置PreAuthenticatedAuthenticationToken，表明当前用户已认证
     String authToken = request.getHeader(MvcSecurityConfig.xAuthTokenKey);
-    if (authToken != null) {
+    if (authToken == null) {
+      authToken = UUID.randomUUID().toString();
+      this.teacherService.bindAuthTokenLoginUsername(authToken, null, false);
+    } else if (this.teacherService.isAuth(authToken)) {
       Optional<String> usernameOptional = this.teacherService.getUsernameByToken(authToken);
       if (usernameOptional.isPresent()) {
         // token有效，则设置登录信息
         PreAuthenticatedAuthenticationToken authentication = new PreAuthenticatedAuthenticationToken(usernameOptional.get(), null, new ArrayList<>());
         SecurityContextHolder.getContext().setAuthentication(authentication);
-      } else {
-        // 无效则清空token
-        request = new HttpServletRequestAuthHeaderWrapper(request);
       }
+    } else if (!this.teacherService.getUsernameByToken(authToken).isPresent()) {
+      this.teacherService.bindAuthTokenLoginUsername(authToken, null, false);
     }
-    filterChain.doFilter(request, response);
+
+    response.setHeader(MvcSecurityConfig.xAuthTokenKey, authToken);
+
+    filterChain.doFilter(new RequestWrapper(request, authToken), response);
   }
 
-  /**
-   * 为清空x-auth-token准备的装饰器
-   */
-  private class HttpServletRequestAuthHeaderWrapper extends HttpServletRequestWrapper {
+  private class RequestWrapper extends HttpServletRequestWrapper {
+    private final String xAuthToken;
 
     /**
      * Constructs a request object wrapping the given request.
@@ -54,48 +59,18 @@ public class HeaderAuthenticationFilter extends OncePerRequestFilter {
      * @param request The request to wrap
      * @throws IllegalArgumentException if the request is null
      */
-    public HttpServletRequestAuthHeaderWrapper(HttpServletRequest request) {
+    public RequestWrapper(HttpServletRequest request, String xAuthToken) {
       super(request);
+      this.xAuthToken = xAuthToken;
     }
 
-    /**
-     * 获取x-auth-token时，返回null
-     *
-     * @param name header名
-     * @return
-     */
+
     @Override
     public String getHeader(String name) {
-      if (MvcSecurityConfig.xAuthTokenKey.equals(name)) {
-        return null;
+      if ("x-auth-token".equals(name)) {
+        return this.xAuthToken;
       }
-
       return super.getHeader(name);
-    }
-
-    /**
-     * 获取x-auth-token时，返回空数组
-     *
-     * @param name header名称
-     * @return
-     */
-    @Override
-    public Enumeration<String> getHeaders(String name) {
-      if (MvcSecurityConfig.xAuthTokenKey.equals(name)) {
-        return new Enumeration<String>() {
-          @Override
-          public boolean hasMoreElements() {
-            return false;
-          }
-
-          @Override
-          public String nextElement() {
-            return null;
-          }
-        };
-      }
-
-      return super.getHeaders(name);
     }
   }
 }

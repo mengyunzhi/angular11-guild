@@ -5,15 +5,25 @@ import java.util.Optional;
 public interface TeacherService {
   /**
    * 将token与用户名绑定
+   *
    * @param xAuthToken token
-   * @param username 用户名
+   * @param auth       是否是认证用户
+   * @param username   用户名
    */
-  void bindAuthTokenLoginUsername(String xAuthToken, String username);
+  void bindAuthTokenLoginUsername(String xAuthToken, String username, boolean auth);
 
   /**
    * 根据token获取用户名
+   *
    * @param authToken token
    * @return
    */
   Optional<String> getUsernameByToken(String authToken);
+
+  /**
+   * 是否为认证token
+   * @param authToken 认证token
+   * @return
+   */
+  boolean isAuth(String authToken);
 }

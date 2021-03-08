@@ -12,6 +12,7 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Optional;
+import java.util.Random;
 
 /**
  * 教师
@@ -27,6 +28,7 @@ public class TeacherServiceImpl implements TeacherService, UserDetailsService {
 
   /**
    * 根据用户名获取用户
+   *
    * @param s 用户名
    * @return
    * @throws UsernameNotFoundException
@@ -40,13 +42,20 @@ public class TeacherServiceImpl implements TeacherService, UserDetailsService {
     return new User(s, teacher.getPassword(), new ArrayList<>());
   }
 
+  /**
+   * 绑定xAuthToken
+   *
+   * @param xAuthToken token
+   * @param name       匿名用户传入null
+   */
   @Override
-  public void bindAuthTokenLoginUsername(String xAuthToken, String name) {
-    this.hashMap.put(xAuthToken, new ExpiredUsername(name));
+  public void bindAuthTokenLoginUsername(String xAuthToken, String name, boolean auth) {
+    this.hashMap.put(xAuthToken, new ExpiredUsername(name, auth));
   }
 
   /**
    * 通过token获取用户名，token无效失效均返回empty
+   *
    * @param authToken token
    * @return
    */
@@ -55,24 +64,50 @@ public class TeacherServiceImpl implements TeacherService, UserDetailsService {
     if (this.hashMap.containsKey(authToken)) {
       ExpiredUsername expiredUsername = this.hashMap.get(authToken);
       if (expiredUsername.isExpired()) {
-          hashMap.remove(authToken);
+        hashMap.remove(authToken);
       } else {
         expiredUsername.resetExpiredTime();
-        return Optional.of(expiredUsername.getUsername());
+        if (null != expiredUsername.getUsername()) {
+          return Optional.of(expiredUsername.getUsername());
+        }
       }
     }
 
+    // 1/10概率清空已过期数据
+    if (new Random().nextInt() % 10 == 0) {
+      this.hashMap.forEach((key, value) -> {
+        if (value.isExpired()) {
+          this.hashMap.remove(key);
+        }
+      });
+    }
+
     return Optional.empty();
+  }
+
+  @Override
+  public boolean isAuth(String authToken) {
+    if (this.hashMap.containsKey(authToken)) {
+      ExpiredUsername expiredUsername = this.hashMap.get(authToken);
+      if (expiredUsername.isExpired()) {
+        hashMap.remove(authToken);
+      } else {
+        return expiredUsername.isAuth();
+      }
+    }
+
+    return false;
   }
 
   /**
    * 有过期时间设定的用户名缓存
    */
   private class ExpiredUsername {
+    private final boolean auth;
     /**
      * 有效时长半小时
      */
-    private long effectiveDuration = 30 * 60 * 1000;
+    private final long effectiveDuration = 30 * 60 * 1000;
     /**
      * 过期时间
      */
@@ -82,8 +117,9 @@ public class TeacherServiceImpl implements TeacherService, UserDetailsService {
      */
     private String username;
 
-    public ExpiredUsername(String username) {
+    public ExpiredUsername(String username, boolean auth) {
       this.username = username;
+      this.auth = auth;
       this.expiredTime = new Timestamp(System.currentTimeMillis() + effectiveDuration);
     }
 
@@ -96,6 +132,7 @@ public class TeacherServiceImpl implements TeacherService, UserDetailsService {
 
     /**
      * 判断是否过期
+     *
      * @return
      */
     public boolean isExpired() {
@@ -104,10 +141,15 @@ public class TeacherServiceImpl implements TeacherService, UserDetailsService {
 
     /**
      * 用户名
+     *
      * @return
      */
     public String getUsername() {
       return username;
+    }
+
+    public boolean isAuth() {
+      return auth;
     }
   }
 }
