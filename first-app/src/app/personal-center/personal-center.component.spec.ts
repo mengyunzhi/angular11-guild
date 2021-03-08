@@ -1,6 +1,7 @@
 import {ComponentFixture, TestBed} from '@angular/core/testing';
 
 import {PersonalCenterComponent} from './personal-center.component';
+import {SexPipe} from './sex.pipe';
 
 describe('PersonalCenterComponent', () => {
   let component: PersonalCenterComponent;
@@ -8,7 +9,7 @@ describe('PersonalCenterComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [PersonalCenterComponent]
+      declarations: [PersonalCenterComponent, SexPipe]
     })
       .compileComponents();
   });
@@ -19,7 +20,7 @@ describe('PersonalCenterComponent', () => {
     fixture.detectChanges();
   });
 
-  fit('should create', () => {
+  it('should create', () => {
     expect(component).toBeTruthy();
     fixture.autoDetectChanges();
   });

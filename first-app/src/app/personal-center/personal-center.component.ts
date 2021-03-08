@@ -18,7 +18,7 @@ export class PersonalCenterComponent implements OnInit {
       'zhangsan@yunzhi.club',
       '张三',
       'password',
-      true,
+      null as unknown as boolean,
       'zhangsan'
     );
   }
