@@ -63,6 +63,7 @@ public class MvcSecurityConfig extends WebSecurityConfigurerAdapter {
     configuration.setAllowedOrigins(Arrays.asList("http://localhost:9876", "http://localhost:4200"));
     configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "PATCH", "DELETE"));
     configuration.setAllowedHeaders(Arrays.asList("content-type", "x-auth-token", "authorization"));
+    configuration.setExposedHeaders(Arrays.asList("x-auth-token"));
     UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
     source.registerCorsConfiguration("/**", configuration);
     return source;
