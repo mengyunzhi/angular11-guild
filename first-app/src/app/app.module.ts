@@ -3,7 +3,7 @@ import {NgModule} from '@angular/core';
 
 import {AppRoutingModule} from './app-routing.module';
 import {AppComponent} from './app.component';
-import {HttpClientModule} from '@angular/common/http';
+import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
 import {AddComponent} from './add/add.component';
 import {FormsModule} from '@angular/forms';
 import {EditComponent} from './edit/edit.component';
@@ -12,6 +12,7 @@ import {LoginComponent} from './login/login.component';
 import {IndexComponent} from './index/index.component';
 import { PersonalCenterComponent } from './personal-center/personal-center.component';
 import { SexPipe } from './personal-center/sex.pipe';
+import {XAuthTokenInterceptor} from './x-auth-token.interceptor';
 
 
 @NgModule({
@@ -31,7 +32,9 @@ import { SexPipe } from './personal-center/sex.pipe';
     FormsModule,
     RouterModule
   ],
-  providers: [],
+  providers: [
+    {provide: HTTP_INTERCEPTORS, useClass: XAuthTokenInterceptor, multi: true}
+  ],
   bootstrap: [IndexComponent]
 })
 export class AppModule {

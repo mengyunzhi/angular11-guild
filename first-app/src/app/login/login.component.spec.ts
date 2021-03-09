@@ -2,8 +2,9 @@ import {ComponentFixture, TestBed} from '@angular/core/testing';
 
 import {LoginComponent} from './login.component';
 import {FormsModule} from '@angular/forms';
-import {HttpClientModule} from '@angular/common/http';
+import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
 import {Teacher} from '../entity/teacher';
+import {XAuthTokenInterceptor} from '../x-auth-token.interceptor';
 
 describe('LoginComponent', () => {
   let component: LoginComponent;
@@ -15,6 +16,9 @@ describe('LoginComponent', () => {
       imports: [
         FormsModule,
         HttpClientModule
+      ],
+      providers: [
+        {provide: HTTP_INTERCEPTORS, useClass: XAuthTokenInterceptor, multi: true}
       ]
     })
       .compileComponents();
@@ -43,7 +47,7 @@ describe('LoginComponent', () => {
     expect(component.onSubmit).toHaveBeenCalledTimes(1);
   });
 
-  it('onSubmit 用户登录', () => {
+  fit('onSubmit 用户登录', () => {
     // 启动自动变更检测
     fixture.autoDetectChanges();
     component.teacher = {username: '张三', password: 'codedemo.club'} as Teacher;
