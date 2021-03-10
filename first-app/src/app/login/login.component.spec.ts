@@ -54,7 +54,7 @@ describe('LoginComponent', () => {
     component.onSubmit();
   });
 
-  fit('显示错误', fakeAsync(() => {
+  it('显示错误', fakeAsync(() => {
     // 初始化不显示错误提醒
     expect(component.showError).toBe(false);
     fixture.detectChanges();

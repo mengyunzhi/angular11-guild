@@ -13,6 +13,7 @@ import {IndexComponent} from './index/index.component';
 import { PersonalCenterComponent } from './personal-center/personal-center.component';
 import { SexPipe } from './personal-center/sex.pipe';
 import {XAuthTokenInterceptor} from './x-auth-token.interceptor';
+import {WelcomeComponent} from './welcome.component';
 
 
 @NgModule({
@@ -23,7 +24,8 @@ import {XAuthTokenInterceptor} from './x-auth-token.interceptor';
     LoginComponent,
     IndexComponent,
     PersonalCenterComponent,
-    SexPipe
+    SexPipe,
+    WelcomeComponent
   ],
   imports: [
     BrowserModule,
