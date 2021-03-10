@@ -1,4 +1,4 @@
-import {Component, EventEmitter, OnInit, Output} from '@angular/core';
+import {Component, EventEmitter, NgZone, OnInit, Output} from '@angular/core';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {Teacher} from '../entity/teacher';
 
@@ -13,7 +13,12 @@ export class LoginComponent implements OnInit {
   @Output()
   beLogin = new EventEmitter<Teacher>();
 
-  constructor(private httpClient: HttpClient) {
+  /**
+   * 是否显示错误信息
+   */
+  showError = false;
+
+  constructor(private httpClient: HttpClient, private ngZone: NgZone) {
   }
 
   ngOnInit(): void {
@@ -34,6 +39,22 @@ export class LoginComponent implements OnInit {
         'http://angular.api.codedemo.club:81/teacher/login',
         {headers: httpHeaders})
       .subscribe(teacher => this.beLogin.emit(teacher),
-        error => console.log('发生错误, 登录失败', error));
+        error => {
+          console.log('发生错误, 登录失败', error);
+          this.showErrorDelay();
+        });
+  }
+
+  /**
+   * 延迟显示错误信息
+   */
+  showErrorDelay(): void {
+    this.showError = true;
+    this.ngZone.run(() => {
+      setTimeout(() => {
+        console.log('1.5秒后触发');
+        this.showError = false;
+      }, 1500);
+    });
   }
 }
