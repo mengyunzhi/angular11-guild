@@ -1,0 +1,10 @@
+/*隐藏掉所有的报告*/
+div.jasmine_html-reporter div.jasmine-results div.jasmine-summary ul.jasmine-suite {
+  display: none;
+}
+
+/*仅显示第一个报告*/
+div.jasmine_html-reporter div.jasmine-results div.jasmine-summary ul.jasmine-suite:first-child {
+  display: block;
+}
+
