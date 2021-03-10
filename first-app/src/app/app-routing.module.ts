@@ -3,14 +3,24 @@ import {Routes, RouterModule} from '@angular/router';
 import {AddComponent} from './add/add.component';
 import {EditComponent} from './edit/edit.component';
 import {PersonalCenterComponent} from './personal-center/personal-center.component';
+import {WelcomeComponent} from './welcome.component';
+import {AppComponent} from './app.component';
 
 const routes: Routes = [
   {
-    path: 'add',
+    path: '',
+    component: WelcomeComponent
+  },
+  {
+    path: 'teacher',
+    component: AppComponent
+  },
+  {
+    path: 'teacher/add',
     component: AddComponent
   },
   {
-    path: 'edit/:id',
+    path: 'teacher/edit/:id',
     component: EditComponent
   },
   {
