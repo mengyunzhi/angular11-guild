@@ -14,6 +14,7 @@ import { PersonalCenterComponent } from './personal-center/personal-center.compo
 import { SexPipe } from './personal-center/sex.pipe';
 import {XAuthTokenInterceptor} from './x-auth-token.interceptor';
 import {WelcomeComponent} from './welcome.component';
+import { NavComponent } from './nav/nav.component';
 
 
 @NgModule({
@@ -25,7 +26,8 @@ import {WelcomeComponent} from './welcome.component';
     IndexComponent,
     PersonalCenterComponent,
     SexPipe,
-    WelcomeComponent
+    WelcomeComponent,
+    NavComponent
   ],
   imports: [
     BrowserModule,

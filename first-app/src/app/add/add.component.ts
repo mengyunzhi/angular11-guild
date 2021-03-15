@@ -1,5 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-add',
@@ -14,7 +15,8 @@ export class AddComponent implements OnInit {
     sex: true
   };
 
-  constructor(private httpClient: HttpClient) {
+  constructor(private httpClient: HttpClient,
+              private router: Router) {
   }
 
   ngOnInit(): void {
@@ -26,6 +28,7 @@ export class AddComponent implements OnInit {
       .post('http://angular.api.codedemo.club:81/teacher', this.teacher)
       .subscribe((result) => {
         console.log('接收到返回数据', result);
+        this.router.navigate(['teacher']);
       }, (error) => {
         console.log('请求失败', error);
       });

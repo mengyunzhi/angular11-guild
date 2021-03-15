@@ -1,2 +1,7 @@
+<!--登录成功后，在上面显示导航-->
+<app-nav *ngIf="login"></app-nav>
+<!--在下方显示路由对应的具体组件-->
 <router-outlet *ngIf="login"></router-outlet>
+
+<!--未登录时，显示登录窗口-->
 <app-login *ngIf="!login" (beLogin)="onLogin($event)" ></app-login>

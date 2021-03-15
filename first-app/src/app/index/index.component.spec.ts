@@ -6,6 +6,7 @@ import {LoginComponent} from '../login/login.component';
 import {HttpClientModule} from '@angular/common/http';
 import {FormsModule} from '@angular/forms';
 import {RouterTestingModule} from '@angular/router/testing';
+import {NavComponent} from '../nav/nav.component';
 
 describe('IndexComponent', () => {
   let component: IndexComponent;
@@ -13,7 +14,7 @@ describe('IndexComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [IndexComponent, AppComponent, LoginComponent],
+      declarations: [IndexComponent, AppComponent, LoginComponent, NavComponent],
       imports: [HttpClientModule, FormsModule, RouterTestingModule]
     })
       .compileComponents();

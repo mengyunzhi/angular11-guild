@@ -1,7 +1,6 @@
 import {Component, OnInit} from '@angular/core';
-import {ActivatedRoute} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import {HttpClient} from '@angular/common/http';
-import {AppComponent} from '../app.component';
 
 @Component({
   selector: 'app-edit',
@@ -19,7 +18,7 @@ export class EditComponent implements OnInit {
 
   constructor(private activeRoute: ActivatedRoute,
               private httpClient: HttpClient,
-              private appComponent: AppComponent) {
+              private router: Router) {
   }
 
   ngOnInit(): void {
@@ -43,8 +42,7 @@ export class EditComponent implements OnInit {
     this.httpClient.put(url, this.teacher)
       .subscribe(data => {
           console.log('更新成功', data);
-          // 在此调用教师列表App组个的ngOnInit方法，即可实现更新后重新刷新教师列表的功能
-          this.appComponent.ngOnInit();
+          this.router.navigate(['teacher']);
         },
         error => console.log('更新错误', error));
   }

@@ -2,7 +2,7 @@ import {TestBed} from '@angular/core/testing';
 import {WelcomeComponent} from './welcome.component';
 
 describe('welcome', () => {
-  fit('welcome create', () => {
+  it('welcome create', () => {
     // 配置动态测试模块
     TestBed.configureTestingModule({
       declarations: [WelcomeComponent]
