@@ -95,13 +95,14 @@ class TeacherControllerTest {
   @Test
   void xAuthToken() throws UnsupportedEncodingException {
     // 第一次请求，获取x-auth-token
-    String url = "http://localhost:" + port + "/teacher/login";
+    String loginUrl = "http://localhost:" + port + "/teacher/login";
+    String logoutUrl = "http://localhost:" + port + "/teacher/logout";
     RestTemplate restTemplate = this.restTemplateBuilder.build();
     HttpHeaders headers = this.getChromeHeaders();
     HttpEntity entity = new HttpEntity(headers);
     String xAuthToken = null;
     try {
-      restTemplate.exchange(url, HttpMethod.GET, entity, Teacher.class);
+      restTemplate.exchange(loginUrl, HttpMethod.GET, entity, Teacher.class);
     } catch (HttpStatusCodeException exception) {
       HttpHeaders headers1 = exception.getResponseHeaders();
       xAuthToken = headers1.getFirst("x-auth-token");
@@ -112,7 +113,7 @@ class TeacherControllerTest {
     headers.add("x-auth-token", xAuthToken);
     String responseToken = null;
     try {
-      restTemplate.exchange(url, HttpMethod.GET, entity, Teacher.class);
+      restTemplate.exchange(loginUrl, HttpMethod.GET, entity, Teacher.class);
     } catch (HttpStatusCodeException exception) {
       HttpHeaders headers1 = exception.getResponseHeaders();
       responseToken = headers1.getFirst("x-auth-token");
@@ -122,17 +123,22 @@ class TeacherControllerTest {
     // 第三次请求，加入登录信息
     String auth = Base64.getEncoder().encodeToString("zhangsan:codedemo.club".getBytes("utf-8"));
     headers.add("Authorization", "Basic " + auth);
-    restTemplate.exchange(url, HttpMethod.GET, entity, Teacher.class);
+    restTemplate.exchange(loginUrl, HttpMethod.GET, entity, Teacher.class);
 
     // 第四次请求，去除登录信息，直接使用token，请求成功
     headers.remove("Authorization");
-    restTemplate.exchange(url, HttpMethod.GET, entity, Teacher.class);
+    restTemplate.exchange(loginUrl, HttpMethod.GET, entity, Teacher.class);
+
+    // 注销后再次请求，失败
+    restTemplate.exchange(logoutUrl, HttpMethod.GET, entity, Object.class);
+    Assertions.assertThrows(HttpStatusCodeException.class, () ->
+        restTemplate.exchange(logoutUrl, HttpMethod.GET, entity, Teacher.class));
 
     // 第五次，随便写个token
     headers.remove("x-auth-token");
     headers.add("x-auth-token", UUID.randomUUID().toString());
     Assertions.assertThrows(HttpStatusCodeException.class, () ->
-        restTemplate.exchange(url, HttpMethod.GET, entity, Teacher.class));
+        restTemplate.exchange(loginUrl, HttpMethod.GET, entity, Teacher.class));
   }
 
 
