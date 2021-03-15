@@ -22,8 +22,16 @@ public interface TeacherService {
 
   /**
    * 是否为认证token
+   *
    * @param authToken 认证token
    * @return
    */
   boolean isAuth(String authToken);
+
+  /**
+   * 注销
+   *
+   * @param token 令牌
+   */
+  void logout(String token);
 }

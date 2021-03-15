@@ -99,6 +99,13 @@ public class TeacherServiceImpl implements TeacherService, UserDetailsService {
     return false;
   }
 
+  @Override
+  public void logout(String token) {
+    if (this.hashMap.containsKey(token)) {
+      this.hashMap.remove(token);
+    }
+  }
+
   /**
    * 有过期时间设定的用户名缓存
    */

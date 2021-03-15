@@ -1,5 +1,6 @@
 package club.yunzhi.api.angualrguide.controller;
 
+import club.yunzhi.api.angualrguide.config.MvcSecurityConfig;
 import club.yunzhi.api.angualrguide.entity.Teacher;
 import club.yunzhi.api.angualrguide.repository.TeacherRepository;
 import club.yunzhi.api.angualrguide.service.TeacherService;
@@ -9,6 +10,7 @@ import org.springframework.security.access.AccessDeniedException;
 import org.springframework.web.bind.annotation.*;
 
 import javax.persistence.EntityExistsException;
+import javax.servlet.http.HttpServletRequest;
 import java.security.Principal;
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -50,6 +52,17 @@ public class TeacherController {
   public Teacher login(Principal user) {
     return this.teacherRepository.findByUsername(user.getName());
   }
+
+
+  @RequestMapping("logout")
+  public void logout(HttpServletRequest request) {
+    String token = request.getHeader(MvcSecurityConfig.xAuthTokenKey);
+    if (null == token) {
+      throw new RuntimeException("未获取到token，请检查调用的逻辑性或配置的安全规则是否正常");
+    }
+    this.teacherService.logout(token);
+  }
+
 
   @GetMapping("me")
   @JsonView(MeJsonView.class)
