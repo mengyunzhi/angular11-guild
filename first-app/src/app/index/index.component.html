@@ -1,5 +1,5 @@
 <!--登录成功后，在上面显示导航-->
-<app-nav *ngIf="login"></app-nav>
+<app-nav *ngIf="login" (beLogout)="onLogout()"></app-nav>
 <!--在下方显示路由对应的具体组件-->
 <router-outlet *ngIf="login"></router-outlet>
 

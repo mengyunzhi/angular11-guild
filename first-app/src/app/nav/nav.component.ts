@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, EventEmitter, OnInit, Output} from '@angular/core';
 
 @Component({
   selector: 'app-nav',
@@ -7,10 +7,16 @@ import {Component, OnInit} from '@angular/core';
 })
 export class NavComponent implements OnInit {
 
+  @Output()
+  beLogout = new EventEmitter<void>();
+
   constructor() {
   }
 
   ngOnInit(): void {
   }
 
+  onSubmit(): void {
+    this.beLogout.emit(undefined);
+  }
 }

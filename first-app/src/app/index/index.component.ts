@@ -26,4 +26,10 @@ export class IndexComponent implements OnInit {
     // 将登录状态写入缓存
     window.sessionStorage.setItem('login', 'true');
   }
+
+  onLogout(): void {
+    console.log('接收到注销组件的数据弹射，开始注销');
+    this.login = false;
+    window.sessionStorage.removeItem('login');
+  }
 }
