@@ -1,4 +1,5 @@
 import {Component, EventEmitter, OnInit, Output} from '@angular/core';
+import {HttpClient} from '@angular/common/http';
 
 @Component({
   selector: 'app-nav',
@@ -10,13 +11,16 @@ export class NavComponent implements OnInit {
   @Output()
   beLogout = new EventEmitter<void>();
 
-  constructor() {
+  constructor(private httpClient: HttpClient) {
   }
 
   ngOnInit(): void {
   }
 
   onSubmit(): void {
-    this.beLogout.emit(undefined);
+    const url = 'http://angular.api.codedemo.club/teacher/logout';
+    this.httpClient.get(url)
+      .subscribe(() => this.beLogout.emit(undefined),
+        error => console.log('logout error', error));
   }
 }
