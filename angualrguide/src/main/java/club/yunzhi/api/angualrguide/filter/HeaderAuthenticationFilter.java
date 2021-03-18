@@ -3,6 +3,7 @@ package club.yunzhi.api.angualrguide.filter;
 import club.yunzhi.api.angualrguide.config.MvcSecurityConfig;
 import club.yunzhi.api.angualrguide.entity.Teacher;
 import club.yunzhi.api.angualrguide.service.TeacherService;
+import club.yunzhi.api.angualrguide.service.TeacherServiceImpl;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.preauth.PreAuthenticatedAuthenticationToken;
 import org.springframework.stereotype.Component;
@@ -39,7 +40,8 @@ public class HeaderAuthenticationFilter extends OncePerRequestFilter {
       Optional<Teacher> teacherOptional = this.teacherService.getUserByToken(authToken);
       if (teacherOptional.isPresent()) {
         // token有效，则设置登录信息
-        PreAuthenticatedAuthenticationToken authentication = new PreAuthenticatedAuthenticationToken(teacherOptional.get(), null, new ArrayList<>());
+        PreAuthenticatedAuthenticationToken authentication = new PreAuthenticatedAuthenticationToken(
+            new TeacherServiceImpl.UserDetail(teacherOptional.get(), new ArrayList<>()), null, new ArrayList<>());
         SecurityContextHolder.getContext().setAuthentication(authentication);
       }
     } else if (!this.teacherService.getUserByToken(authToken).isPresent()) {

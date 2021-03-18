@@ -21,7 +21,7 @@ import java.util.*;
  * 教师
  */
 @Service
-public class TeacherServiceImpl implements TeacherService, UserDetailsService, AuditorAware<TeacherServiceImpl.UserDetail> {
+public class TeacherServiceImpl implements TeacherService, UserDetailsService, AuditorAware<Teacher> {
   private final Logger logger = LoggerFactory.getLogger(this.getClass());
   private final TeacherRepository teacherRepository;
   private final HashMap<String, ExpiredUser> hashMap = new HashMap<>();
@@ -137,14 +137,14 @@ public class TeacherServiceImpl implements TeacherService, UserDetailsService, A
   }
 
   @Override
-  public Optional<UserDetail> getCurrentAuditor() {
+  public Optional<Teacher> getCurrentAuditor() {
     Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
     if (null == authentication) {
       return Optional.empty();
     } else {
       try {
         UserDetail userDetail = (UserDetail) authentication.getPrincipal();
-        return Optional.of(userDetail);
+        return Optional.of(userDetail.getTeacher());
       } catch (Exception e) {
         this.logger.error("接收到了认证用户类型不正确,请在loadUserByUsername中返回UserDetail");
         throw e;

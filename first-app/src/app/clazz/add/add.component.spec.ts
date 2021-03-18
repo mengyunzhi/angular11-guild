@@ -2,7 +2,7 @@ import {ComponentFixture, TestBed} from '@angular/core/testing';
 
 import {AddComponent} from './add.component';
 import {FormsModule} from '@angular/forms';
-import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
+import {HTTP_INTERCEPTORS, HttpClient, HttpClientModule, HttpHeaders} from '@angular/common/http';
 import {XAuthTokenInterceptor} from '../../x-auth-token.interceptor';
 
 describe('AddComponent', () => {
@@ -36,7 +36,14 @@ describe('AddComponent', () => {
       name: 'test',
       teacherId: 1
     };
+    const httpClient = TestBed.inject(HttpClient) as HttpClient;
 
-    component.onSubmit();
+    const authString = 'zhangsan:codedemo.club';
+    const authToken = btoa(authString);
+    const httpHeaders = new HttpHeaders().append('Authorization', 'Basic ' + authToken);
+    httpClient.get('http://angular.api.codedemo.club:81/teacher/login', {headers: httpHeaders})
+      .subscribe(() => {
+        component.onSubmit();
+      });
   });
 });
