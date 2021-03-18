@@ -1,6 +1,6 @@
 import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
-import { AddComponent } from './add/add.component';
+import {AddComponent} from './add/add.component';
 import {FormsModule} from '@angular/forms';
 
 

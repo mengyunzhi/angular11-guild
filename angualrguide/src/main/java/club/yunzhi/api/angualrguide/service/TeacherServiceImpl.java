@@ -10,7 +10,6 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
@@ -25,7 +24,7 @@ import java.util.*;
 public class TeacherServiceImpl implements TeacherService, UserDetailsService, AuditorAware<TeacherServiceImpl.UserDetail> {
   private final Logger logger = LoggerFactory.getLogger(this.getClass());
   private final TeacherRepository teacherRepository;
-  private final HashMap<String, ExpiredUsername> hashMap = new HashMap<>();
+  private final HashMap<String, ExpiredUser> hashMap = new HashMap<>();
 
   public TeacherServiceImpl(TeacherRepository teacherRepository) {
     this.teacherRepository = teacherRepository;
@@ -36,11 +35,11 @@ public class TeacherServiceImpl implements TeacherService, UserDetailsService, A
    * 绑定xAuthToken
    *
    * @param xAuthToken token
-   * @param name       匿名用户传入null
+   * @param teacher       匿名用户传入null
    */
   @Override
-  public void bindAuthTokenLoginUsername(String xAuthToken, String name, boolean auth) {
-    this.hashMap.put(xAuthToken, new ExpiredUsername(name, auth));
+  public void bindAuthTokenLoginUsername(String xAuthToken, Teacher teacher, boolean auth) {
+    this.hashMap.put(xAuthToken, new ExpiredUser(teacher, auth));
   }
 
   @Override
@@ -67,15 +66,15 @@ public class TeacherServiceImpl implements TeacherService, UserDetailsService, A
    * @return
    */
   @Override
-  public Optional<String> getUsernameByToken(String authToken) {
+  public Optional<Teacher> getUserByToken(String authToken) {
     if (this.hashMap.containsKey(authToken)) {
-      ExpiredUsername expiredUsername = this.hashMap.get(authToken);
-      if (expiredUsername.isExpired()) {
+      ExpiredUser expiredUser = this.hashMap.get(authToken);
+      if (expiredUser.isExpired()) {
         hashMap.remove(authToken);
       } else {
-        expiredUsername.resetExpiredTime();
-        if (null != expiredUsername.getUsername()) {
-          return Optional.of(expiredUsername.getUsername());
+        expiredUser.resetExpiredTime();
+        if (null != expiredUser.getTeacher()) {
+          return Optional.of(expiredUser.getTeacher());
         }
       }
     }
@@ -95,11 +94,11 @@ public class TeacherServiceImpl implements TeacherService, UserDetailsService, A
   @Override
   public boolean isAuth(String authToken) {
     if (this.hashMap.containsKey(authToken)) {
-      ExpiredUsername expiredUsername = this.hashMap.get(authToken);
-      if (expiredUsername.isExpired()) {
+      ExpiredUser expiredUser = this.hashMap.get(authToken);
+      if (expiredUser.isExpired()) {
         hashMap.remove(authToken);
       } else {
-        return expiredUsername.isAuth();
+        return expiredUser.isAuth();
       }
     }
 
@@ -130,6 +129,14 @@ public class TeacherServiceImpl implements TeacherService, UserDetailsService, A
   }
 
   @Override
+  public void reBindAuthToken(String token, Teacher teacher) {
+    if (this.hashMap.containsKey(token)) {
+      ExpiredUser expiredUser = this.hashMap.get(token);
+      expiredUser.setTeacher(teacher);
+    }
+  }
+
+  @Override
   public Optional<UserDetail> getCurrentAuditor() {
     Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
     if (null == authentication) {
@@ -140,7 +147,7 @@ public class TeacherServiceImpl implements TeacherService, UserDetailsService, A
         return Optional.of(userDetail);
       } catch (Exception e) {
         this.logger.error("接收到了认证用户类型不正确,请在loadUserByUsername中返回UserDetail");
-        return Optional.empty();
+        throw e;
       }
     }
   }
@@ -161,7 +168,7 @@ public class TeacherServiceImpl implements TeacherService, UserDetailsService, A
   /**
    * 有过期时间设定的用户名缓存
    */
-  private class ExpiredUsername {
+  private class ExpiredUser {
     private final boolean auth;
     /**
      * 有效时长半小时
@@ -174,10 +181,10 @@ public class TeacherServiceImpl implements TeacherService, UserDetailsService, A
     /**
      * 用户名
      */
-    private String username;
+    private Teacher teacher;
 
-    public ExpiredUsername(String username, boolean auth) {
-      this.username = username;
+    public ExpiredUser(Teacher teacher, boolean auth) {
+      this.teacher = teacher;
       this.auth = auth;
       this.expiredTime = new Timestamp(System.currentTimeMillis() + effectiveDuration);
     }
@@ -198,13 +205,17 @@ public class TeacherServiceImpl implements TeacherService, UserDetailsService, A
       return System.currentTimeMillis() - this.expiredTime.getTime() > 0;
     }
 
+    public void setTeacher(Teacher teacher) {
+      this.teacher = teacher;
+    }
+
     /**
      * 用户名
      *
      * @return
      */
-    public String getUsername() {
-      return username;
+    public Teacher getTeacher() {
+      return teacher;
     }
 
     public boolean isAuth() {

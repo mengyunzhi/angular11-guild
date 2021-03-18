@@ -1,7 +1,9 @@
 package club.yunzhi.api.angualrguide.filter;
 
 import club.yunzhi.api.angualrguide.config.MvcSecurityConfig;
+import club.yunzhi.api.angualrguide.entity.Teacher;
 import club.yunzhi.api.angualrguide.service.TeacherService;
+import club.yunzhi.api.angualrguide.service.TeacherServiceImpl;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.preauth.PreAuthenticatedAuthenticationToken;
@@ -11,7 +13,6 @@ import org.springframework.web.filter.OncePerRequestFilter;
 import javax.servlet.*;
 import javax.servlet.http.*;
 import java.io.IOException;
-import java.util.UUID;
 
 
 /**
@@ -44,7 +45,8 @@ public class AddAuthHeaderFilter extends OncePerRequestFilter {
       if (xAuthToken == null) {
         throw new RuntimeException("未接收到xAuthToken，请在前置过滤器中加入有效的xAuthToken");
       }
-      this.teacherService.bindAuthTokenLoginUsername(xAuthToken, authResult.getName(), true);
+      TeacherServiceImpl.UserDetail userDetail = (TeacherServiceImpl.UserDetail) authResult.getPrincipal();
+      this.teacherService.bindAuthTokenLoginUsername(xAuthToken, userDetail.getTeacher(), true);
     }
 
     filterChain.doFilter(request, response);

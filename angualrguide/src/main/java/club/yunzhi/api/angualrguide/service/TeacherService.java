@@ -10,9 +10,9 @@ public interface TeacherService {
    *
    * @param xAuthToken token
    * @param auth       是否是认证用户
-   * @param username   用户名
+   * @param teacher   用户
    */
-  void bindAuthTokenLoginUsername(String xAuthToken, String username, boolean auth);
+  void bindAuthTokenLoginUsername(String xAuthToken, Teacher teacher, boolean auth);
 
   Teacher getOneSavedTeacher();
 
@@ -24,7 +24,7 @@ public interface TeacherService {
    * @param authToken token
    * @return
    */
-  Optional<String> getUsernameByToken(String authToken);
+  Optional<Teacher> getUserByToken(String authToken);
 
   /**
    * 是否为认证token
@@ -40,4 +40,11 @@ public interface TeacherService {
    * @param token 令牌
    */
   void logout(String token);
+
+  /**
+   * 重新将token绑定到其它用户名，适用于更新用户
+   * @param token
+   * @param teacher
+   */
+  void reBindAuthToken(String token, Teacher teacher);
 }

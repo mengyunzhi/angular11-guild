@@ -1,6 +1,7 @@
 package club.yunzhi.api.angualrguide.filter;
 
 import club.yunzhi.api.angualrguide.config.MvcSecurityConfig;
+import club.yunzhi.api.angualrguide.entity.Teacher;
 import club.yunzhi.api.angualrguide.service.TeacherService;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.preauth.PreAuthenticatedAuthenticationToken;
@@ -35,13 +36,13 @@ public class HeaderAuthenticationFilter extends OncePerRequestFilter {
       authToken = UUID.randomUUID().toString();
       this.teacherService.bindAuthTokenLoginUsername(authToken, null, false);
     } else if (this.teacherService.isAuth(authToken)) {
-      Optional<String> usernameOptional = this.teacherService.getUsernameByToken(authToken);
-      if (usernameOptional.isPresent()) {
+      Optional<Teacher> teacherOptional = this.teacherService.getUserByToken(authToken);
+      if (teacherOptional.isPresent()) {
         // token有效，则设置登录信息
-        PreAuthenticatedAuthenticationToken authentication = new PreAuthenticatedAuthenticationToken(usernameOptional.get(), null, new ArrayList<>());
+        PreAuthenticatedAuthenticationToken authentication = new PreAuthenticatedAuthenticationToken(teacherOptional.get(), null, new ArrayList<>());
         SecurityContextHolder.getContext().setAuthentication(authentication);
       }
-    } else if (!this.teacherService.getUsernameByToken(authToken).isPresent()) {
+    } else if (!this.teacherService.getUserByToken(authToken).isPresent()) {
       this.teacherService.bindAuthTokenLoginUsername(authToken, null, false);
     }
 

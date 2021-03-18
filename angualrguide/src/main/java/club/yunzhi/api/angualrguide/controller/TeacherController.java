@@ -84,13 +84,15 @@ public class TeacherController {
   @PutMapping("{id}")
   @ResponseStatus(HttpStatus.ACCEPTED)
   @JsonView(UpdateJsonView.class)
-  public Teacher update(@PathVariable Long id, @RequestBody Teacher teacher) {
+  public Teacher update(@PathVariable Long id, @RequestBody Teacher teacher, HttpServletRequest request) {
     Teacher oldTeacher = this.teacherRepository.findById(id).orElseThrow(() -> new NoSuchElementException());
     oldTeacher.setName(teacher.getName());
     oldTeacher.setEmail(teacher.getEmail());
     oldTeacher.setSex(teacher.getSex());
     oldTeacher.setUsername(teacher.getUsername());
-    return this.teacherRepository.save(oldTeacher);
+    oldTeacher = this.teacherRepository.save(oldTeacher);
+    this.teacherService.reBindAuthToken(request.getHeader(MvcSecurityConfig.xAuthTokenKey), oldTeacher);
+    return oldTeacher;
   }
 
   private interface LoginJsonView extends Teacher.UsernameJsonView {

@@ -1,4 +1,5 @@
 import {Component, OnInit} from '@angular/core';
+import {HttpClient} from '@angular/common/http';
 
 @Component({
   selector: 'app-add',
@@ -6,18 +7,27 @@ import {Component, OnInit} from '@angular/core';
   styleUrls: ['./add.component.css']
 })
 export class AddComponent implements OnInit {
+  private url = 'http://localhost:8088/clazz';
   clazz = {
     name: '',
-    teacherId: null
+    teacherId: null as unknown as number
   };
 
-  constructor() {
+  constructor(private httpClient: HttpClient) {
   }
 
   ngOnInit(): void {
   }
 
   onSubmit(): void {
-    console.log('submit');
+    const newClazz = {
+      name: this.clazz.name,
+      teacher: {
+        id: this.clazz.teacherId
+      }
+    };
+    this.httpClient.post(this.url, newClazz)
+      .subscribe(clazz => console.log('保存成功', clazz),
+        error => console.log('保存失败', error));
   }
 }
