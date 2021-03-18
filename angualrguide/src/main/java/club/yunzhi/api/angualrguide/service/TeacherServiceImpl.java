@@ -2,6 +2,13 @@ package club.yunzhi.api.angualrguide.service;
 
 import club.yunzhi.api.angualrguide.entity.Teacher;
 import club.yunzhi.api.angualrguide.repository.TeacherRepository;
+import net.bytebuddy.utility.RandomString;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.data.domain.AuditorAware;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -9,16 +16,14 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.sql.Timestamp;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Optional;
-import java.util.Random;
+import java.util.*;
 
 /**
  * 教师
  */
 @Service
-public class TeacherServiceImpl implements TeacherService, UserDetailsService {
+public class TeacherServiceImpl implements TeacherService, UserDetailsService, AuditorAware<TeacherServiceImpl.UserDetail> {
+  private final Logger logger = LoggerFactory.getLogger(this.getClass());
   private final TeacherRepository teacherRepository;
   private final HashMap<String, ExpiredUsername> hashMap = new HashMap<>();
 
@@ -26,21 +31,6 @@ public class TeacherServiceImpl implements TeacherService, UserDetailsService {
     this.teacherRepository = teacherRepository;
   }
 
-  /**
-   * 根据用户名获取用户
-   *
-   * @param s 用户名
-   * @return
-   * @throws UsernameNotFoundException
-   */
-  @Override
-  public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
-    Teacher teacher = this.teacherRepository.findByUsername(s);
-    if (null == teacher) {
-      throw new UsernameNotFoundException("用户不存在");
-    }
-    return new User(s, teacher.getPassword(), new ArrayList<>());
-  }
 
   /**
    * 绑定xAuthToken
@@ -51,6 +41,23 @@ public class TeacherServiceImpl implements TeacherService, UserDetailsService {
   @Override
   public void bindAuthTokenLoginUsername(String xAuthToken, String name, boolean auth) {
     this.hashMap.put(xAuthToken, new ExpiredUsername(name, auth));
+  }
+
+  @Override
+  public Teacher getOneSavedTeacher() {
+    Teacher teacher = this.getOneUnsavedTeacher();
+    this.teacherRepository.save(teacher);
+    return teacher;
+  }
+
+  @Override
+  public Teacher getOneUnsavedTeacher() {
+    Teacher teacher = new Teacher();
+    teacher.setName(new RandomString().nextString());
+    teacher.setUsername(new RandomString().nextString());
+    teacher.setPassword(new RandomString().nextString());
+    teacher.setSex(new Random().nextBoolean());
+    return teacher;
   }
 
   /**
@@ -99,10 +106,55 @@ public class TeacherServiceImpl implements TeacherService, UserDetailsService {
     return false;
   }
 
+  /**
+   * 根据用户名获取用户
+   *
+   * @param username 用户名
+   * @return
+   * @throws UsernameNotFoundException
+   */
+  @Override
+  public UserDetail loadUserByUsername(String username) throws UsernameNotFoundException {
+    Teacher teacher = this.teacherRepository.findByUsername(username);
+    if (null == teacher) {
+      throw new UsernameNotFoundException("用户不存在");
+    }
+    return new UserDetail(teacher, new ArrayList<>());
+  }
+
   @Override
   public void logout(String token) {
     if (this.hashMap.containsKey(token)) {
       this.hashMap.remove(token);
+    }
+  }
+
+  @Override
+  public Optional<UserDetail> getCurrentAuditor() {
+    Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+    if (null == authentication) {
+      return Optional.empty();
+    } else {
+      try {
+        UserDetail userDetail = (UserDetail) authentication.getPrincipal();
+        return Optional.of(userDetail);
+      } catch (Exception e) {
+        this.logger.error("接收到了认证用户类型不正确,请在loadUserByUsername中返回UserDetail");
+        return Optional.empty();
+      }
+    }
+  }
+
+  public static class UserDetail extends User {
+    private Teacher teacher;
+
+    public UserDetail(Teacher teacher, Collection<? extends GrantedAuthority> authorities) {
+      super(teacher.getUsername(), teacher.getPassword(), authorities);
+      this.teacher = teacher;
+    }
+
+    public Teacher getTeacher() {
+      return teacher;
     }
   }
 

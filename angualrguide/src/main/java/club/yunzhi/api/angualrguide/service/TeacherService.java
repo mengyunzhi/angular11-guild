@@ -1,5 +1,7 @@
 package club.yunzhi.api.angualrguide.service;
 
+import club.yunzhi.api.angualrguide.entity.Teacher;
+
 import java.util.Optional;
 
 public interface TeacherService {
@@ -11,6 +13,10 @@ public interface TeacherService {
    * @param username   用户名
    */
   void bindAuthTokenLoginUsername(String xAuthToken, String username, boolean auth);
+
+  Teacher getOneSavedTeacher();
+
+  Teacher getOneUnsavedTeacher();
 
   /**
    * 根据token获取用户名

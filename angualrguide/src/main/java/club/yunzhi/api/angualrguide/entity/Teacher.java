@@ -30,6 +30,7 @@ public class Teacher {
   private Boolean sex = true;
 
   @Column(nullable = false)
+  @JsonView(UsernameJsonView.class)
   private String username;
 
   public Teacher() {
@@ -99,5 +100,9 @@ public class Teacher {
   }
 
   public interface PasswordJsonView {
+  }
+
+  public interface UsernameJsonView {
+
   }
 }

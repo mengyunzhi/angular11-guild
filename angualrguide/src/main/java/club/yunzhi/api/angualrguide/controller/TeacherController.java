@@ -93,22 +93,22 @@ public class TeacherController {
     return this.teacherRepository.save(oldTeacher);
   }
 
-  private interface LoginJsonView {
+  private interface LoginJsonView extends Teacher.UsernameJsonView {
 
   }
 
-  private interface GetAllJsonView {
+  private interface GetAllJsonView extends Teacher.UsernameJsonView{
   }
 
-  private interface GetByIdJsonView {
+  private interface GetByIdJsonView extends Teacher.UsernameJsonView{
   }
-  private interface MeJsonView {
-  }
-
-  private interface SaveJsonView {
+  private interface MeJsonView extends Teacher.UsernameJsonView{
   }
 
-  private interface UpdateJsonView {
+  private interface SaveJsonView extends Teacher.UsernameJsonView{
+  }
+
+  private interface UpdateJsonView extends Teacher.UsernameJsonView{
   }
 
 }
