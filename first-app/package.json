@@ -20,7 +20,7 @@
     "@angular/platform-browser-dynamic": "~11.0.9",
     "@angular/router": "~11.0.9",
     "@fortawesome/fontawesome-free": "^5.15.2",
-    "@yunzhi/ng-mock-api": "0.0.3",
+    "@yunzhi/ng-mock-api": "0.0.5",
     "bootstrap": "^4.6.0",
     "jquery": "^3.5.1",
     "popper.js": "^1.16.1",

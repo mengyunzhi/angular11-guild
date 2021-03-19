@@ -1,7 +1,7 @@
 import {AddComponent} from './add.component';
 import {ComponentFixture, TestBed} from '@angular/core/testing';
 import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
-import {ApiInjector, MockApiInterceptor, MockApiInterface} from '@yunzhi/ng-mock-api';
+import {ApiInjector, MockApiInterceptor, MockApiInterface, randomNumber, RequestOptions} from '@yunzhi/ng-mock-api';
 import {FormsModule} from '@angular/forms';
 
 describe('clazz add with mockapi', () => {
@@ -28,8 +28,14 @@ describe('clazz add with mockapi', () => {
     fixture.detectChanges();
   });
 
-  fit('在MockApi下完成组件测试Submit', () => {
+  it('在MockApi下完成组件测试Submit', () => {
+    component.clazz.name = '测试班级名称';
+    component.clazz.teacherId = randomNumber();
     component.onSubmit();
+  });
+
+  fit('should create', () => {
+    fixture.autoDetectChanges();
   });
 });
 
@@ -42,14 +48,26 @@ class ClazzMockApi implements MockApiInterface {
       {
         method: 'POST',
         url: 'clazz',
-        result: {
-          id: 1,
-          name: '保存的班级名称',
-          createTime: 1234232,
-          teacher: {
-            id: 1,
-            name: '教师姓名'
+        result: (urlMatches: string[], options: RequestOptions) => {
+          console.log('接收到了数据请求，请求主体的内容为：', options.body);
+          const clazz = options.body;
+          if (!clazz.name || clazz.name === '') {
+            throw new Error('班级名称未定义或为空');
           }
+
+          if (!clazz.teacher || !clazz.teacher.id) {
+            throw new Error('班主任ID未定义');
+          }
+
+          return {
+            id: randomNumber(),
+            name: '保存的班级名称',
+            createTime: new Date().getTime(),
+            teacher: {
+              id: clazz.teacher.id,
+              name: '教师姓名'
+            }
+          };
         }
       }
     ];
