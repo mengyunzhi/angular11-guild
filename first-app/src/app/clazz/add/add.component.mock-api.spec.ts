@@ -41,7 +41,7 @@ class ClazzMockApi implements MockApiInterface {
     return [
       {
         method: 'POST',
-        url: 'http://angular.api.codedemo.club:81/clazz',
+        url: 'clazz',
         result: {
           id: 1,
           name: '保存的班级名称',

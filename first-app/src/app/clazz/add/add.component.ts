@@ -7,7 +7,7 @@ import {HttpClient} from '@angular/common/http';
   styleUrls: ['./add.component.css']
 })
 export class AddComponent implements OnInit {
-  private url = 'http://angular.api.codedemo.club:81/clazz';
+  private url = 'clazz';
   clazz = {
     name: '',
     teacherId: null as unknown as number

@@ -4,6 +4,7 @@ import {AddComponent} from './add.component';
 import {FormsModule} from '@angular/forms';
 import {HTTP_INTERCEPTORS, HttpClient, HttpClientModule, HttpHeaders} from '@angular/common/http';
 import {XAuthTokenInterceptor} from '../../x-auth-token.interceptor';
+import {ApiInterceptor} from '../../api.interceptor';
 
 describe('AddComponent', () => {
   let component: AddComponent;
@@ -15,7 +16,8 @@ describe('AddComponent', () => {
       imports: [FormsModule, HttpClientModule],
       // 加入自定义的XAuthTokenInterceptor，让其自动为我们处理认证的header
       providers: [
-        {provide: HTTP_INTERCEPTORS, multi: true, useClass: XAuthTokenInterceptor}
+        {provide: HTTP_INTERCEPTORS, multi: true, useClass: XAuthTokenInterceptor},
+        {provide: HTTP_INTERCEPTORS, multi: true, useClass: ApiInterceptor}
       ]
     })
       .compileComponents();
@@ -42,7 +44,7 @@ describe('AddComponent', () => {
     const authString = 'zhangsan:codedemo.club';
     const authToken = btoa(authString);
     const httpHeaders = new HttpHeaders().append('Authorization', 'Basic ' + authToken);
-    httpClient.get('http://angular.api.codedemo.club:81/teacher/login', {headers: httpHeaders})
+    httpClient.get('/teacher/login', {headers: httpHeaders})
       .subscribe(() => {
         // 登录成功后，再新建班级，然后就不报401未认证的异常了
         component.clazz = {
