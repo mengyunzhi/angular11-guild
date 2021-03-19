@@ -32,7 +32,7 @@ describe('AddComponent', () => {
     fixture.autoDetectChanges();
   });
 
-  fit('onSubmit', () => {
+  it('onSubmit', () => {
     // 通过TestBed.inject获取到当前模块可供使用的httpClient
     // 前面我们通过这个方法获取过XAuthToken拦截器，道理是一样的
     // 凡是可以被 自动注入 获取的，可以使用该方法来获取到其实例
