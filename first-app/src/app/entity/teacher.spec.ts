@@ -1,7 +1,14 @@
-import { Teacher } from './teacher';
+import {Teacher} from './teacher';
 
 describe('Teacher', () => {
   it('should create an instance', () => {
-    expect(new Teacher(1, 'email', 'name', 'password', true, 'username')).toBeTruthy();
+    expect(new Teacher({
+      id: 1,
+      email: 'email',
+      name: 'name',
+      password: 'password',
+      sex: true,
+      username: 'username'
+    })).toBeTruthy();
   });
 });

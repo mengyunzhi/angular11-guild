@@ -1,6 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {Teacher} from '../../entity/teacher';
+import {Clazz} from '../../entity/clazz';
 
 @Component({
   selector: 'app-add',
@@ -26,12 +27,10 @@ export class AddComponent implements OnInit {
   }
 
   onSubmit(): void {
-    const newClazz = {
-      name: this.clazz.name,
-      teacher: {
-        id: this.clazz.teacherId
-      }
-    };
+    const newClazz = new Clazz({
+      name:  this.clazz.name,
+      teacher: new Teacher({id: this.clazz.teacherId})
+    });
     this.httpClient.post(this.url, newClazz)
       .subscribe(clazz => console.log('保存成功', clazz),
         error => console.log('保存失败', error));

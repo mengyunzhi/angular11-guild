@@ -8,7 +8,7 @@ import {Teacher} from '../entity/teacher';
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent implements OnInit {
-  teacher = {} as Teacher;
+  teacher = new Teacher();
 
   @Output()
   beLogin = new EventEmitter<Teacher>();

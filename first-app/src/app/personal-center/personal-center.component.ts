@@ -8,7 +8,7 @@ import {HttpClient} from '@angular/common/http';
   styleUrls: ['./personal-center.component.css']
 })
 export class PersonalCenterComponent implements OnInit {
-  me = {} as Teacher;
+  me = new Teacher();
 
   constructor(private httpClient: HttpClient) {
   }

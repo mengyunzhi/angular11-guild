@@ -1,6 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {Router} from '@angular/router';
+import {Teacher} from '../entity/teacher';
 
 @Component({
   selector: 'app-add',
@@ -8,12 +9,12 @@ import {Router} from '@angular/router';
   styleUrls: ['./add.component.css']
 })
 export class AddComponent implements OnInit {
-  teacher = {
+  teacher = new Teacher({
     name: '',
     username: '',
     email: '',
     sex: true
-  };
+  });
 
   constructor(private httpClient: HttpClient,
               private router: Router) {

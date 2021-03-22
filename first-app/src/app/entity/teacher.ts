@@ -9,12 +9,13 @@ export class Teacher {
   sex: boolean;
   username: string;
 
-  constructor(id: number, email: string, name: string, password: string, sex: boolean, username: string) {
-    this.id = id;
-    this.email = email;
-    this.name = name;
-    this.password = password;
-    this.sex = sex;
-    this.username = username;
+  constructor(data = {} as {
+    id?: number, email?: string, name?: string, password?: string, sex?: boolean, username?: string}) {
+    this.id = data.id as number;
+    this.email = data.email as string;
+    this.name = data.name as string;
+    this.password = data.password as string;
+    this.sex = data.sex as boolean;
+    this.username = data.username as string;
   }
 }

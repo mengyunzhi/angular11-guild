@@ -3,6 +3,8 @@ import {ComponentFixture, TestBed} from '@angular/core/testing';
 import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
 import {ApiInjector, MockApiInterceptor, MockApiInterface, randomNumber, RequestOptions} from '@yunzhi/ng-mock-api';
 import {FormsModule} from '@angular/forms';
+import {ClazzMockApi} from '../../mock-api/clazz.mock.api';
+import {TeacherMockApi} from '../../mock-api/teacher.mock.api';
 
 describe('clazz add with mockapi', () => {
   let component: AddComponent;
@@ -34,65 +36,7 @@ describe('clazz add with mockapi', () => {
     component.onSubmit();
   });
 
-  fit('should create', () => {
+  it('should create', () => {
     fixture.autoDetectChanges();
   });
 });
-
-/**
- * 班级模拟API
- */
-class ClazzMockApi implements MockApiInterface {
-  getInjectors(): ApiInjector<any>[] {
-    return [
-      {
-        method: 'POST',
-        url: 'clazz',
-        result: (urlMatches: string[], options: RequestOptions) => {
-          console.log('接收到了数据请求，请求主体的内容为：', options.body);
-          const clazz = options.body;
-          if (!clazz.name || clazz.name === '') {
-            throw new Error('班级名称未定义或为空');
-          }
-
-          if (!clazz.teacher || !clazz.teacher.id) {
-            throw new Error('班主任ID未定义');
-          }
-
-          return {
-            id: randomNumber(),
-            name: '保存的班级名称',
-            createTime: new Date().getTime(),
-            teacher: {
-              id: clazz.teacher.id,
-              name: '教师姓名'
-            }
-          };
-        }
-      }
-    ];
-  }
-}
-
-/**
- * 教师模拟API
- */
-class TeacherMockApi implements MockApiInterface {
-  getInjectors(): ApiInjector<any>[] {
-    return [{
-      // 获取所有教师
-      method: 'GET',
-      url: 'teacher',
-      result: [
-        {
-          id: randomNumber(),
-          name: '教师姓名1'
-        },
-        {
-          id: randomNumber(),
-          name: '教师姓名2'
-        }
-      ]
-    }];
-  }
-}
