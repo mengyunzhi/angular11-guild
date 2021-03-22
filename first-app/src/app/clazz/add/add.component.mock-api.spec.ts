@@ -16,7 +16,7 @@ describe('clazz add with mockapi', () => {
         {
           provide: HTTP_INTERCEPTORS,
           multi: true,
-          useClass: MockApiInterceptor.forRoot([ClazzMockApi])
+          useClass: MockApiInterceptor.forRoot([ClazzMockApi, TeacherMockApi])
         }
       ]
     }).compileComponents();
@@ -71,5 +71,28 @@ class ClazzMockApi implements MockApiInterface {
         }
       }
     ];
+  }
+}
+
+/**
+ * 教师模拟API
+ */
+class TeacherMockApi implements MockApiInterface {
+  getInjectors(): ApiInjector<any>[] {
+    return [{
+      // 获取所有教师
+      method: 'GET',
+      url: 'teacher',
+      result: [
+        {
+          id: randomNumber(),
+          name: '教师姓名1'
+        },
+        {
+          id: randomNumber(),
+          name: '教师姓名2'
+        }
+      ]
+    }];
   }
 }
