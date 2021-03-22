@@ -1,5 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
+import {Teacher} from '../../entity/teacher';
 
 @Component({
   selector: 'app-add',
@@ -13,10 +14,15 @@ export class AddComponent implements OnInit {
     teacherId: null as unknown as number
   };
 
+  teachers = new Array<Teacher>();
+
   constructor(private httpClient: HttpClient) {
   }
 
   ngOnInit(): void {
+    // 获取所有教师
+    this.httpClient.get<Array<Teacher>>('teacher')
+      .subscribe(teachers => this.teachers = teachers);
   }
 
   onSubmit(): void {

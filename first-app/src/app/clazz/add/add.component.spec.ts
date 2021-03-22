@@ -5,6 +5,7 @@ import {FormsModule} from '@angular/forms';
 import {HTTP_INTERCEPTORS, HttpClient, HttpClientModule, HttpHeaders} from '@angular/common/http';
 import {XAuthTokenInterceptor} from '../../x-auth-token.interceptor';
 import {ApiInterceptor} from '../../api.interceptor';
+import {CommonModule} from '@angular/common';
 
 describe('AddComponent', () => {
   let component: AddComponent;
@@ -13,7 +14,7 @@ describe('AddComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [AddComponent],
-      imports: [FormsModule, HttpClientModule],
+      imports: [FormsModule, HttpClientModule, CommonModule],
       // 加入自定义的XAuthTokenInterceptor，让其自动为我们处理认证的header
       providers: [
         {provide: HTTP_INTERCEPTORS, multi: true, useClass: XAuthTokenInterceptor},

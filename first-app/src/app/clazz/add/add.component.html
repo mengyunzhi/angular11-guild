@@ -16,8 +16,9 @@
       <select id="teacher" class="form-control"
               name="teacher"
               [(ngModel)]="clazz.teacherId">
-        <option [ngValue]="1">张三</option>
-        <option [ngValue]="2">李四</option>
+        <option *ngFor="let teacher of teachers" [ngValue]="teacher.id">
+          {{teacher.name}}
+        </option>
       </select>
       <small class="text-danger"
              *ngIf="clazz.teacherId === null">
