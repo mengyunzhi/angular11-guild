@@ -1,10 +1,10 @@
-import {ComponentFixture, TestBed} from '@angular/core/testing';
+import {ComponentFixture, fakeAsync, TestBed} from '@angular/core/testing';
 
 import {KlassSelectComponent} from './klass-select.component';
 import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
 import {MockApiInterceptor} from '@yunzhi/ng-mock-api';
 import {TeacherMockApi} from '../../mock-api/teacher.mock.api';
-import {FormsModule} from '@angular/forms';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 
 describe('KlassSelectComponent', () => {
   let component: KlassSelectComponent;
@@ -15,7 +15,8 @@ describe('KlassSelectComponent', () => {
       declarations: [KlassSelectComponent],
       imports: [
         HttpClientModule,
-        FormsModule
+        FormsModule,
+        ReactiveFormsModule
       ],
       providers: [
         {
@@ -38,6 +39,11 @@ describe('KlassSelectComponent', () => {
   fit('should create', () => {
     expect(component).toBeTruthy();
     fixture.autoDetectChanges();
+    setInterval(() => {
+      fixture.detectChanges();
+      console.log('123');
+    }, 1000);
+    component.teacherId.setValue(123);
     component.beChange
       .subscribe((data: number) => console.log('接收到了弹出的数据', data));
   });

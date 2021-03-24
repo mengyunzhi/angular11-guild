@@ -1,6 +1,7 @@
 import {Component, OnInit, EventEmitter, Output} from '@angular/core';
 import {Teacher} from '../../entity/teacher';
 import {HttpClient} from '@angular/common/http';
+import {FormControl} from '@angular/forms';
 
 
 @Component({
@@ -10,7 +11,7 @@ import {HttpClient} from '@angular/common/http';
 })
 export class KlassSelectComponent implements OnInit {
   teachers = new Array<Teacher>();
-  teacherId: number | undefined;
+  teacherId = new FormControl();
 
   @Output()
   beChange = new EventEmitter<number>();
@@ -19,14 +20,15 @@ export class KlassSelectComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    // 关注teacherId
+    this.teacherId.valueChanges
+      .subscribe((data: number) => console.log('data change', data));
     // 获取所有教师
     this.httpClient.get<Array<Teacher>>('teacher')
       .subscribe(teachers => this.teachers = teachers);
   }
 
-  onChange(): void {
-    console.log('change called');
-    console.log(this.teacherId);
-    this.beChange.emit(this.teacherId);
+  onChange(teacherId: FormControl): void {
+    console.log(teacherId.value);
   }
 }

@@ -1,7 +1,7 @@
 import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {AddComponent} from './add/add.component';
-import {FormsModule} from '@angular/forms';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import { KlassSelectComponent } from './klass-select/klass-select.component';
 
 
@@ -9,7 +9,8 @@ import { KlassSelectComponent } from './klass-select/klass-select.component';
   declarations: [AddComponent, KlassSelectComponent],
   imports: [
     CommonModule,
-    FormsModule
+    FormsModule,
+    ReactiveFormsModule
   ]
 })
 export class ClazzModule {
