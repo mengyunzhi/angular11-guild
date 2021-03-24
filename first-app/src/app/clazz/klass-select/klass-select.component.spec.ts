@@ -5,6 +5,7 @@ import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
 import {MockApiInterceptor} from '@yunzhi/ng-mock-api';
 import {TeacherMockApi} from '../../mock-api/teacher.mock.api';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
+import {By} from '@angular/platform-browser';
 
 describe('KlassSelectComponent', () => {
   let component: KlassSelectComponent;
@@ -39,11 +40,6 @@ describe('KlassSelectComponent', () => {
   fit('should create', () => {
     expect(component).toBeTruthy();
     fixture.autoDetectChanges();
-    setInterval(() => {
-      fixture.detectChanges();
-      console.log('123');
-    }, 1000);
-    component.teacherId.setValue(123);
     component.beChange
       .subscribe((data: number) => console.log('接收到了弹出的数据', data));
   });

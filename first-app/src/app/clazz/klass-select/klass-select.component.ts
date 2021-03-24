@@ -22,13 +22,9 @@ export class KlassSelectComponent implements OnInit {
   ngOnInit(): void {
     // 关注teacherId
     this.teacherId.valueChanges
-      .subscribe((data: number) => console.log('data change', data));
+      .subscribe((data: number) => this.beChange.emit(data));
     // 获取所有教师
     this.httpClient.get<Array<Teacher>>('teacher')
       .subscribe(teachers => this.teachers = teachers);
-  }
-
-  onChange(teacherId: FormControl): void {
-    console.log(teacherId.value);
   }
 }

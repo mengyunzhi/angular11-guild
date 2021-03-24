@@ -1,8 +1,6 @@
-<pre>{{teacherId.value | json}}</pre>
-<select id="teacher" class="form-control"
-        [formGroup]="teacherId"
-        (change)="onChange(teacherId)">
-  <option *ngFor="let teacher of teachers" [ngValue]="teacher.id">
+<select id="teacherId" class="form-control"
+        [formGroup]="teacherId">
+  <option *ngFor="let teacher of teachers" [value]="teacher.id">
     {{teacher.name}}
   </option>
 </select>
