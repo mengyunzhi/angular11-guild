@@ -1,11 +1,11 @@
-import {ComponentFixture, fakeAsync, TestBed} from '@angular/core/testing';
+import {ComponentFixture, TestBed} from '@angular/core/testing';
 
 import {KlassSelectComponent} from './klass-select.component';
 import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
-import {MockApiInterceptor} from '@yunzhi/ng-mock-api';
 import {TeacherMockApi} from '../../mock-api/teacher.mock.api';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
-import {By} from '@angular/platform-browser';
+import {MockApiTestingInterceptor} from '@yunzhi/ng-mock-api/testing';
+import {getTestScheduler} from 'jasmine-marbles';
 
 describe('KlassSelectComponent', () => {
   let component: KlassSelectComponent;
@@ -22,7 +22,7 @@ describe('KlassSelectComponent', () => {
       providers: [
         {
           provide: HTTP_INTERCEPTORS, multi: true,
-          useClass: MockApiInterceptor.forRoot([
+          useClass: MockApiTestingInterceptor.forRoot([
             TeacherMockApi
           ])
         }
@@ -42,5 +42,16 @@ describe('KlassSelectComponent', () => {
     fixture.autoDetectChanges();
     component.beChange
       .subscribe((data: number) => console.log('接收到了弹出的数据', data));
+
+    // 手动控制MockApi发送数据
+    getTestScheduler().flush();
+    fixture.detectChanges();
+
+    // 模拟点击教师列表中的第二个教师
+    console.log(component.teachers.length);
+    const teacher = component.teachers[1];
+    console.log(teacher);
+
+    component.teacherId.setValue(teacher.id);
   });
 });
