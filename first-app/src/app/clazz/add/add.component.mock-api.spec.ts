@@ -2,9 +2,10 @@ import {AddComponent} from './add.component';
 import {ComponentFixture, TestBed} from '@angular/core/testing';
 import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
 import {ApiInjector, MockApiInterceptor, MockApiInterface, randomNumber, RequestOptions} from '@yunzhi/ng-mock-api';
-import {FormsModule} from '@angular/forms';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {ClazzMockApi} from '../../mock-api/clazz.mock.api';
 import {TeacherMockApi} from '../../mock-api/teacher.mock.api';
+import {KlassSelectComponent} from '../klass-select/klass-select.component';
 
 describe('clazz add with mockapi', () => {
   let component: AddComponent;
@@ -12,8 +13,8 @@ describe('clazz add with mockapi', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [AddComponent],
-      imports: [HttpClientModule, FormsModule],
+      declarations: [AddComponent, KlassSelectComponent],
+      imports: [HttpClientModule, FormsModule, ReactiveFormsModule],
       providers: [
         {
           provide: HTTP_INTERCEPTORS,

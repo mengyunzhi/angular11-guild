@@ -56,7 +56,7 @@ describe('KlassSelectComponent', () => {
     component.teacherId.setValue(teacher.id);
   });
 
-  fit('模拟点击option', () => {
+  it('模拟点击option', () => {
     expect(component).toBeTruthy();
     component.beChange
       .subscribe((data: number) => console.log('接收到了弹出的数据', data));

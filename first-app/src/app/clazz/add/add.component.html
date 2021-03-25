@@ -11,15 +11,9 @@
     </div>
   </div>
   <div class="mb-3 row">
-    <label for="teacher" class="col-sm-2 col-form-label">班主任</label>
+    <label class="col-sm-2 col-form-label">班主任</label>
     <div class="col-sm-10">
-      <select id="teacher" class="form-control"
-              name="teacher"
-              [(ngModel)]="clazz.teacherId">
-        <option *ngFor="let teacher of teachers" [ngValue]="teacher.id">
-          {{teacher.name}}
-        </option>
-      </select>
+      <app-klass-select (beChange)="onTeacherChange($event)"></app-klass-select>
       <small class="text-danger"
              *ngIf="clazz.teacherId === null">
         必须指定一个班主任

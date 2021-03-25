@@ -28,11 +28,15 @@ export class AddComponent implements OnInit {
 
   onSubmit(): void {
     const newClazz = new Clazz({
-      name:  this.clazz.name,
+      name: this.clazz.name,
       teacher: new Teacher({id: this.clazz.teacherId})
     });
     this.httpClient.post(this.url, newClazz)
       .subscribe(clazz => console.log('保存成功', clazz),
         error => console.log('保存失败', error));
+  }
+
+  onTeacherChange(teacherId: number): void {
+    this.clazz.teacherId = teacherId;
   }
 }
