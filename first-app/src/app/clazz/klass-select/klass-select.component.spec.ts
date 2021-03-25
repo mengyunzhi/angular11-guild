@@ -6,6 +6,7 @@ import {TeacherMockApi} from '../../mock-api/teacher.mock.api';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {MockApiTestingInterceptor} from '@yunzhi/ng-mock-api/testing';
 import {getTestScheduler} from 'jasmine-marbles';
+import {By} from '@angular/platform-browser';
 
 describe('KlassSelectComponent', () => {
   let component: KlassSelectComponent;
@@ -37,7 +38,7 @@ describe('KlassSelectComponent', () => {
     fixture.detectChanges();
   });
 
-  fit('should create', () => {
+  it('should create', () => {
     expect(component).toBeTruthy();
     fixture.autoDetectChanges();
     component.beChange
@@ -53,5 +54,26 @@ describe('KlassSelectComponent', () => {
     console.log(teacher);
 
     component.teacherId.setValue(teacher.id);
+  });
+
+  fit('模拟点击option', () => {
+    expect(component).toBeTruthy();
+    component.beChange
+      .subscribe((data: number) => console.log('接收到了弹出的数据', data));
+    // 手动控制MockApi发送数据
+    getTestScheduler().flush();
+    fixture.detectChanges();
+
+    // 获取select
+    const htmlSelect = fixture.debugElement.query(By.css('select')).nativeElement as HTMLSelectElement;
+    htmlSelect.click();
+
+    // 获取第二个选项
+    const htmlOption = htmlSelect.options[1];
+    // 用该选项的值设置select的值，从而实现模块点击
+    htmlSelect.value = htmlOption.value;
+
+    // 发送change事件，通知浏览器、angular、观察者select值已经发生了变化
+    htmlSelect.dispatchEvent(new Event('change'));
   });
 });
