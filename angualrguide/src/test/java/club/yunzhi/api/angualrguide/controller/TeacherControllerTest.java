@@ -93,6 +93,15 @@ class TeacherControllerTest {
   }
 
   @Test
+  void page() throws Exception {
+    this.mockMvc.perform(MockMvcRequestBuilders.get(this.baseUrl + "/page")
+        .param("page", "0")
+        .param("size", "10")
+        .param("sort", "id,asc"))
+        .andDo(MockMvcResultHandlers.print());
+  }
+
+  @Test
   void xAuthToken() throws UnsupportedEncodingException {
     // 第一次请求，获取x-auth-token
     String loginUrl = "http://localhost:" + port + "/teacher/login";
@@ -140,7 +149,6 @@ class TeacherControllerTest {
     Assertions.assertThrows(HttpStatusCodeException.class, () ->
         restTemplate.exchange(loginUrl, HttpMethod.GET, entity, Teacher.class));
   }
-
 
 
   private HttpHeaders getChromeHeaders() {

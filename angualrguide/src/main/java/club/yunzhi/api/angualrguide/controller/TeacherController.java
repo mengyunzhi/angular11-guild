@@ -5,6 +5,10 @@ import club.yunzhi.api.angualrguide.entity.Teacher;
 import club.yunzhi.api.angualrguide.repository.TeacherRepository;
 import club.yunzhi.api.angualrguide.service.TeacherService;
 import com.fasterxml.jackson.annotation.JsonView;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.web.bind.annotation.*;
@@ -63,6 +67,12 @@ public class TeacherController {
     this.teacherService.logout(token);
   }
 
+  @GetMapping("page")
+  @JsonView(PageJsonView.class)
+  public Page<Teacher> page(@PageableDefault(sort = "id", direction = Sort.Direction.DESC) Pageable pageable) {
+    return this.teacherRepository.findAll(pageable);
+  }
+
 
   @GetMapping("me")
   @JsonView(MeJsonView.class)
@@ -104,9 +114,11 @@ public class TeacherController {
 
   private interface GetByIdJsonView extends Teacher.UsernameJsonView{
   }
-  private interface MeJsonView extends Teacher.UsernameJsonView{
+  private interface MeJsonView extends Teacher.UsernameJsonView {
   }
 
+  private interface PageJsonView extends Teacher.UsernameJsonView {
+  }
   private interface SaveJsonView extends Teacher.UsernameJsonView{
   }
 
