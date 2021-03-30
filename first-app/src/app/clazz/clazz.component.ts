@@ -31,4 +31,8 @@ export class ClazzComponent implements OnInit {
     this.httpClient.get<Page<Clazz>>('/clazz/page')
       .subscribe(pageData => this.pageData = pageData);
   }
+
+  onPage(page: number): void {
+    console.log(page);
+  }
 }
