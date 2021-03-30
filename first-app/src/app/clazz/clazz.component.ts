@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {Page} from '../entity/page';
 import {Clazz} from '../entity/clazz';
 import {Teacher} from '../entity/teacher';
+import {HttpClient} from '@angular/common/http';
 
 @Component({
   selector: 'app-clazz',
@@ -23,26 +24,11 @@ export class ClazzComponent implements OnInit {
     numberOfElements: 0
   });
 
-  constructor() {
+  constructor(private httpClient: HttpClient) {
   }
 
   ngOnInit(): void {
-    const clazzes = new Array<Clazz>();
-    for (let i = 0; i < this.size; i++) {
-      clazzes.push(new Clazz({
-        id: i,
-        name: '班级',
-        teacher: new Teacher({
-          id: i,
-          name: '教师'
-        })
-      }));
-    }
-    this.pageData = new Page<Clazz>({
-      content: clazzes,
-      number: 2,
-      size: this.size,
-      numberOfElements: 20
-    });
+    this.httpClient.get<Page<Clazz>>('/clazz/page')
+      .subscribe(pageData => this.pageData = pageData);
   }
 }

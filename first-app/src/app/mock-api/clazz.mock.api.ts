@@ -1,4 +1,7 @@
 import {ApiInjector, MockApiInterface, randomNumber, RequestOptions} from '@yunzhi/ng-mock-api';
+import {Clazz} from '../entity/clazz';
+import {Teacher} from '../entity/teacher';
+import {Page} from '../entity/page';
 
 /**
  * 班级模拟API
@@ -29,6 +32,30 @@ export class ClazzMockApi implements MockApiInterface {
               name: '教师姓名'
             }
           };
+        }
+      },
+      {
+        method: 'GET',
+        url: '/clazz/page',
+        result: () => {
+          const size = 20;
+          const clazzes = new Array<Clazz>();
+          for (let i = 0; i < size; i++) {
+            clazzes.push(new Clazz({
+              id: i,
+              name: '班级' + Math.floor(Math.random() * 100).toString(10),
+              teacher: new Teacher({
+                id: i,
+                name: '教师' + Math.floor(Math.random() * 100).toString(10),
+              })
+            }));
+          }
+          return new Page<Clazz>({
+            content: clazzes,
+            number: 2,
+            size,
+            numberOfElements: 20
+          });
         }
       }
     ];
