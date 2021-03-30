@@ -14,45 +14,19 @@
   </tr>
   </thead>
   <tbody>
-    <tr>
-      <td>1</td>
-      <td>班级1</td>
-      <td>张三</td>
-      <td>
-        <a class="btn btn-outline-primary btn-sm" >
-          <i class="fas fa-pen"></i>编辑
-        </a>
-        <span class="btn btn-sm btn-outline-danger" >
+  <tr *ngFor="let clazz of pageData.content; index as index">
+    <td>{{index + 1}}</td>
+    <td>{{clazz.name}}</td>
+    <td>{{clazz.teacher.name}}</td>
+    <td>
+      <a class="btn btn-outline-primary btn-sm">
+        <i class="fas fa-pen"></i>编辑
+      </a>
+      <span class="btn btn-sm btn-outline-danger">
           <i class="far fa-trash-alt"></i>删除
         </span>
-      </td>
-    </tr>
-    <tr>
-      <td>2</td>
-      <td>班级2</td>
-      <td>李四</td>
-      <td>
-        <a class="btn btn-outline-primary btn-sm" >
-          <i class="fas fa-pen"></i>编辑
-        </a>
-        <span class="btn btn-sm btn-outline-danger" >
-          <i class="far fa-trash-alt"></i>删除
-        </span>
-      </td>
-    </tr>
-    <tr>
-      <td>3</td>
-      <td>班级3</td>
-      <td>王五</td>
-      <td>
-        <a class="btn btn-outline-primary btn-sm" >
-          <i class="fas fa-pen"></i>编辑
-        </a>
-        <span class="btn btn-sm btn-outline-danger" >
-          <i class="far fa-trash-alt"></i>删除
-        </span>
-      </td>
-    </tr>
+    </td>
+  </tr>
   </tbody>
 </table>
 
