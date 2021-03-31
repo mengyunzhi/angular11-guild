@@ -2,6 +2,7 @@ import {ApiInjector, MockApiInterface, randomNumber, RequestOptions} from '@yunz
 import {Clazz} from '../entity/clazz';
 import {Teacher} from '../entity/teacher';
 import {Page} from '../entity/page';
+import {HttpParams} from '@angular/common/http';
 
 /**
  * 班级模拟API
@@ -37,8 +38,25 @@ export class ClazzMockApi implements MockApiInterface {
       {
         method: 'GET',
         url: '/clazz/page',
-        result: () => {
-          const size = 20;
+        result: (urlMatches: string[], options: RequestOptions) => {
+          // 初始化两个默认值
+          let page = 0;
+          let size = 20;
+
+          const httpParams = options.params as HttpParams;
+          if (httpParams.has('page')) {
+            // 在这里我们使用了`has()`方法来判断是否存在该字段。
+            // 所以在此执行httpParams.get('page')必然返回一个非null的值
+            // 结合httpParams.get('page')返回值类型规定为null | string
+            // null | string去了一个null，则返回值类型必然为string，所以在使用as指定
+            // + 的目的是将string类型转换为number
+            page = +(httpParams.get('page') as string);
+          }
+
+          if (httpParams.get('size')) {
+            size = +(httpParams.get('size') as string);
+          }
+
           const clazzes = new Array<Clazz>();
           for (let i = 0; i < size; i++) {
             clazzes.push(new Clazz({
@@ -52,9 +70,9 @@ export class ClazzMockApi implements MockApiInterface {
           }
           return new Page<Clazz>({
             content: clazzes,
-            number: 2,
+            number: page,
             size,
-            numberOfElements: 20
+            numberOfElements: size * 10
           });
         }
       }

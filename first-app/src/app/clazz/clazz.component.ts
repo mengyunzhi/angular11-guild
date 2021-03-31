@@ -2,7 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {Page} from '../entity/page';
 import {Clazz} from '../entity/clazz';
 import {Teacher} from '../entity/teacher';
-import {HttpClient} from '@angular/common/http';
+import {HttpClient, HttpParams} from '@angular/common/http';
 
 @Component({
   selector: 'app-clazz',
@@ -28,11 +28,20 @@ export class ClazzComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.httpClient.get<Page<Clazz>>('/clazz/page')
+    this.httpClient.get<Page<Clazz>>('/clazz/page',
+      {params: new HttpParams().append('size', this.size.toString())})
       .subscribe(pageData => this.pageData = pageData);
   }
 
   onPage(page: number): void {
-    console.log(page);
+    const httpParams = new HttpParams().append('page', page.toString())
+      .append('size', this.size.toString());
+    this.httpClient.get<Page<Clazz>>('/clazz/page', {params: httpParams})
+      .subscribe(pageData => {
+        // 在请求数据之后设置当前页
+        this.page = page;
+        this.pageData = pageData;
+        console.log(pageData);
+      });
   }
 }
