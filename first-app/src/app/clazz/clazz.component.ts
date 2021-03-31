@@ -16,6 +16,9 @@ export class ClazzComponent implements OnInit {
   // 每页默认为3条
   size = 3;
 
+  // 分页数组
+  pages = [] as number[];
+
   // 初始化一个有0条数据的
   pageData = new Page<Clazz>({
     content: [],
@@ -28,12 +31,15 @@ export class ClazzComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.httpClient.get<Page<Clazz>>('/clazz/page',
-      {params: new HttpParams().append('size', this.size.toString())})
-      .subscribe(pageData => this.pageData = pageData);
+    // 使用默认值 page = 0 调用loadByPage()方法
+    this.loadByPage();
   }
 
   onPage(page: number): void {
+    this.loadByPage(page);
+  }
+
+  loadByPage(page = 0): void {
     const httpParams = new HttpParams().append('page', page.toString())
       .append('size', this.size.toString());
     this.httpClient.get<Page<Clazz>>('/clazz/page', {params: httpParams})
@@ -42,6 +48,11 @@ export class ClazzComponent implements OnInit {
         this.page = page;
         this.pageData = pageData;
         console.log(pageData);
+        // 根据返回的值生成分页数组
+        this.pages = [];
+        for (let i = 0; i < pageData.totalPages; i++) {
+          this.pages.push(i);
+        }
       });
   }
 }
