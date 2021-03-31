@@ -30,12 +30,4 @@
   </tbody>
 </table>
 
-<nav class="row justify-content-md-center">
-  <ul class="pagination col-md-auto">
-    <li [ngClass]="{disabled: pageData.first}" class="page-item"><span class="page-link">上一页</span></li>
-    <li *ngFor="let p of pages" [ngClass]="{active: page === p}" class="page-item">
-      <span class="page-link" (click)="onPage(p)">{{p + 1}}</span>
-    </li>
-    <li [ngClass]="{disabled: pageData.last}" class="page-item"><span class="page-link">下一页</span></li>
-  </ul>
-</nav>
+<app-page [page]="pageData" (bePageChange)="onPage($event)"></app-page>

@@ -31,6 +31,7 @@ export class ClazzComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    console.log('clazz组件调用ngOnInit()');
     // 使用默认值 page = 0 调用loadByPage()方法
     this.loadByPage();
   }
@@ -46,6 +47,7 @@ export class ClazzComponent implements OnInit {
       .subscribe(pageData => {
         // 在请求数据之后设置当前页
         this.page = page;
+        console.log('clazz组件接收到返回数据，重新设置pageData');
         this.pageData = pageData;
         console.log(pageData);
         // 根据返回的值生成分页数组

@@ -5,6 +5,7 @@ import {MockApiTestingInterceptor} from '@yunzhi/ng-mock-api/testing';
 import {ClazzMockApi} from '../mock-api/clazz.mock.api';
 import {getTestScheduler} from 'jasmine-marbles';
 import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
+import {PageComponent} from './page/page.component';
 
 describe('ClazzComponent', () => {
   let component: ClazzComponent;
@@ -12,7 +13,7 @@ describe('ClazzComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ClazzComponent],
+      declarations: [ClazzComponent, PageComponent],
       imports: [
         HttpClientModule
       ],
