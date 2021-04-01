@@ -15,9 +15,6 @@ export class ClazzComponent implements OnInit {
   // 每页默认为3条
   size = 3;
 
-  // 分页数组
-  pages = [] as number[];
-
   // 初始化一个有0条数据的
   pageData = new Page<Clazz>({
     content: [],
@@ -50,11 +47,6 @@ export class ClazzComponent implements OnInit {
         console.log('clazz组件接收到返回数据，重新设置pageData');
         this.pageData = pageData;
         console.log(pageData);
-        // 根据返回的值生成分页数组
-        this.pages = [];
-        for (let i = 0; i < pageData.totalPages; i++) {
-          this.pages.push(i);
-        }
       });
   }
 }

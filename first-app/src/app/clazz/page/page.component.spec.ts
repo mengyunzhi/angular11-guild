@@ -1,6 +1,7 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import {ComponentFixture, TestBed} from '@angular/core/testing';
 
-import { PageComponent } from './page.component';
+import {PageComponent} from './page.component';
+import {Page} from '../../entity/page';
 
 describe('PageComponent', () => {
   let component: PageComponent;
@@ -8,9 +9,9 @@ describe('PageComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ PageComponent ]
+      declarations: [PageComponent]
     })
-    .compileComponents();
+      .compileComponents();
   });
 
   beforeEach(() => {
@@ -19,8 +20,15 @@ describe('PageComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create', () => {
+  fit('should create', () => {
     expect(component).toBeTruthy();
+    component.page = new Page<any>({
+      content: [],
+      number: 1,
+      size: 20,
+      numberOfElements: 10
+    });
     fixture.autoDetectChanges();
   });
+
 });

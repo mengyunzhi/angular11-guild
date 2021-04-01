@@ -22,6 +22,13 @@ export class PageComponent implements OnInit {
     console.log('set page被调用');
     console.log('当前页', this.inputPage.number);
     console.log('总页数', this.inputPage.totalPages);
+    // 生成页数数组
+    this.pages = [];
+    for (let i = 0; i <= this.inputPage.totalPages; i++) {
+      this.pages.push(i);
+    }
+    // 设置当前页
+    this.currentPage = this.inputPage.number;
   }
 
   @Output()
@@ -37,6 +44,7 @@ export class PageComponent implements OnInit {
   }
 
   onPage(page: number): void {
-
+    // 点击页码时弹出该页码
+    this.bePageChange.emit(page);
   }
 }
