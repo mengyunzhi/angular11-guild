@@ -1,7 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {Page} from '../entity/page';
 import {Clazz} from '../entity/clazz';
-import {Teacher} from '../entity/teacher';
 import {HttpClient, HttpParams} from '@angular/common/http';
 
 @Component({
@@ -41,6 +40,7 @@ export class ClazzComponent implements OnInit {
   }
 
   loadByPage(page = 0): void {
+    console.log('触发loadByPage方法');
     const httpParams = new HttpParams().append('page', page.toString())
       .append('size', this.size.toString());
     this.httpClient.get<Page<Clazz>>('/clazz/page', {params: httpParams})

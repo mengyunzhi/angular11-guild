@@ -7,8 +7,7 @@ import {Page} from '../../entity/page';
   styleUrls: ['./page.component.css']
 })
 export class PageComponent implements OnInit {
-  @Input()
-  page: Page<any> = new Page({
+  inputPage: Page<any> = new Page({
     content: [],
     number: 0,
     size: 0,
@@ -16,6 +15,14 @@ export class PageComponent implements OnInit {
   });
   pages: number[] = [];
   currentPage = 0;
+
+  @Input()
+  set page(page: Page<any>) {
+    this.inputPage = page;
+    console.log('set page被调用');
+    console.log('当前页', this.inputPage.number);
+    console.log('总页数', this.inputPage.totalPages);
+  }
 
   @Output()
   bePageChange = new EventEmitter<number>();
@@ -25,8 +32,8 @@ export class PageComponent implements OnInit {
 
   ngOnInit(): void {
     console.log('page组件调用ngOnInit()方法');
-    console.log('当前页', this.page.number);
-    console.log('总页数', this.page.totalPages);
+    console.log('当前页', this.inputPage.number);
+    console.log('总页数', this.inputPage.totalPages);
   }
 
   onPage(page: number): void {
