@@ -24,7 +24,7 @@ export class PageComponent implements OnInit {
     console.log('总页数', this.inputPage.totalPages);
     // 生成页数数组
     this.pages = [];
-    for (let i = 0; i <= this.inputPage.totalPages; i++) {
+    for (let i = 0; i < this.inputPage.totalPages; i++) {
       this.pages.push(i);
     }
     // 设置当前页

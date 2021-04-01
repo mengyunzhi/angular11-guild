@@ -20,13 +20,13 @@ describe('PageComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create', () => {
+  fit('should create', () => {
     expect(component).toBeTruthy();
     component.page = new Page<any>({
       content: [],
       number: 1,
       size: 20,
-      numberOfElements: 10
+      numberOfElements: 30
     });
     fixture.autoDetectChanges();
   });
