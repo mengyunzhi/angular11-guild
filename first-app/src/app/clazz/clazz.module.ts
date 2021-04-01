@@ -5,10 +5,11 @@ import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import { KlassSelectComponent } from './klass-select/klass-select.component';
 import { ClazzComponent } from './clazz.component';
 import { PageComponent } from './page/page.component';
+import { EditComponent } from './edit/edit.component';
 
 
 @NgModule({
-  declarations: [AddComponent, KlassSelectComponent, ClazzComponent, PageComponent],
+  declarations: [AddComponent, KlassSelectComponent, ClazzComponent, PageComponent, EditComponent],
   imports: [
     CommonModule,
     FormsModule,
