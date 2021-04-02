@@ -2,7 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 import {HttpClient} from '@angular/common/http';
 import {Clazz} from '../../entity/clazz';
-import {FormControl, Validators} from '@angular/forms';
+import {FormControl, FormGroup, Validators} from '@angular/forms';
 
 @Component({
   selector: 'app-edit',
@@ -15,6 +15,12 @@ export class EditComponent implements OnInit {
    */
   nameFormControl = new FormControl('', Validators.required);
   teacherId: number | undefined;
+  /**
+   * 表单组，用于存放多个formControl
+   */
+  formGroup = new FormGroup({
+    name: this.nameFormControl
+  });
 
   constructor(private activatedRoute: ActivatedRoute,
               private httpClient: HttpClient) {
@@ -42,5 +48,9 @@ export class EditComponent implements OnInit {
   onTeacherChange($event: number): void {
     console.log('接收到了选择的teacherId', $event);
     this.teacherId = $event;
+  }
+
+  onSubmit(): void {
+    console.log('点击了提交按钮');
   }
 }

@@ -92,6 +92,22 @@ export class ClazzMockApi implements MockApiInterface {
             }
           } as Clazz;
         }
+      },
+      {
+        method: 'PUT',
+        url: `/clazz/(\\d+)`,
+        result: (urlMatches: string[], options: RequestOptions) => {
+          const id = +urlMatches[1];
+          const clazz = options.body as Clazz;
+          return {
+            id,
+            name: clazz.name,
+            teacher: {
+              id: clazz.teacher.id,
+              name: randomString('测试教师')
+            } as Teacher
+          } as Clazz;
+        }
       }
     ];
   }
