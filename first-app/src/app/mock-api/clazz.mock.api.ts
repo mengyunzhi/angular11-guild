@@ -3,6 +3,7 @@ import {Clazz} from '../entity/clazz';
 import {Teacher} from '../entity/teacher';
 import {Page} from '../entity/page';
 import {HttpParams} from '@angular/common/http';
+import {randomString} from '@yunzhi/ng-mock-api/testing';
 
 /**
  * 班级模拟API
@@ -74,6 +75,22 @@ export class ClazzMockApi implements MockApiInterface {
             size,
             numberOfElements: size * 10
           });
+        }
+      },
+      {
+        method: 'GET',
+        url: `/clazz/(\\d+)`,
+        result: (urlMatches: Array<string>) => {
+          console.log(urlMatches);
+          const id = +urlMatches[1];
+          return {
+            id,
+            name: randomString('班级名称'),
+            teacher: {
+              id: randomNumber(),
+              name: randomString('教师')
+            }
+          } as Clazz;
         }
       }
     ];
