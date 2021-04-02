@@ -1,4 +1,5 @@
 import {ApiInjector, MockApiInterface, randomNumber} from '@yunzhi/ng-mock-api';
+import {randomString} from '@yunzhi/ng-mock-api/testing';
 
 /**
  * 教师模拟API
@@ -9,16 +10,16 @@ export class TeacherMockApi implements MockApiInterface {
       // 获取所有教师
       method: 'GET',
       url: 'teacher',
-      result: [
-        {
-          id: randomNumber(),
-          name: '教师姓名1'
-        },
-        {
-          id: randomNumber(),
-          name: '教师姓名2'
+      result: () => {
+        const teachers = [];
+        for (let i = 1; i <= 10; i++) {
+          teachers.push({
+            id: i,
+            name: randomString('教师姓名')
+          });
         }
-      ]
+        return teachers;
+      }
     }];
   }
 }

@@ -1,4 +1,4 @@
-import {Component, OnInit, EventEmitter, Output} from '@angular/core';
+import {Component, OnInit, EventEmitter, Output, Input} from '@angular/core';
 import {Teacher} from '../../entity/teacher';
 import {HttpClient} from '@angular/common/http';
 import {FormControl} from '@angular/forms';
@@ -12,6 +12,12 @@ import {FormControl} from '@angular/forms';
 export class KlassSelectComponent implements OnInit {
   teachers = new Array<Teacher>();
   teacherId = new FormControl();
+
+  @Input()
+  set id(id: number) {
+    // 使用接收到的id设置teacherId
+    this.teacherId.setValue(id);
+  }
 
   @Output()
   beChange = new EventEmitter<number>();

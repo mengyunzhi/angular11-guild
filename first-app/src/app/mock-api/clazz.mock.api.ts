@@ -87,7 +87,7 @@ export class ClazzMockApi implements MockApiInterface {
             id,
             name: randomString('班级名称'),
             teacher: {
-              id: randomNumber(),
+              id: randomNumber(9) + 1,
               name: randomString('教师')
             }
           } as Clazz;
