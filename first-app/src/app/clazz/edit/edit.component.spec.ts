@@ -2,9 +2,9 @@ import {ComponentFixture, TestBed} from '@angular/core/testing';
 
 import {EditComponent} from './edit.component';
 import {KlassSelectComponent} from '../klass-select/klass-select.component';
-import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
-import {MockApiInterceptor} from '@yunzhi/ng-mock-api';
-import {TeacherMockApi} from '../../mock-api/teacher.mock.api';
+import {MockApiTestingModule} from '../../mock-api/mock-api-testing.module';
+import {ReactiveFormsModule} from '@angular/forms';
+import {getTestScheduler} from 'jasmine-marbles';
 
 describe('EditComponent', () => {
   let component: EditComponent;
@@ -14,14 +14,8 @@ describe('EditComponent', () => {
     await TestBed.configureTestingModule({
       declarations: [EditComponent, KlassSelectComponent],
       imports: [
-        HttpClientModule
-      ],
-      providers: [
-        {
-          provide: HTTP_INTERCEPTORS,
-          multi: true,
-          useClass: MockApiInterceptor.forRoot([TeacherMockApi])
-        }
+        MockApiTestingModule,
+        ReactiveFormsModule
       ]
     })
       .compileComponents();
@@ -35,5 +29,7 @@ describe('EditComponent', () => {
 
   fit('should create', () => {
     expect(component).toBeTruthy();
+    getTestScheduler().flush();
+    fixture.autoDetectChanges();
   });
 });

@@ -25,6 +25,7 @@ export class KlassSelectComponent implements OnInit {
       .subscribe((data: number) => this.beChange.emit(data));
     // 获取所有教师
     this.httpClient.get<Array<Teacher>>('teacher')
-      .subscribe(teachers => this.teachers = teachers);
+      .subscribe(
+        teachers => this.teachers = teachers);
   }
 }
