@@ -3,6 +3,7 @@ import {ActivatedRoute} from '@angular/router';
 import {HttpClient} from '@angular/common/http';
 import {Clazz} from '../../entity/clazz';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
+import {Teacher} from '../../entity/teacher';
 
 @Component({
   selector: 'app-edit',
@@ -19,7 +20,9 @@ export class EditComponent implements OnInit {
    * 表单组，用于存放多个formControl
    */
   formGroup = new FormGroup({
-    name: this.nameFormControl
+    id: new FormControl(null, Validators.required),
+    name: this.nameFormControl,
+    teacherId: new FormControl(null, Validators.required)
   });
 
   constructor(private activatedRoute: ActivatedRoute,
@@ -37,20 +40,34 @@ export class EditComponent implements OnInit {
    */
   loadById(id: number): void {
     console.log('loadById');
+    this.formGroup.get('id')?.setValue(id);
     this.httpClient.get<Clazz>('/clazz/' + id.toString())
       .subscribe(clazz => {
         console.log('接收到了clazz', clazz);
         this.nameFormControl.patchValue(clazz.name);
         this.teacherId = clazz.teacher.id;
+        this.formGroup.get('teacherId')?.setValue(clazz.teacher.id);
       }, error => console.log(error));
   }
 
   onTeacherChange($event: number): void {
     console.log('接收到了选择的teacherId', $event);
     this.teacherId = $event;
+    this.formGroup.get('teacherId')?.setValue($event);
   }
 
   onSubmit(): void {
     console.log('点击了提交按钮');
+    const clazzId = this.formGroup.get('id')?.value;
+    const name = this.nameFormControl.value;
+    const teacherId = this.formGroup.get('teacherId')?.value;
+    const clazz = new Clazz({
+      name,
+      teacher: {id: teacherId} as Teacher
+    });
+    this.httpClient.put<Clazz>(`/clazz/${clazzId}`, clazz)
+      .subscribe(
+        () => console.log('更新成功'),
+        error => console.log(error));
   }
 }

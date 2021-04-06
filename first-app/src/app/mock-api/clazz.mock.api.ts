@@ -99,6 +99,8 @@ export class ClazzMockApi implements MockApiInterface {
         result: (urlMatches: string[], options: RequestOptions) => {
           const id = +urlMatches[1];
           const clazz = options.body as Clazz;
+          console.log('接收到了id', id);
+          console.log('接收到的clazz', clazz);
           return {
             id,
             name: clazz.name,
