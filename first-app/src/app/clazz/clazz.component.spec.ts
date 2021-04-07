@@ -33,7 +33,7 @@ describe('ClazzComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create', () => {
+  fit('should create', () => {
     expect(component).toBeTruthy();
     getTestScheduler().flush();
     fixture.detectChanges();

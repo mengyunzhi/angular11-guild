@@ -49,4 +49,16 @@ export class ClazzComponent implements OnInit {
         console.log(pageData);
       });
   }
+
+  onDelete(index: number, clazzId: number): void {
+    console.log('onDelete called', index, clazzId);
+    const result = confirm('该操作不可逆，请确认');
+    if (result) {
+      this.httpClient.delete<void>('/clazz/' + clazzId.toString())
+        .subscribe(() => {
+          console.log('删除成功');
+          this.pageData.content.splice(index, 1);
+        }, error => console.log('删除失败', error));
+    }
+  }
 }

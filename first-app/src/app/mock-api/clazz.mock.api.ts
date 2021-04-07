@@ -110,6 +110,10 @@ export class ClazzMockApi implements MockApiInterface {
             } as Teacher
           } as Clazz;
         }
+      },
+      {
+        method: 'DELETE',
+        url: '/clazz/(\\d+)'
       }
     ];
   }
