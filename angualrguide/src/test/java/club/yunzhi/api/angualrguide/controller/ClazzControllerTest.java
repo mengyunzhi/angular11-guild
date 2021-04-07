@@ -5,17 +5,25 @@ import club.yunzhi.api.angualrguide.entity.Clazz;
 import club.yunzhi.api.angualrguide.entity.Teacher;
 import club.yunzhi.api.angualrguide.service.ClazzService;
 import net.bytebuddy.utility.RandomString;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+import org.mockito.ArgumentCaptor;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 
@@ -28,6 +36,41 @@ class ClazzControllerTest {
 
   @MockBean
   ClazzService clazzService;
+
+  public static Clazz getOneClazz() {
+    Clazz clazz = new Clazz();
+    clazz.setId(new Random().nextLong());
+    clazz.setName(RandomString.make(4));
+    clazz.setTeacher(TeacherControllerTest.getOneTeacher());
+    return clazz;
+  }
+
+  @Test
+  void page() throws Exception {
+    List<Clazz> clazzes = new ArrayList<>();
+    for (int i = 0; i < 10; i++) {
+      clazzes.add(ClazzControllerTest.getOneClazz());
+    }
+
+    Page<Clazz> clazzPage = new PageImpl<Clazz>(clazzes, PageRequest.of(0, 20), 200);
+    Mockito.doReturn(clazzPage).when(this.clazzService).pageOfCurrentTeacher(Mockito.any(Pageable.class));
+
+    this.mockMvc.perform(MockMvcRequestBuilders.get(this.url + "/page")
+        .contentType(MediaType.APPLICATION_JSON)
+        .param("page", "0")
+        .param("size", "10"))
+        .andExpect(MockMvcResultMatchers.jsonPath(".content[0].id").isNumber())
+        .andExpect(MockMvcResultMatchers.jsonPath(".content[0].name").isString())
+        .andExpect(MockMvcResultMatchers.jsonPath(".content[0].teacher.id").isNumber())
+        .andExpect(MockMvcResultMatchers.jsonPath(".content[0].teacher.name").isString())
+    ;
+
+    ArgumentCaptor<Pageable> pageableArgumentCaptor = ArgumentCaptor.forClass(Pageable.class);
+    Mockito.verify(this.clazzService).pageOfCurrentTeacher(pageableArgumentCaptor.capture());
+    Assertions.assertEquals(10, pageableArgumentCaptor.getValue().getPageSize());
+    Assertions.assertEquals(0, pageableArgumentCaptor.getValue().getPageNumber());
+  }
+
 
   @Test
   void save() throws Exception {
@@ -49,6 +92,8 @@ class ClazzControllerTest {
         .andExpect(MockMvcResultMatchers.jsonPath("name").isString())
         .andExpect(MockMvcResultMatchers.jsonPath("teacher.id").isNumber())
         .andExpect(MockMvcResultMatchers.jsonPath("teacher.name").isString())
-        ;
+    ;
   }
+
+
 }

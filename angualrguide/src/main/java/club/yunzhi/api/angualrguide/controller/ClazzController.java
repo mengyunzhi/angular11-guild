@@ -19,6 +19,8 @@ public class ClazzController {
     this.clazzService = clazzService;
   }
 
+  @GetMapping("page")
+  @JsonView(PageJsonView.class)
   public Page<Clazz> page(@PageableDefault(sort = "id", direction = Sort.Direction.DESC) Pageable pageable) {
     return this.clazzService.pageOfCurrentTeacher(pageable);
   }
@@ -31,5 +33,8 @@ public class ClazzController {
   }
 
   private interface SaveJsonView extends Clazz.TeacherJsonView {
+  }
+
+  private interface PageJsonView extends Clazz.TeacherJsonView {
   }
 }

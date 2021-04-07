@@ -1,6 +1,7 @@
 package club.yunzhi.api.angualrguide.controller;
 
 import club.yunzhi.api.angualrguide.entity.Teacher;
+import net.bytebuddy.utility.RandomString;
 import org.json.JSONObject;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -22,6 +23,7 @@ import org.springframework.web.client.RestTemplate;
 
 import java.io.UnsupportedEncodingException;
 import java.util.Base64;
+import java.util.Random;
 import java.util.UUID;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
@@ -39,6 +41,16 @@ class TeacherControllerTest {
 
   @Autowired
   RestTemplateBuilder restTemplateBuilder;
+
+  public static Teacher getOneTeacher() {
+    Teacher teacher = new Teacher();
+    teacher.setId(new Random().nextLong());
+    teacher.setName(RandomString.make(4));
+    teacher.setUsername(RandomString.make(6));
+    teacher.setEmail(RandomString.make(2) + "@" + RandomString.make(3));
+    teacher.setSex(new Random().nextBoolean());
+    return teacher;
+  }
 
   @Test
   void getById() throws Exception {
