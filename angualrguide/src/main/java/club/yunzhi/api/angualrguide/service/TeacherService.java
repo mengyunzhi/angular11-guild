@@ -27,6 +27,12 @@ public interface TeacherService {
   Optional<Teacher> getUserByToken(String authToken);
 
   /**
+   * 获取当前认证用户
+   * @return 未认证则返回empty
+   */
+  Optional<Teacher> getCurrentAuditor();
+
+  /**
    * 是否为认证token
    *
    * @param authToken 认证token

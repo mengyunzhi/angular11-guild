@@ -3,6 +3,10 @@ package club.yunzhi.api.angualrguide.controller;
 import club.yunzhi.api.angualrguide.entity.Clazz;
 import club.yunzhi.api.angualrguide.service.ClazzService;
 import com.fasterxml.jackson.annotation.JsonView;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
@@ -13,6 +17,10 @@ public class ClazzController {
 
   public ClazzController(ClazzService clazzService) {
     this.clazzService = clazzService;
+  }
+
+  public Page<Clazz> page(@PageableDefault(sort = "id", direction = Sort.Direction.DESC) Pageable pageable) {
+    return this.clazzService.pageOfCurrentTeacher(pageable);
   }
 
   @PostMapping

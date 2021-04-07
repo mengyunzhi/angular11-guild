@@ -35,7 +35,7 @@ public class TeacherServiceImpl implements TeacherService, UserDetailsService, A
    * 绑定xAuthToken
    *
    * @param xAuthToken token
-   * @param teacher       匿名用户传入null
+   * @param teacher    匿名用户传入null
    */
   @Override
   public void bindAuthTokenLoginUsername(String xAuthToken, Teacher teacher, boolean auth) {
