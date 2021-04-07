@@ -15,7 +15,7 @@ export class EditComponent implements OnInit {
    * 班级名称.
    */
   nameFormControl = new FormControl('', Validators.required);
-  teacherId: number | undefined;
+
   /**
    * 表单组，用于存放多个formControl
    */
@@ -31,7 +31,8 @@ export class EditComponent implements OnInit {
 
   ngOnInit(): void {
     const id = this.activatedRoute.snapshot.params.id;
-    // 调用loadById方法，获取预编辑的班级
+    // todo: 调用loadById方法，获取预编辑的班级
+    console.log('ngOnInit方法获取路由ID及调用loadById尚未测试，请在集成测试中补充代码');
   }
 
   /**
@@ -45,14 +46,12 @@ export class EditComponent implements OnInit {
       .subscribe(clazz => {
         console.log('接收到了clazz', clazz);
         this.nameFormControl.patchValue(clazz.name);
-        this.teacherId = clazz.teacher.id;
         this.formGroup.get('teacherId')?.setValue(clazz.teacher.id);
       }, error => console.log(error));
   }
 
   onTeacherChange($event: number): void {
     console.log('接收到了选择的teacherId', $event);
-    this.teacherId = $event;
     this.formGroup.get('teacherId')?.setValue($event);
   }
 

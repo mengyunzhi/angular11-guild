@@ -43,7 +43,7 @@ describe('KlassSelectComponent', () => {
       .compileComponents();
   });
 
-  fit('响应式表单', () => {
+  it('响应式表单', () => {
     // 创建一个组件夹具（容器），这就像我们要测试显卡是否正常功能时，需要有一台供显卡工作的电脑一样。
     // testFixture便是TestComponent这块显卡赖以工作的电脑
     console.log('开始创建父组件');

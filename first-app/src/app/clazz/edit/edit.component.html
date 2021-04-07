@@ -12,10 +12,7 @@
   <div class="mb-3 row">
     <label class="col-sm-2 col-form-label">班主任</label>
     <div class="col-sm-10">
-      <app-klass-select [id]="teacherId" (beChange)="onTeacherChange($event)"></app-klass-select>
-      <small class="text-danger" *ngIf="teacherId === undefined">
-        必须指定一个班主任
-      </small>
+      <app-klass-select formControlName="teacherId"></app-klass-select>
     </div>
   </div>
   <div class="mb-3 row">

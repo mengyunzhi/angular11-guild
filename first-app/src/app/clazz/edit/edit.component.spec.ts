@@ -29,7 +29,7 @@ describe('EditComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create', () => {
+  fit('should create', () => {
     expect(component).toBeTruthy();
     // 在该代码前进行了组件初始化，模拟请求了教师列表数据。
     // 此代码将返回还未响应的所有请求，包含：教师列表数据
