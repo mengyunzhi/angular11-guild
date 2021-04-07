@@ -46,6 +46,25 @@ class ClazzControllerTest {
   }
 
   @Test
+  void get() throws Exception {
+    Clazz clazz = ClazzControllerTest.getOneClazz();
+    long id = new Random().nextLong();
+    Mockito.doReturn(true).when(this.clazzService).checkAccess(Mockito.any());
+    Mockito.doReturn(clazz).when(this.clazzService).getById(id);
+
+    this.mockMvc.perform(MockMvcRequestBuilders.get(this.url + "/" + id)
+        .contentType(MediaType.APPLICATION_JSON))
+        .andExpect(MockMvcResultMatchers.jsonPath("id").isNumber())
+        .andExpect(MockMvcResultMatchers.jsonPath("name").isString())
+        .andExpect(MockMvcResultMatchers.jsonPath("teacher.id").isNumber())
+        .andExpect(MockMvcResultMatchers.jsonPath("teacher.name").isString())
+    ;
+
+    ArgumentCaptor<Long> longArgumentCaptor = ArgumentCaptor.forClass(Long.class);
+
+  }
+
+  @Test
   void page() throws Exception {
     List<Clazz> clazzes = new ArrayList<>();
     for (int i = 0; i < 10; i++) {

@@ -1,5 +1,7 @@
 package club.yunzhi.api.angualrguide.controller;
 
+import club.yunzhi.api.angualrguide.annotation.OwnerKey;
+import club.yunzhi.api.angualrguide.annotation.OwnerSecured;
 import club.yunzhi.api.angualrguide.entity.Clazz;
 import club.yunzhi.api.angualrguide.service.ClazzService;
 import com.fasterxml.jackson.annotation.JsonView;
@@ -17,6 +19,12 @@ public class ClazzController {
 
   public ClazzController(ClazzService clazzService) {
     this.clazzService = clazzService;
+  }
+
+  @OwnerSecured(ClazzService.class)
+  @GetMapping("{id}")
+  public Clazz getById(@OwnerKey @PathVariable Long id) {
+    return this.clazzService.getById(id);
   }
 
   @GetMapping("page")

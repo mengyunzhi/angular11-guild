@@ -8,6 +8,9 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.EntityNotFoundException;
+import java.util.Optional;
+
 @Service
 public class ClazzServiceImpl implements ClazzService {
   private final ClazzRepository clazzRepository;
@@ -43,5 +46,27 @@ public class ClazzServiceImpl implements ClazzService {
   @Override
   public Clazz save(Clazz clazz) {
     return this.clazzRepository.save(clazz);
+  }
+
+  @Override
+  public Clazz getById(Long id) {
+    Optional<Clazz> clazzOptional = this.clazzRepository.findById(id);
+    if (!clazzOptional.isPresent()) {
+      throw new EntityNotFoundException();
+    }
+
+    return clazzOptional.get();
+  }
+
+  @Override
+  public boolean checkAccess(Object key) {
+    Long id = (Long) key;
+    Teacher teacher = this.teacherService.getCurrentAuditor().get();
+    Optional<Clazz> clazzOptional = this.clazzRepository.findById(id);
+    if (clazzOptional.isPresent()
+        && clazzOptional.get().getCreateTeacher().getId().equals(teacher.getId())) {
+      return true;
+    }
+    return false;
   }
 }
