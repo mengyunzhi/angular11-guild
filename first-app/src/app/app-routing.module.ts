@@ -12,6 +12,13 @@ const routes: Routes = [
     component: WelcomeComponent
   },
   {
+    path: 'clazz',
+    loadChildren: () => import('./clazz/clazz.module').then(m => {
+      console.log('开始加载，调用ClazzModule');
+      return m.ClazzModule;
+    })
+  },
+  {
     path: 'teacher',
     component: AppComponent
   },
