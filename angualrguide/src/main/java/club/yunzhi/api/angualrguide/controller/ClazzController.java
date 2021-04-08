@@ -23,6 +23,13 @@ public class ClazzController {
 
   @OwnerSecured(ClazzService.class)
   @JsonView(GetJsonView.class)
+  @DeleteMapping("{id}")
+  public void delete(@OwnerKey @PathVariable Long id) {
+
+  }
+
+  @OwnerSecured(ClazzService.class)
+  @JsonView(GetJsonView.class)
   @GetMapping("{id}")
   public Clazz getById(@OwnerKey @PathVariable Long id) {
     return this.clazzService.getById(id);
@@ -42,7 +49,9 @@ public class ClazzController {
   }
 
   @PutMapping("{id}")
-  public Clazz update(@PathVariable Long id, @RequestBody Clazz clazz) {
+  @OwnerSecured(ClazzService.class)
+  @JsonView(UpdateJsonView.class)
+  public Clazz update(@OwnerKey @PathVariable Long id, @RequestBody Clazz clazz) {
     return this.clazzService.update(id, clazz);
   }
 
@@ -53,5 +62,8 @@ public class ClazzController {
   }
 
   private interface PageJsonView extends Clazz.TeacherJsonView {
+  }
+
+  private interface UpdateJsonView extends Clazz.TeacherJsonView {
   }
 }

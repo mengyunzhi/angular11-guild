@@ -4,10 +4,15 @@ package club.yunzhi.api.angualrguide.controller;
 import club.yunzhi.api.angualrguide.entity.Clazz;
 import club.yunzhi.api.angualrguide.entity.Teacher;
 import club.yunzhi.api.angualrguide.service.ClazzService;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import net.bytebuddy.utility.RandomString;
+import org.apache.tomcat.util.json.JSONParser;
+import org.json.JSONObject;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
+import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -21,6 +26,7 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
+import sun.misc.CharacterEncoder;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -60,6 +66,7 @@ class ClazzControllerTest extends ControllerTest {
     ;
 
     ArgumentCaptor<Long> longArgumentCaptor = ArgumentCaptor.forClass(Long.class);
+    Mockito.verify(this.clazzService).getById(longArgumentCaptor.capture());
     Assertions.assertEquals(id, longArgumentCaptor.getValue());
   }
 
@@ -114,5 +121,33 @@ class ClazzControllerTest extends ControllerTest {
     ;
   }
 
+  @Test
+  void update() throws Exception {
+    Clazz resultClazz = ClazzControllerTest.getOneClazz();
+    long id = new Random().nextLong();
+    Mockito.doReturn(resultClazz).when(this.clazzService).update(Mockito.anyLong(), Mockito.any(Clazz.class));
 
+    Clazz clazz = new Clazz();
+    clazz.setName(RandomString.make(6));
+    clazz.setTeacher(new Teacher());
+    clazz.getTeacher().setId(new Random().nextLong());
+
+    this.mockMvc.perform(MockMvcRequestBuilders.put(this.url + "/" + id)
+        .contentType(MediaType.APPLICATION_JSON)
+        .characterEncoding("utf-8")
+        .content(new ObjectMapper().setSerializationInclusion(JsonInclude.Include.NON_NULL).writeValueAsString(clazz)))
+        .andExpect(MockMvcResultMatchers.status().isOk())
+        .andExpect(MockMvcResultMatchers.jsonPath("id").isNumber())
+        .andExpect(MockMvcResultMatchers.jsonPath("name").isString())
+        .andExpect(MockMvcResultMatchers.jsonPath("teacher.id").isNumber())
+        .andExpect(MockMvcResultMatchers.jsonPath("teacher.name").isString())
+    ;
+
+    ArgumentCaptor<Long> longArgumentCaptor = ArgumentCaptor.forClass(Long.class);
+    ArgumentCaptor<Clazz> clazzArgumentCaptor = ArgumentCaptor.forClass(Clazz.class);
+    Mockito.verify(this.clazzService).update(longArgumentCaptor.capture(), clazzArgumentCaptor.capture());
+    Assertions.assertEquals(id, longArgumentCaptor.getValue());
+    Assertions.assertEquals(clazz.getName(), clazzArgumentCaptor.getValue().getName());
+    Assertions.assertEquals(clazz.getTeacher().getId(), clazzArgumentCaptor.getValue().getTeacher().getId());
+  }
 }

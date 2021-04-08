@@ -60,8 +60,10 @@ public class ClazzServiceImpl implements ClazzService {
 
   @Override
   public Clazz update(Long id, Clazz clazz) {
-
-    return null;
+    Clazz oldClazz = this.clazzRepository.findById(id).orElseThrow(() -> new EntityNotFoundException());
+    oldClazz.setName(clazz.getName());
+    oldClazz.getTeacher().setId(clazz.getTeacher().getId());
+    return this.clazzRepository.save(oldClazz);
   }
 
   @Override
