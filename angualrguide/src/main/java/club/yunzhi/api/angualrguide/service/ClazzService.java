@@ -6,9 +6,11 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 public interface ClazzService extends OwnerAuthority {
+  void deleteById(Long id);
   Clazz getOneSavedClazz();
   Clazz getOneUnSavedClazz();
   Page<Clazz> pageOfCurrentTeacher(Pageable pageable);
+
   Clazz save(Clazz clazz);
 
   Clazz getById(Long id);

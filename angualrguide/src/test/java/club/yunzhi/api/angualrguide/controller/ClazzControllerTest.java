@@ -7,16 +7,11 @@ import club.yunzhi.api.angualrguide.service.ClazzService;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import net.bytebuddy.utility.RandomString;
-import org.apache.tomcat.util.json.JSONParser;
-import org.json.JSONObject;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
-import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -26,7 +21,6 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
-import sun.misc.CharacterEncoder;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -50,10 +44,18 @@ class ClazzControllerTest extends ControllerTest {
   }
 
   @Test
+  void delete() throws Exception {
+    long id = new Random().nextLong();
+    Mockito.doNothing().when(this.clazzService).deleteById(id);
+
+    this.mockMvc.perform(MockMvcRequestBuilders.delete(this.url + "/" + id))
+        .andExpect(MockMvcResultMatchers.status().isOk());
+  }
+
+  @Test
   void get() throws Exception {
     Clazz clazz = ClazzControllerTest.getOneClazz();
     long id = new Random().nextLong();
-    Mockito.doReturn(true).when(this.clazzService).checkAccess(Mockito.any());
     Mockito.doReturn(clazz).when(this.clazzService).getById(id);
 
     this.mockMvc.perform(MockMvcRequestBuilders.get(this.url + "/" + id)

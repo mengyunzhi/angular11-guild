@@ -25,7 +25,7 @@ public class ClazzController {
   @JsonView(GetJsonView.class)
   @DeleteMapping("{id}")
   public void delete(@OwnerKey @PathVariable Long id) {
-
+    this.clazzService.deleteById(id);
   }
 
   @OwnerSecured(ClazzService.class)

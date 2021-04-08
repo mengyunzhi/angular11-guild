@@ -22,6 +22,11 @@ public class ClazzServiceImpl implements ClazzService {
   }
 
   @Override
+  public void deleteById(Long id) {
+    this.clazzRepository.deleteById(id);
+  }
+
+  @Override
   public Clazz getOneSavedClazz() {
     Clazz clazz = this.getOneUnSavedClazz();
     this.clazzRepository.save(clazz);
