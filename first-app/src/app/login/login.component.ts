@@ -36,7 +36,7 @@ export class LoginComponent implements OnInit {
 
     this.httpClient
       .get<Teacher>(
-        'http://angular.api.codedemo.club:81/teacher/login',
+        '/teacher/login',
         {headers: httpHeaders})
       .subscribe(teacher => this.beLogin.emit(teacher),
         error => {

@@ -5,6 +5,7 @@ import {FormsModule} from '@angular/forms';
 import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
 import {Teacher} from '../entity/teacher';
 import {XAuthTokenInterceptor} from '../x-auth-token.interceptor';
+import {ApiInterceptor} from '../api.interceptor';
 
 describe('LoginComponent', () => {
   let component: LoginComponent;
@@ -18,7 +19,8 @@ describe('LoginComponent', () => {
         HttpClientModule
       ],
       providers: [
-        {provide: HTTP_INTERCEPTORS, useClass: XAuthTokenInterceptor, multi: true}
+        {provide: HTTP_INTERCEPTORS, useClass: XAuthTokenInterceptor, multi: true},
+        {provide: HTTP_INTERCEPTORS, useClass: ApiInterceptor, multi: true}
       ]
     })
       .compileComponents();

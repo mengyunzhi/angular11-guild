@@ -1,7 +1,8 @@
 import {TestBed} from '@angular/core/testing';
 import {AppComponent} from './app.component';
-import {HttpClientModule} from '@angular/common/http';
+import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
 import {RouterTestingModule} from '@angular/router/testing';
+import {ApiInterceptor} from './api.interceptor';
 
 describe('AppComponent', () => {
   beforeEach(async () => {
@@ -12,6 +13,9 @@ describe('AppComponent', () => {
       ],
       declarations: [
         AppComponent
+      ],
+      providers: [
+        {provide: HTTP_INTERCEPTORS, useClass: ApiInterceptor, multi: true}
       ],
     }).compileComponents();
   });

@@ -14,7 +14,7 @@ export class PersonalCenterComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    const url = 'http://angular.api.codedemo.club:81/teacher/me';
+    const url = '/teacher/me';
     this.httpClient.get<Teacher>(url)
       .subscribe(teacher => {
           console.log('请求当前登录用户成功');

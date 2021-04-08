@@ -15,6 +15,7 @@ import { SexPipe } from './personal-center/sex.pipe';
 import {XAuthTokenInterceptor} from './x-auth-token.interceptor';
 import {WelcomeComponent} from './welcome.component';
 import { NavComponent } from './nav/nav.component';
+import {ApiInterceptor} from './api.interceptor';
 
 
 @NgModule({
@@ -37,7 +38,8 @@ import { NavComponent } from './nav/nav.component';
     RouterModule
   ],
   providers: [
-    {provide: HTTP_INTERCEPTORS, useClass: XAuthTokenInterceptor, multi: true}
+    {provide: HTTP_INTERCEPTORS, useClass: XAuthTokenInterceptor, multi: true},
+    {provide: HTTP_INTERCEPTORS, useClass: ApiInterceptor, multi: true}
   ],
   bootstrap: [IndexComponent]
 })

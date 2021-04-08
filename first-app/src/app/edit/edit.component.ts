@@ -21,7 +21,7 @@ export class EditComponent implements OnInit {
     const id = this.activeRoute.snapshot.params.id;
 
     // 拼接请求URL
-    const url = 'http://angular.api.codedemo.club:81/teacher/' + id;
+    const url = '/teacher/' + id;
     // 发起请求，成功时并打印请求结果，失败时打印失败结果
     this.httpClient.get<Teacher>(url)
       .subscribe(data => this.teacher = data,
@@ -32,7 +32,7 @@ export class EditComponent implements OnInit {
   onSubmit(): void {
     console.log(this.teacher);
     // 获取ID，拼接URL
-    const url = 'http://angular.api.codedemo.club:81/teacher/' +
+    const url = '/teacher/' +
       this.activeRoute.snapshot.params.id;
     // 发起请求，更新教师，成功时打印请求结果并刷新教师列表查看效果，失败时打印失败结果
     this.httpClient.put(url, this.teacher)

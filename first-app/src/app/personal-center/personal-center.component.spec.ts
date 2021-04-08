@@ -2,7 +2,8 @@ import {ComponentFixture, TestBed} from '@angular/core/testing';
 
 import {PersonalCenterComponent} from './personal-center.component';
 import {SexPipe} from './sex.pipe';
-import {HttpClientModule} from '@angular/common/http';
+import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
+import {ApiInterceptor} from '../api.interceptor';
 
 describe('PersonalCenterComponent', () => {
   let component: PersonalCenterComponent;
@@ -11,7 +12,10 @@ describe('PersonalCenterComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [PersonalCenterComponent, SexPipe],
-      imports: [HttpClientModule]
+      imports: [HttpClientModule],
+      providers: [
+        {provide: HTTP_INTERCEPTORS, useClass: ApiInterceptor, multi: true}
+      ]
     })
       .compileComponents();
   });
