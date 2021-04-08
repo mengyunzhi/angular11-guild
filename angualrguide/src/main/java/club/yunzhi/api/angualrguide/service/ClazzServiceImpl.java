@@ -59,6 +59,12 @@ public class ClazzServiceImpl implements ClazzService {
   }
 
   @Override
+  public Clazz update(Long id, Clazz clazz) {
+
+    return null;
+  }
+
+  @Override
   public boolean checkAccess(Object key) {
     Long id = (Long) key;
     Teacher teacher = this.teacherService.getCurrentAuditor().get();

@@ -22,6 +22,7 @@ public class ClazzController {
   }
 
   @OwnerSecured(ClazzService.class)
+  @JsonView(GetJsonView.class)
   @GetMapping("{id}")
   public Clazz getById(@OwnerKey @PathVariable Long id) {
     return this.clazzService.getById(id);
@@ -38,6 +39,14 @@ public class ClazzController {
   @JsonView(SaveJsonView.class)
   public Clazz save(@RequestBody Clazz clazz) {
     return this.clazzService.save(clazz);
+  }
+
+  @PutMapping("{id}")
+  public Clazz update(@PathVariable Long id, @RequestBody Clazz clazz) {
+    return this.clazzService.update(id, clazz);
+  }
+
+  private interface GetJsonView extends Clazz.TeacherJsonView {
   }
 
   private interface SaveJsonView extends Clazz.TeacherJsonView {

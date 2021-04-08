@@ -26,12 +26,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-
-@SpringBootTest
-@AutoConfigureMockMvc
-class ClazzControllerTest {
+class ClazzControllerTest extends ControllerTest {
   @Autowired
   MockMvc mockMvc;
+
   private String url = "/clazz";
 
   @MockBean
@@ -54,6 +52,7 @@ class ClazzControllerTest {
 
     this.mockMvc.perform(MockMvcRequestBuilders.get(this.url + "/" + id)
         .contentType(MediaType.APPLICATION_JSON))
+        .andExpect(MockMvcResultMatchers.status().isOk())
         .andExpect(MockMvcResultMatchers.jsonPath("id").isNumber())
         .andExpect(MockMvcResultMatchers.jsonPath("name").isString())
         .andExpect(MockMvcResultMatchers.jsonPath("teacher.id").isNumber())
@@ -61,7 +60,7 @@ class ClazzControllerTest {
     ;
 
     ArgumentCaptor<Long> longArgumentCaptor = ArgumentCaptor.forClass(Long.class);
-
+    Assertions.assertEquals(id, longArgumentCaptor.getValue());
   }
 
   @Test
@@ -78,6 +77,7 @@ class ClazzControllerTest {
         .contentType(MediaType.APPLICATION_JSON)
         .param("page", "0")
         .param("size", "10"))
+        .andExpect(MockMvcResultMatchers.status().isOk())
         .andExpect(MockMvcResultMatchers.jsonPath(".content[0].id").isNumber())
         .andExpect(MockMvcResultMatchers.jsonPath(".content[0].name").isString())
         .andExpect(MockMvcResultMatchers.jsonPath(".content[0].teacher.id").isNumber())

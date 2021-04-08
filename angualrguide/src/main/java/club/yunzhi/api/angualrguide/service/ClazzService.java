@@ -12,4 +12,6 @@ public interface ClazzService extends OwnerAuthority {
   Clazz save(Clazz clazz);
 
   Clazz getById(Long id);
+
+  Clazz update(Long id, Clazz clazz);
 }
