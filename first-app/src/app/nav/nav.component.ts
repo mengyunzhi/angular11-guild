@@ -18,7 +18,7 @@ export class NavComponent implements OnInit {
   }
 
   onSubmit(): void {
-    const url = 'http://angular.api.codedemo.club/teacher/logout';
+    const url = 'http://angular.api.codedemo.club:81/teacher/logout';
     this.httpClient.get(url)
       .subscribe(() => this.beLogout.emit(undefined),
         error => console.log('logout error', error));
