@@ -67,7 +67,7 @@ public class ClazzServiceImpl implements ClazzService {
   public Clazz update(Long id, Clazz clazz) {
     Clazz oldClazz = this.clazzRepository.findById(id).orElseThrow(() -> new EntityNotFoundException());
     oldClazz.setName(clazz.getName());
-    oldClazz.getTeacher().setId(clazz.getTeacher().getId());
+    oldClazz.setTeacher(clazz.getTeacher());
     return this.clazzRepository.save(oldClazz);
   }
 

@@ -7,15 +7,17 @@ import {XAuthTokenInterceptor} from '../../x-auth-token.interceptor';
 import {ApiInterceptor} from '../../api.interceptor';
 import {CommonModule} from '@angular/common';
 import {KlassSelectComponent} from '../klass-select/klass-select.component';
+import {RouterTestingModule} from '@angular/router/testing';
 
-describe('AddComponent', () => {
+describe('clazz -> AddComponent', () => {
   let component: AddComponent;
   let fixture: ComponentFixture<AddComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [AddComponent, KlassSelectComponent],
-      imports: [FormsModule, HttpClientModule, CommonModule, ReactiveFormsModule],
+      imports: [FormsModule, HttpClientModule, CommonModule, ReactiveFormsModule,
+        RouterTestingModule],
       // 加入自定义的XAuthTokenInterceptor，让其自动为我们处理认证的header
       providers: [
         {provide: HTTP_INTERCEPTORS, multi: true, useClass: XAuthTokenInterceptor},

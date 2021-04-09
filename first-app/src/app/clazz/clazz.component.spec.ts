@@ -6,6 +6,7 @@ import {ClazzMockApi} from '../mock-api/clazz.mock.api';
 import {getTestScheduler} from 'jasmine-marbles';
 import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
 import {PageComponent} from './page/page.component';
+import {RouterTestingModule} from '@angular/router/testing';
 
 describe('ClazzComponent', () => {
   let component: ClazzComponent;
@@ -15,7 +16,8 @@ describe('ClazzComponent', () => {
     await TestBed.configureTestingModule({
       declarations: [ClazzComponent, PageComponent],
       imports: [
-        HttpClientModule
+        HttpClientModule,
+        RouterTestingModule
       ],
       providers: [
         {

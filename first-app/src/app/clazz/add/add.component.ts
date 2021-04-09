@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {Teacher} from '../../entity/teacher';
 import {Clazz} from '../../entity/clazz';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-add',
@@ -17,7 +18,8 @@ export class AddComponent implements OnInit {
 
   teachers = new Array<Teacher>();
 
-  constructor(private httpClient: HttpClient) {
+  constructor(private httpClient: HttpClient,
+              private router: Router) {
   }
 
   ngOnInit(): void {
@@ -32,7 +34,7 @@ export class AddComponent implements OnInit {
       teacher: new Teacher({id: this.clazz.teacherId})
     });
     this.httpClient.post(this.url, newClazz)
-      .subscribe(clazz => console.log('保存成功', clazz),
+      .subscribe(clazz => this.router.navigateByUrl('/clazz'),
         error => console.log('保存失败', error));
   }
 

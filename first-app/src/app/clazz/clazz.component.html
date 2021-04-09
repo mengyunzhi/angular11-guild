@@ -1,6 +1,6 @@
 <div class="row">
   <div class="col-12 text-right">
-    <a class="btn btn-primary mr-2"><i class="fas fa-plus"></i>新增</a>
+    <a class="btn btn-primary mr-2" routerLink="./add"><i class="fas fa-plus"></i>新增</a>
   </div>
 </div>
 
@@ -19,7 +19,7 @@
     <td>{{clazz.name}}</td>
     <td>{{clazz.teacher.name}}</td>
     <td>
-      <a class="btn btn-outline-primary btn-sm">
+      <a class="btn btn-outline-primary btn-sm" routerLink="edit/{{clazz.id}}">
         <i class="fas fa-pen"></i>编辑
       </a>
       <span class="btn btn-sm btn-outline-danger" (click)="onDelete(index, clazz.id)">

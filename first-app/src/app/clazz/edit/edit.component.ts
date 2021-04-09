@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {ActivatedRoute} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import {HttpClient} from '@angular/common/http';
 import {Clazz} from '../../entity/clazz';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
@@ -26,13 +26,13 @@ export class EditComponent implements OnInit {
   });
 
   constructor(private activatedRoute: ActivatedRoute,
+              private router: Router,
               private httpClient: HttpClient) {
   }
 
   ngOnInit(): void {
     const id = this.activatedRoute.snapshot.params.id;
-    // todo: 调用loadById方法，获取预编辑的班级
-    console.log('ngOnInit方法获取路由ID及调用loadById尚未测试，请在集成测试中补充代码');
+    this.loadById(+id);
   }
 
   /**
@@ -66,7 +66,7 @@ export class EditComponent implements OnInit {
     });
     this.httpClient.put<Clazz>(`/clazz/${clazzId}`, clazz)
       .subscribe(
-        () => console.log('更新成功'),
+        () => this.router.navigate(['../../'], {relativeTo: this.activatedRoute}),
         error => console.log(error));
   }
 }

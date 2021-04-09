@@ -12,6 +12,14 @@ const routes: Routes = [
   {
     path: '',
     component: ClazzComponent
+  },
+  {
+    path: 'add',
+    component: AddComponent
+  },
+  {
+    path: 'edit/:id',
+    component: EditComponent
   }
 ];
 
