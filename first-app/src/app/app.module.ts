@@ -16,6 +16,7 @@ import {XAuthTokenInterceptor} from './x-auth-token.interceptor';
 import {WelcomeComponent} from './welcome.component';
 import { NavComponent } from './nav/nav.component';
 import {ApiInterceptor} from './api.interceptor';
+import {UnAuthInterceptor} from './un-auth.interceptor';
 
 
 @NgModule({
@@ -39,7 +40,8 @@ import {ApiInterceptor} from './api.interceptor';
   ],
   providers: [
     {provide: HTTP_INTERCEPTORS, useClass: XAuthTokenInterceptor, multi: true},
-    {provide: HTTP_INTERCEPTORS, useClass: ApiInterceptor, multi: true}
+    {provide: HTTP_INTERCEPTORS, useClass: ApiInterceptor, multi: true},
+    {provide: HTTP_INTERCEPTORS, useClass: UnAuthInterceptor, multi: true}
   ],
   bootstrap: [IndexComponent]
 })
