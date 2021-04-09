@@ -7,6 +7,13 @@ import {ClazzMockApi} from '../../mock-api/clazz.mock.api';
 import {TeacherMockApi} from '../../mock-api/teacher.mock.api';
 import {KlassSelectComponent} from '../klass-select/klass-select.component';
 import {RouterTestingModule} from '@angular/router/testing';
+import {Component} from '@angular/core';
+
+@Component({
+  template: 'test'
+})
+class TestComponent {
+}
 
 describe('clazz add with mockapi', () => {
   let component: AddComponent;
@@ -15,7 +22,13 @@ describe('clazz add with mockapi', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [AddComponent, KlassSelectComponent],
-      imports: [HttpClientModule, FormsModule, ReactiveFormsModule, RouterTestingModule],
+      imports: [HttpClientModule, FormsModule, ReactiveFormsModule,
+        RouterTestingModule.withRoutes([
+          {
+            path: 'clazz',
+            component: TestComponent
+          }
+        ])],
       providers: [
         {
           provide: HTTP_INTERCEPTORS,

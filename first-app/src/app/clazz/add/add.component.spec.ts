@@ -8,16 +8,29 @@ import {ApiInterceptor} from '../../api.interceptor';
 import {CommonModule} from '@angular/common';
 import {KlassSelectComponent} from '../klass-select/klass-select.component';
 import {RouterTestingModule} from '@angular/router/testing';
+import {Component} from '@angular/core';
+import {Route} from '@angular/router';
+
+@Component({
+  template: 'test'
+})
+class TestComponent {
+}
 
 describe('clazz -> AddComponent', () => {
   let component: AddComponent;
   let fixture: ComponentFixture<AddComponent>;
-
+  const routes: Route[] = [
+    {
+      path: 'clazz',
+      component: TestComponent
+    }
+  ];
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [AddComponent, KlassSelectComponent],
+      declarations: [AddComponent, KlassSelectComponent, TestComponent],
       imports: [FormsModule, HttpClientModule, CommonModule, ReactiveFormsModule,
-        RouterTestingModule],
+        RouterTestingModule.withRoutes(routes)],
       // 加入自定义的XAuthTokenInterceptor，让其自动为我们处理认证的header
       providers: [
         {provide: HTTP_INTERCEPTORS, multi: true, useClass: XAuthTokenInterceptor},
