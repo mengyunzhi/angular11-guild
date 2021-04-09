@@ -1,4 +1,4 @@
-<nav class="row justify-content-md-center">
+<nav class="row justify-content-md-center" [ngStyle]="{'visibility': inputPage.totalPages > 1 ? 'visible' : 'hidden'}">
   <ul class="pagination col-md-auto">
     <li [ngClass]="{disabled: inputPage.first}" class="page-item"><span class="page-link">上一页</span></li>
     <li *ngFor="let p of pages" [ngClass]="{active: currentPage === p}" class="page-item">
