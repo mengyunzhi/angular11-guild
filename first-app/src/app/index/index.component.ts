@@ -1,5 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {Teacher} from '../entity/teacher';
+import {AuthService} from '../service/auth.service';
 
 @Component({
   selector: 'app-index',
@@ -10,7 +11,8 @@ export class IndexComponent implements OnInit {
 
   login = false;
 
-  constructor() {
+  constructor(private authService: AuthService) {
+    console.log('index组件成功注入authService', authService);
   }
 
   ngOnInit(): void {
@@ -18,6 +20,13 @@ export class IndexComponent implements OnInit {
     if (window.sessionStorage.getItem('login') !== null) {
       this.login = true;
     }
+    this.authService.unAuthSubject
+      .subscribe(() => {
+        console.log('接收到未认证的通知');
+        if (this.login) {
+          this.login = false;
+        }
+      });
   }
 
   onLogin(teacher: Teacher): void {
