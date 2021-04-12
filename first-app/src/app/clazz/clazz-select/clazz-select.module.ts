@@ -9,6 +9,9 @@ import {ReactiveFormsModule} from '@angular/forms';
   imports: [
     CommonModule,
     ReactiveFormsModule
+  ],
+  exports: [
+    ClazzSelectComponent
   ]
 })
 export class ClazzSelectModule {

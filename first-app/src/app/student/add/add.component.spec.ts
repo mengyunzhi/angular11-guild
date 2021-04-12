@@ -2,6 +2,9 @@ import {ComponentFixture, TestBed} from '@angular/core/testing';
 
 import {AddComponent} from './add.component';
 import {ReactiveFormsModule} from '@angular/forms';
+import {ClazzSelectModule} from '../../clazz/clazz-select/clazz-select.module';
+import {MockApiTestingModule} from '../../mock-api/mock-api-testing.module';
+import {getTestScheduler} from 'jasmine-marbles';
 
 describe('student -> AddComponent', () => {
   let component: AddComponent;
@@ -11,7 +14,9 @@ describe('student -> AddComponent', () => {
     await TestBed.configureTestingModule({
       declarations: [AddComponent],
       imports: [
-        ReactiveFormsModule
+        ReactiveFormsModule,
+        ClazzSelectModule,
+        MockApiTestingModule
       ]
     })
       .compileComponents();
@@ -25,5 +30,7 @@ describe('student -> AddComponent', () => {
 
   fit('should create', () => {
     expect(component).toBeTruthy();
+    getTestScheduler().flush();
+    fixture.detectChanges();
   });
 });
