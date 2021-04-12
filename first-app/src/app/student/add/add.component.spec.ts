@@ -32,5 +32,7 @@ describe('student -> AddComponent', () => {
     expect(component).toBeTruthy();
     getTestScheduler().flush();
     fixture.detectChanges();
+
+    fixture.autoDetectChanges();
   });
 });
