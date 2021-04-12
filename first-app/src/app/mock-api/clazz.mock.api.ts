@@ -114,6 +114,21 @@ export class ClazzMockApi implements MockApiInterface {
       {
         method: 'DELETE',
         url: '/clazz/(\\d+)'
+      },
+      {
+        method: 'GET',
+        url: '/clazz/allOfCurrentTeacher',
+        result: () => {
+          const result = [];
+          for (let i = 1; i <= 10; i++) {
+            const clazz = {
+              id: i,
+              name: randomString('班级名称')
+            } as Clazz;
+            result.push(clazz);
+          }
+          return result;
+        }
       }
     ];
   }
