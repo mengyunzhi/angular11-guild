@@ -49,7 +49,7 @@ describe('NavComponent', () => {
     component.onSubmit();
 
     // 断言onSubmit()方法被调用后，向http://angular.api.codedemo.club/teacher/logout地址发起了请求
-    const req = httpTestingController.expectOne('http://angular.api.codedemo.club/teacher/logout');
+    const req = httpTestingController.expectOne('http://angular.api.codedemo.club:81/teacher/logout');
 
     // 断言上述请求的方法为GET
     expect(req.request.method).toEqual('GET');
