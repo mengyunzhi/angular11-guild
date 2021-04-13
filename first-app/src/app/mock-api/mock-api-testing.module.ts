@@ -4,6 +4,7 @@ import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
 import {MockApiTestingInterceptor} from '@yunzhi/ng-mock-api/testing';
 import {ClazzMockApi} from './clazz.mock.api';
 import {TeacherMockApi} from './teacher.mock.api';
+import {StudentMockApi} from './student.mock.api';
 
 
 @NgModule({
@@ -17,7 +18,8 @@ import {TeacherMockApi} from './teacher.mock.api';
       provide: HTTP_INTERCEPTORS, multi: true,
       useClass: MockApiTestingInterceptor.forRoot([
         ClazzMockApi,
-        TeacherMockApi
+        TeacherMockApi,
+        StudentMockApi
       ])
     }
   ]

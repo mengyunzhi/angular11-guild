@@ -1,6 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {YzValidators} from '../../yz-validators';
+import {YzAsyncValidators} from '../../yz-async-validators';
 
 @Component({
   selector: 'app-add',
@@ -10,7 +11,9 @@ import {YzValidators} from '../../yz-validators';
 export class AddComponent implements OnInit {
   formGroup = new FormGroup({
     name: new FormControl('', Validators.required),
-    number: new FormControl('', Validators.required),
+    number: new FormControl('',
+      [Validators.required,
+      YzAsyncValidators.validate]),
     phone: new FormControl('', YzValidators.phone),
     email: new FormControl(),
     clazzId: new FormControl(null, Validators.required)
