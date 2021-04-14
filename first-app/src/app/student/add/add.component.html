@@ -47,7 +47,8 @@
   </div>
   <div class="mb-3 row">
     <div class="col-sm-10 offset-2">
-      <button class="btn btn-primary" [disabled]="formGroup.invalid || formGroup.pending">保存
+      <button appLoading class="btn btn-primary" [disabled]="formGroup.invalid || formGroup.pending">
+        <i class="fa fa-save"></i>保存
       </button>
     </div>
   </div>

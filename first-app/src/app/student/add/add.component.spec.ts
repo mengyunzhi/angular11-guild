@@ -7,6 +7,7 @@ import {MockApiTestingModule} from '../../mock-api/mock-api-testing.module';
 import {getTestScheduler} from 'jasmine-marbles';
 import {Observable, of} from 'rxjs';
 import {map} from 'rxjs/operators';
+import {LoadingModule} from '../../directive/loading/loading.module';
 
 describe('student -> AddComponent', () => {
   let component: AddComponent;
@@ -18,7 +19,8 @@ describe('student -> AddComponent', () => {
       imports: [
         ReactiveFormsModule,
         ClazzSelectModule,
-        MockApiTestingModule
+        MockApiTestingModule,
+        LoadingModule
       ]
     })
       .compileComponents();
