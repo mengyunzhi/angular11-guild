@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {YzValidators} from '../../yz-validators';
 import {YzAsyncValidators} from '../../yz-async-validators';
+import {HttpClient} from '@angular/common/http';
 
 @Component({
   selector: 'app-add',
@@ -11,8 +12,7 @@ import {YzAsyncValidators} from '../../yz-async-validators';
 export class AddComponent implements OnInit {
   formGroup: FormGroup;
 
-  constructor() {
-    const yzAsyncValidators = null as unknown as YzAsyncValidators;
+  constructor(private httpClient: HttpClient, private yzAsyncValidators: YzAsyncValidators) {
     this.formGroup = new FormGroup({
       name: new FormControl('', Validators.required),
       number: new FormControl('', Validators.required, yzAsyncValidators.numberNotExist()),

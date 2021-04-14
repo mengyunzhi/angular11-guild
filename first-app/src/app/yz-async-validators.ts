@@ -1,11 +1,15 @@
 import {AbstractControl, ValidationErrors} from '@angular/forms';
 import {Observable, of} from 'rxjs';
-import {delay, tap} from 'rxjs/operators';
-import {HttpClient} from '@angular/common/http';
+import {delay, map, tap} from 'rxjs/operators';
+import {HttpClient, HttpParams} from '@angular/common/http';
+import {Injectable} from '@angular/core';
 
 /**
  * 异步验证器.
  */
+@Injectable({
+  providedIn: 'root'
+})
 export class YzAsyncValidators {
 
   constructor(private httpClient: HttpClient) {
@@ -17,10 +21,10 @@ export class YzAsyncValidators {
    */
   numberNotExist(): (control: AbstractControl) => Observable<ValidationErrors | null> {
     return (control: AbstractControl): Observable<ValidationErrors | null> => {
-      console.log(this.httpClient);
-      console.log('异步验证器被调用');
-      return of(null)
-        .pipe(delay(1000), tap(data => console.log('验证器返回数据', data)));
+      const httpParams = new HttpParams()
+        .append('number', control.value);
+      return this.httpClient.get<boolean>('/student/numberIsExist', {params: httpParams})
+        .pipe(map(exists => exists ? {numberExist: true} : null));
     };
   }
 }

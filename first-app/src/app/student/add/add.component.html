@@ -11,10 +11,11 @@
   <div class="mb-3 row">
     <label class="col-sm-2 col-form-label">学号</label>
     <div class="col-sm-10">
-      {{formGroup.get('number').pending}}
+      {{formGroup.get('number').errors | json}}
       <input type="text" class="form-control" formControlName="number">
       <small class="text-danger" *ngIf="formGroup.get('number').invalid">
-        学号不能为空
+        <span *ngIf="formGroup.get('number').errors.required">学号不能为空</span>
+        <span *ngIf="formGroup.get('number').errors.numberExist">该学号已存在</span>
       </small>
     </div>
   </div>
@@ -46,7 +47,7 @@
   </div>
   <div class="mb-3 row">
     <div class="col-sm-10 offset-2">
-      <button class="btn btn-primary" [disabled]="formGroup.invalid">保存
+      <button class="btn btn-primary" [disabled]="formGroup.invalid || formGroup.pending">保存
       </button>
     </div>
   </div>
