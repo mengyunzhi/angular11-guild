@@ -1,11 +1,10 @@
 import {KlassSelectComponent} from './klass-select.component';
 import {TestBed} from '@angular/core/testing';
-import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
+import {HttpClientModule} from '@angular/common/http';
 import {FormControl, FormsModule, ReactiveFormsModule} from '@angular/forms';
-import {MockApiTestingInterceptor} from '@yunzhi/ng-mock-api/testing';
-import {TeacherMockApi} from '../../mock-api/teacher.mock.api';
 import {Component, OnInit} from '@angular/core';
 import {getTestScheduler} from 'jasmine-marbles';
+import {MockApiTestingModule} from '../../mock-api/mock-api-testing.module';
 
 @Component({
   template: '<h1 (click)="onTest()">Test:</h1><app-klass-select [formControl]="teacherIdFormControl"></app-klass-select>'
@@ -29,15 +28,8 @@ describe('KlassSelectComponent', () => {
       imports: [
         HttpClientModule,
         FormsModule,
-        ReactiveFormsModule
-      ],
-      providers: [
-        {
-          provide: HTTP_INTERCEPTORS, multi: true,
-          useClass: MockApiTestingInterceptor.forRoot([
-            TeacherMockApi
-          ])
-        }
+        ReactiveFormsModule,
+        MockApiTestingModule
       ]
     })
       .compileComponents();

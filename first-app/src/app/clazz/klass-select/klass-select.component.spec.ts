@@ -1,12 +1,11 @@
 import {ComponentFixture, TestBed} from '@angular/core/testing';
 
 import {KlassSelectComponent} from './klass-select.component';
-import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
-import {TeacherMockApi} from '../../mock-api/teacher.mock.api';
+import {HttpClientModule} from '@angular/common/http';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
-import {MockApiTestingInterceptor} from '@yunzhi/ng-mock-api/testing';
 import {getTestScheduler} from 'jasmine-marbles';
 import {By} from '@angular/platform-browser';
+import {MockApiTestingModule} from '../../mock-api/mock-api-testing.module';
 
 describe('KlassSelectComponent', () => {
   let component: KlassSelectComponent;
@@ -18,15 +17,8 @@ describe('KlassSelectComponent', () => {
       imports: [
         HttpClientModule,
         FormsModule,
-        ReactiveFormsModule
-      ],
-      providers: [
-        {
-          provide: HTTP_INTERCEPTORS, multi: true,
-          useClass: MockApiTestingInterceptor.forRoot([
-            TeacherMockApi
-          ])
-        }
+        ReactiveFormsModule,
+        MockApiTestingModule
       ]
     })
       .compileComponents();

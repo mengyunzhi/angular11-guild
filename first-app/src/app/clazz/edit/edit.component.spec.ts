@@ -6,6 +6,7 @@ import {MockApiTestingModule} from '../../mock-api/mock-api-testing.module';
 import {ReactiveFormsModule} from '@angular/forms';
 import {getTestScheduler} from 'jasmine-marbles';
 import {RouterTestingModule} from '@angular/router/testing';
+import {ActivatedRoute} from '@angular/router';
 
 describe('EditComponent', () => {
   let component: EditComponent;
@@ -26,6 +27,8 @@ describe('EditComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(EditComponent);
     component = fixture.componentInstance;
+    const activatedRoute = TestBed.inject(ActivatedRoute);
+    activatedRoute.snapshot.params.id = 123;
     fixture.detectChanges();
   });
 

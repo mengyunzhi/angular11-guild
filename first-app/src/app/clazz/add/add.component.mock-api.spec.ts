@@ -8,6 +8,7 @@ import {TeacherMockApi} from '../../mock-api/teacher.mock.api';
 import {KlassSelectComponent} from '../klass-select/klass-select.component';
 import {RouterTestingModule} from '@angular/router/testing';
 import {Component} from '@angular/core';
+import {MockApiTestingModule} from '../../mock-api/mock-api-testing.module';
 
 @Component({
   template: 'test'
@@ -28,14 +29,8 @@ describe('clazz add with mockapi', () => {
             path: 'clazz',
             component: TestComponent
           }
-        ])],
-      providers: [
-        {
-          provide: HTTP_INTERCEPTORS,
-          multi: true,
-          useClass: MockApiInterceptor.forRoot([ClazzMockApi, TeacherMockApi])
-        }
-      ]
+        ]),
+        MockApiTestingModule]
     }).compileComponents();
   });
 
