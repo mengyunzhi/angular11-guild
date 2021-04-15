@@ -1,5 +1,6 @@
-import {ApiInjector, MockApiInterface, RequestOptions} from '@yunzhi/ng-mock-api';
+import {ApiInjector, Assert, MockApiInterface, randomNumber, RequestOptions} from '@yunzhi/ng-mock-api';
 import {HttpParams} from '@angular/common/http';
+import {Student} from '../entity/student';
 
 /**
  * 学生模拟API.
@@ -21,6 +22,17 @@ export class StudentMockApi implements MockApiInterface {
           return false;
         }
       }
-    }];
+    }, {
+      method: 'POST',
+      url: '/student',
+      result: ((urlMatches: string[], options: RequestOptions) => {
+        const student = options.body as Student;
+        Assert.isString(student.phone, student.email, student.number, student.name, '学生的基本信息未传全');
+        Assert.isNumber(student.clazz.id, '班级id校验失败');
+        student.id = randomNumber();
+        return student;
+      })
+    }
+    ];
   }
 }

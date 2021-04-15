@@ -8,6 +8,8 @@ import {getTestScheduler} from 'jasmine-marbles';
 import {Observable, of} from 'rxjs';
 import {map} from 'rxjs/operators';
 import {LoadingModule} from '../../directive/loading/loading.module';
+import {randomString} from '@yunzhi/ng-mock-api/testing';
+import {randomNumber} from '@yunzhi/ng-mock-api';
 
 describe('student -> AddComponent', () => {
   let component: AddComponent;
@@ -32,11 +34,29 @@ describe('student -> AddComponent', () => {
     fixture.detectChanges();
   });
 
-  fit('should create', () => {
+  it('should create', () => {
     expect(component).toBeTruthy();
     getTestScheduler().flush();
     fixture.detectChanges();
 
+    fixture.autoDetectChanges();
+  });
+
+  it('自动填充要新建的学生数据', () => {
+    // 固定写法
+    getTestScheduler().flush();
+    fixture.detectChanges();
+
+    component.formGroup.setValue({
+      name: randomString('姓名'),
+      number: randomNumber().toString(),
+      phone: '13900000000',
+      email: '123@yunzhi.club',
+      clazzId: randomNumber(10)
+    });
+
+    // 固定写法
+    getTestScheduler().flush();
     fixture.autoDetectChanges();
   });
 

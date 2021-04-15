@@ -2,7 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {YzValidators} from '../../yz-validators';
 import {YzAsyncValidators} from '../../yz-async-validators';
-import {HttpClient} from '@angular/common/http';
+import {StudentService} from '../../service/student.service';
 
 @Component({
   selector: 'app-add',
@@ -12,7 +12,7 @@ import {HttpClient} from '@angular/common/http';
 export class AddComponent implements OnInit {
   formGroup: FormGroup;
 
-  constructor(private httpClient: HttpClient, private yzAsyncValidators: YzAsyncValidators) {
+  constructor(private studentService: StudentService, private yzAsyncValidators: YzAsyncValidators) {
     this.formGroup = new FormGroup({
       name: new FormControl('', Validators.required),
       number: new FormControl('', Validators.required, yzAsyncValidators.numberNotExist()),
@@ -26,6 +26,15 @@ export class AddComponent implements OnInit {
   }
 
   onSubmit(): void {
-    console.log('submit');
+    const student = this.formGroup.value as {
+      name: string,
+      number: string,
+      phone: string,
+      email: string,
+      clazzId: number
+    };
+    this.studentService.add(student)
+      .subscribe(success => console.log('保存成功', success),
+        error => console.log('保存失败', error));
   }
 }
