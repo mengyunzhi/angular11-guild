@@ -1,0 +1,37 @@
+<div class="row">
+  <div class="col-12 text-right">
+    <a class="btn btn-primary mr-2" routerLink="./add"><i class="fas fa-plus"></i>新增</a>
+  </div>
+</div>
+
+<table class="table table-striped mt-2">
+  <thead>
+  <tr class="table-primary">
+    <th>序号</th>
+    <th>姓名</th>
+    <th>学号</th>
+    <th>手机号</th>
+    <th>班级</th>
+    <th>班主任</th>
+    <th>操作</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr *ngFor="let student of pageData.content; index as index">
+    <td>{{index + 1}}</td>
+    <td>{{student.name}}</td>
+    <td>{{student.number}}</td>
+    <td>{{student.phone}}</td>
+    <td>{{student.clazz.name}}</td>
+    <td>{{student.clazz.teacher.name}}</td>
+    <td>
+      <a class="btn btn-outline-primary btn-sm" routerLink="edit/{{student.id}}">
+        <i class="fas fa-pen"></i>编辑
+      </a>
+      <span class="btn btn-sm btn-outline-danger" (click)="onDelete(index, student.id)">
+          <i class="far fa-trash-alt"></i>删除
+        </span>
+    </td>
+  </tr>
+  </tbody>
+</table>

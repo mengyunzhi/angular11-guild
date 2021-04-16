@@ -1,6 +1,10 @@
 import {ApiInjector, Assert, MockApiInterface, randomNumber, RequestOptions} from '@yunzhi/ng-mock-api';
 import {HttpParams} from '@angular/common/http';
 import {Student} from '../entity/student';
+import {Page} from '../entity/page';
+import {randomString} from '@yunzhi/ng-mock-api/testing';
+import {Clazz} from '../entity/clazz';
+import {Teacher} from '../entity/teacher';
 
 /**
  * 学生模拟API.
@@ -32,6 +36,37 @@ export class StudentMockApi implements MockApiInterface {
         student.id = randomNumber();
         return student;
       })
+    }, {
+      method: 'GET',
+      url: '/student/pageOfCurrentTeacher',
+      result: (urlMatches: string[], options: RequestOptions) => {
+        const httpParams = options.params as HttpParams;
+        const page = +(httpParams.get('page') as string);
+        const size = +(httpParams.get('size') as string);
+        Assert.isNumber(page, size, 'page size must be number');
+        const students = [] as Array<Student>;
+        for (let i = 0; i < size; i++) {
+          students.push({
+            id: i + 1,
+            name: randomString('姓名'),
+            number: randomNumber(10000).toString(),
+            phone: '13900001111',
+            clazz: {
+              name: randomString('班级名称'),
+              teacher: {
+                name: randomString('教师名称')
+              } as Teacher
+            } as Clazz
+          } as Student);
+        }
+
+        return {
+          content: students,
+          number: page,
+          size,
+          totalPages: (page + 1 + randomNumber(10)) * size
+        } as Page<Student>;
+      }
     }
     ];
   }

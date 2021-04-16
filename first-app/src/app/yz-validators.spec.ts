@@ -42,4 +42,31 @@ describe('YzValidators', () => {
     expect(formControl.invalid).toBeTrue();
     expect(formControl.valid).toBeFalse();
   });
+
+  it('JSON对象与对象', () => {
+    class A {
+      a: string;
+
+      constructor(a: string) {
+        this.a = a;
+      }
+
+      getA(): string {
+        return this.a;
+      }
+    }
+    const a1 = new A('123');
+    console.log('对象;', a1);
+    console.log(a1.getA());
+
+    const a2 = {a: '123'} as A;
+    console.log('JSON对象:', a2);
+    let catchException = false;
+    try {
+      console.log(a2.getA());
+    } catch (e) {
+      catchException = true;
+    }
+    expect(catchException).toBeTrue();
+  });
 });
