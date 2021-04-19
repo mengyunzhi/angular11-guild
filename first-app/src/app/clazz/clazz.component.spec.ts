@@ -8,6 +8,7 @@ import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
 import {PageComponent} from './page/page.component';
 import {RouterTestingModule} from '@angular/router/testing';
 import {MockApiTestingModule} from '../mock-api/mock-api-testing.module';
+import {PageModule} from './page/page.module';
 
 describe('ClazzComponent', () => {
   let component: ClazzComponent;
@@ -15,9 +16,10 @@ describe('ClazzComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ClazzComponent, PageComponent],
+      declarations: [ClazzComponent],
       imports: [
         HttpClientModule,
+        PageModule,
         RouterTestingModule,
         MockApiTestingModule
       ]

@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {Page} from '../entity/page';
 import {Student} from '../entity/student';
 import {StudentService} from '../service/student.service';
+import {environment} from '../../environments/environment';
 
 @Component({
   selector: 'app-student',
@@ -11,7 +12,7 @@ import {StudentService} from '../service/student.service';
 export class StudentComponent implements OnInit {
   pageData = {} as Page<Student>;
   page = 0;
-  size = 20;
+  size = environment.size;
 
   constructor(private studentService: StudentService) {
   }

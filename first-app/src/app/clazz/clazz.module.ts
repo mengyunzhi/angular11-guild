@@ -7,6 +7,7 @@ import {ClazzComponent} from './clazz.component';
 import {PageComponent} from './page/page.component';
 import {EditComponent} from './edit/edit.component';
 import {RouterModule, Routes} from '@angular/router';
+import {PageModule} from './page/page.module';
 
 const routes: Routes = [
   {
@@ -24,10 +25,11 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  declarations: [AddComponent, KlassSelectComponent, ClazzComponent, PageComponent, EditComponent],
+  declarations: [AddComponent, KlassSelectComponent, ClazzComponent, EditComponent],
   imports: [
     CommonModule,
     FormsModule,
+    PageModule,
     ReactiveFormsModule,
     RouterModule.forChild(routes)
   ]
