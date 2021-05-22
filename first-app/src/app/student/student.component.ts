@@ -18,12 +18,29 @@ export class StudentComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.loadData(this.page);
+  }
+
+  /**
+   * 加载数据
+   * @param page 第几页
+   */
+  loadData(page: number): void {
     this.studentService.pageOfCurrentTeacher({
-      page: this.page,
+      page,
       size: this.size
     }).subscribe(data => this.pageData = data);
   }
 
   onDelete(index: number, id: number): void {
+  }
+
+  /**
+   * 点击分页时触发
+   * @param $event 第几页
+   */
+  onPage($event: number): void {
+    this.page = $event;
+    this.loadData(this.page);
   }
 }
