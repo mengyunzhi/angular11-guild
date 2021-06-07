@@ -63,8 +63,7 @@ export class StudentComponent implements OnInit {
     if (this.beDeletedIndexes.indexOf(index) === -1) {
       this.beDeletedIndexes.push(index);
     } else {
-      this.beDeletedIndexes = this.beDeletedIndexes.filter(i => i !== index)
-        .sort((a, b) => b - a);
+      this.beDeletedIndexes = this.beDeletedIndexes.filter(i => i !== index);
     }
   }
 
