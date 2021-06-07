@@ -67,6 +67,9 @@ export class StudentMockApi implements MockApiInterface {
           totalPages: (page + 1 + randomNumber(10)) * size
         } as Page<Student>;
       }
+    }, {
+      method: 'DELETE',
+      url: '/student/(\\d+)'
     }
     ];
   }

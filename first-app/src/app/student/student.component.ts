@@ -33,6 +33,11 @@ export class StudentComponent implements OnInit {
   }
 
   onDelete(index: number, id: number): void {
+    const result = confirm('确认要删除吗?');
+    if (result) {
+      this.studentService.delete(id)
+        .subscribe(() => this.pageData.content.splice(index, 1));
+    }
   }
 
   /**

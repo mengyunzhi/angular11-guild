@@ -29,6 +29,15 @@ export class StudentService {
   }
 
   /**
+   * 删除
+   * @param id 学生ID
+   */
+  delete(id: number): Observable<void> {
+    const url = '/student/' + id.toString();
+    return this.httpClient.delete<void>(url);
+  }
+
+  /**
    * 当前登录用户的分页信息
    * @param data 分页信息
    */

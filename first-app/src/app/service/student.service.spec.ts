@@ -26,6 +26,20 @@ describe('StudentService', () => {
         error => console.log('error', error));
   });
 
+  fit('delete', () => {
+    const id = Math.floor(Math.random() * 10);
+    let called = false;
+    service.delete(id).subscribe(() => {
+      called = true;
+    });
+    // 由于HTTP请求是异步的，所以在短时间内还没有返回数据，called值仍然为false
+    expect(called).toBeFalse();
+
+    // 数据被手动返回后,called值为true
+    getTestScheduler().flush();
+    expect(called).toBeTrue();
+  });
+
   it('pageOfCurrentTeacher', () => {
     let called = false;
     service.pageOfCurrentTeacher({page: 1, size: 2})
