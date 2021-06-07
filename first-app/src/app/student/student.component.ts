@@ -3,6 +3,7 @@ import {Page} from '../entity/page';
 import {Student} from '../entity/student';
 import {StudentService} from '../service/student.service';
 import {environment} from '../../environments/environment';
+import {Confirm} from 'notiflix';
 
 @Component({
   selector: 'app-student',
@@ -33,11 +34,14 @@ export class StudentComponent implements OnInit {
   }
 
   onDelete(index: number, id: number): void {
-    const result = confirm('确认要删除吗?');
-    if (result) {
-      this.studentService.delete(id)
-        .subscribe(() => this.pageData.content.splice(index, 1));
-    }
+    console.log(Confirm);
+    Confirm.show('请确认', '该操作不可逆', '确认', '取消',
+      () => {
+        this.studentService.delete(id)
+          .subscribe(() => this.pageData.content.splice(index, 1));
+      }, () => {
+        console.log('cancel');
+      });
   }
 
   /**

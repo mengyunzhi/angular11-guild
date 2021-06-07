@@ -23,6 +23,7 @@
     "@yunzhi/ng-mock-api": "0.0.5",
     "bootstrap": "^4.6.0",
     "jquery": "^3.5.1",
+    "notiflix": "^3.0.1",
     "popper.js": "^1.16.1",
     "rxjs": "~6.6.0",
     "tslib": "^2.0.0",
