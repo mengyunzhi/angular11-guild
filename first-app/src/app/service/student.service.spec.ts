@@ -26,7 +26,7 @@ describe('StudentService', () => {
         error => console.log('error', error));
   });
 
-  fit('delete', () => {
+  it('delete', () => {
     const id = Math.floor(Math.random() * 10);
     let called = false;
     service.delete(id).subscribe(() => {
@@ -36,6 +36,18 @@ describe('StudentService', () => {
     expect(called).toBeFalse();
 
     // 数据被手动返回后,called值为true
+    getTestScheduler().flush();
+    expect(called).toBeTrue();
+  });
+
+  fit('batchDeleteIds', () => {
+    const ids = [1, 2, 3];
+    let called = false;
+    service.batchDelete(ids)
+      .subscribe(() => {
+        called = true;
+      });
+    expect(called).toBeFalse();
     getTestScheduler().flush();
     expect(called).toBeTrue();
   });

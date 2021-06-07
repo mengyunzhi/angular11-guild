@@ -1,12 +1,14 @@
 <div class="row">
   <div class="col-12 text-right">
     <a class="btn btn-primary mr-2" routerLink="./add"><i class="fas fa-plus"></i>新增</a>
+    <button class="btn btn-danger mr-2" type="button" (click)="onBatchDeleteClick()"><i class="fas fa-trash-alt"></i>删除</button>
   </div>
 </div>
 
 <table class="table table-striped mt-2">
   <thead>
   <tr class="table-primary">
+    <th>选择</th>
     <th>序号</th>
     <th>姓名</th>
     <th>学号</th>
@@ -18,6 +20,7 @@
   </thead>
   <tbody>
   <tr *ngFor="let student of pageData.content; index as index">
+    <td><input type="checkbox" (click)="onCheckboxClick(index)"></td>
     <td>{{index + 1}}</td>
     <td>{{student.name}}</td>
     <td>{{student.number}}</td>

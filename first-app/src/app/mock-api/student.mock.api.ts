@@ -70,6 +70,14 @@ export class StudentMockApi implements MockApiInterface {
     }, {
       method: 'DELETE',
       url: '/student/(\\d+)'
+    }, {
+      method: 'DELETE',
+      url: '/student/batchDeleteIds',
+      result: ((urlMatches: any, options: RequestOptions) => {
+        const httpParams = options.params as HttpParams;
+        const ids = httpParams.getAll('ids');
+        Assert.isArray(ids, '未接收到ids');
+      })
     }
     ];
   }

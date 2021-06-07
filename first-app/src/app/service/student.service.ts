@@ -47,4 +47,13 @@ export class StudentService {
       .append('size', size.toString());
     return this.httpClient.get<Page<Student>>('/student/pageOfCurrentTeacher', {params: httpParams});
   }
+
+  /**
+   * 批量删除
+   * @param ids 学生ID数组
+   */
+  batchDelete(ids: number[]): Observable<void> {
+    const stringIds = ids.map(id => id.toString());
+    return this.httpClient.delete<void>('/student/batchDeleteIds', {params: {ids: stringIds}});
+  }
 }
