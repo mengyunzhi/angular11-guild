@@ -15,8 +15,6 @@ export class StudentComponent implements OnInit {
   page = 0;
   size = environment.size;
 
-  beDeletedIndexes = new Array<number>();
-
   constructor(private studentService: StudentService) {
   }
 
@@ -32,7 +30,10 @@ export class StudentComponent implements OnInit {
     this.studentService.pageOfCurrentTeacher({
       page,
       size: this.size
-    }).subscribe(data => this.pageData = data);
+    }).subscribe(data => {
+      data.content = data.content.map(d => new Student(d));
+      this.pageData = data;
+    });
   }
 
   onDelete(index: number, id: number): void {
@@ -56,36 +57,18 @@ export class StudentComponent implements OnInit {
   }
 
   /**
-   * checkbox被点击
-   * @param index 索引值
-   */
-  onCheckboxClick(index: number): void {
-    if (this.beDeletedIndexes.indexOf(index) === -1) {
-      this.beDeletedIndexes.push(index);
-    } else {
-      this.beDeletedIndexes = this.beDeletedIndexes.filter(i => i !== index);
-    }
-  }
-
-  /**
    * 批量删除按钮被点击
    */
   onBatchDeleteClick(): void {
-    if (this.beDeletedIndexes.length === 0) {
+    const beDeleteIds = this.pageData.content.filter(s => s._checked).map(d => d.id);
+    if (beDeleteIds.length === 0) {
       Report.warning('出错啦', '请先选择要删除的学生', '返回');
     } else {
       Confirm.show('请确认', '该操作不可逆', '确认', '取消',
         () => {
-          // 根据index获取ids
-          const ids = [] as number[];
-          this.beDeletedIndexes.forEach(index => {
-            ids.push(this.pageData.content[index].id);
-          });
           // 调用批量删除
-          this.studentService.batchDelete(ids)
+          this.studentService.batchDelete(beDeleteIds)
             .subscribe(() => {
-              // 重置数据
-              this.beDeletedIndexes = [];
               this.loadData(this.page);
             });
         });

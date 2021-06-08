@@ -20,7 +20,7 @@
   </thead>
   <tbody>
   <tr *ngFor="let student of pageData.content; index as index">
-    <td><input type="checkbox" (click)="onCheckboxClick(index)"></td>
+    <td><input type="checkbox" (click)="student.onDeleteClick()"></td>
     <td>{{index + 1}}</td>
     <td>{{student.name}}</td>
     <td>{{student.number}}</td>

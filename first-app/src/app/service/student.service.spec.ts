@@ -40,7 +40,7 @@ describe('StudentService', () => {
     expect(called).toBeTrue();
   });
 
-  fit('batchDeleteIds', () => {
+  it('batchDeleteIds', () => {
     const ids = [1, 2, 3];
     let called = false;
     service.batchDelete(ids)
@@ -66,4 +66,32 @@ describe('StudentService', () => {
     getTestScheduler().flush();
     expect(called).toBeTrue();
   });
+
+  it('JSON对象与对象', () => {
+    class Test {
+      id: number;
+      name: string;
+
+      constructor(id: number, name: string) {
+        this.id = id;
+        this.name = name;
+      }
+
+      sayHello(): void {
+        console.log('hello');
+      }
+    }
+
+    const test = new Test(1, '123');
+    console.log(test.id);
+    console.log(test.name);
+    test.sayHello();
+
+    const jsonString = '{"id": 2, "name": "456"}';
+    const jsonTest = JSON.parse(jsonString) as Test;
+    console.log(jsonTest.id);
+    console.log(jsonTest.name);
+    // jsonTest.sayHello();
+  });
 });
+
