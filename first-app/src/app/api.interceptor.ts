@@ -9,7 +9,7 @@ import {Observable} from 'rxjs';
 
 @Injectable()
 export class ApiInterceptor implements HttpInterceptor {
-  private static api = 'http://localhost:81';
+  private static api = 'http://angular.api.codedemo.club:81';
 
   /**
    * 获取带有API前缀的URL.
