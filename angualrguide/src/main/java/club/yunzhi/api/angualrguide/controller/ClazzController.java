@@ -12,6 +12,8 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("clazz")
 public class ClazzController {
@@ -19,6 +21,12 @@ public class ClazzController {
 
   public ClazzController(ClazzService clazzService) {
     this.clazzService = clazzService;
+  }
+
+  @GetMapping("allOfCurrentTeacher")
+  @JsonView(AllOfCurrentTeacherJsonView.class)
+  public List<Clazz> allOfCurrentTeacher() {
+    return this.clazzService.allOfCurrentTeacher();
   }
 
   @OwnerSecured(ClazzService.class)
@@ -53,6 +61,9 @@ public class ClazzController {
   @JsonView(UpdateJsonView.class)
   public Clazz update(@OwnerKey @PathVariable Long id, @RequestBody Clazz clazz) {
     return this.clazzService.update(id, clazz);
+  }
+
+  private interface AllOfCurrentTeacherJsonView {
   }
 
   private interface GetJsonView extends Clazz.TeacherJsonView {

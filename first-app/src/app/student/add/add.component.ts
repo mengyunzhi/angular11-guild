@@ -3,6 +3,7 @@ import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {YzValidators} from '../../yz-validators';
 import {YzAsyncValidators} from '../../yz-async-validators';
 import {StudentService} from '../../service/student.service';
+import {ActivatedRoute, Router} from '@angular/router';
 
 @Component({
   selector: 'app-add',
@@ -12,7 +13,8 @@ import {StudentService} from '../../service/student.service';
 export class AddComponent implements OnInit {
   formGroup: FormGroup;
 
-  constructor(private studentService: StudentService, private yzAsyncValidators: YzAsyncValidators) {
+  constructor(private studentService: StudentService, private yzAsyncValidators: YzAsyncValidators,
+              private router: Router, private route: ActivatedRoute) {
     this.formGroup = new FormGroup({
       name: new FormControl('', Validators.required),
       number: new FormControl('', Validators.required, yzAsyncValidators.numberNotExist()),
@@ -34,7 +36,7 @@ export class AddComponent implements OnInit {
       clazzId: number
     };
     this.studentService.add(student)
-      .subscribe(success => console.log('保存成功', success),
+      .subscribe(success => this.router.navigate(['../'], {relativeTo: this.route}),
         error => console.log('保存失败', error));
   }
 }

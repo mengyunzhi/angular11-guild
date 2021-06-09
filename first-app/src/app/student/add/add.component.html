@@ -3,7 +3,7 @@
     <label class="col-sm-2 col-form-label">名称</label>
     <div class="col-sm-10">
       <input type="text" class="form-control" formControlName="name">
-      <small class="text-danger" *ngIf="formGroup.get('name').invalid">
+      <small class="text-danger" *ngIf="formGroup.get('name')!.invalid">
         名称不能为空
       </small>
     </div>
@@ -11,11 +11,11 @@
   <div class="mb-3 row">
     <label class="col-sm-2 col-form-label">学号</label>
     <div class="col-sm-10">
-      {{formGroup.get('number').errors | json}}
+      {{formGroup.get('number')!.errors | json}}
       <input type="text" class="form-control" formControlName="number">
-      <small class="text-danger" *ngIf="formGroup.get('number').invalid">
-        <span *ngIf="formGroup.get('number').errors.required">学号不能为空</span>
-        <span *ngIf="formGroup.get('number').errors.numberExist">该学号已存在</span>
+      <small class="text-danger" *ngIf="formGroup.get('number')!.invalid">
+        <span *ngIf="formGroup.get('number')!.errors?.required">学号不能为空</span>
+        <span *ngIf="formGroup.get('number')!.errors?.numberExist">该学号已存在</span>
       </small>
     </div>
   </div>
@@ -23,9 +23,9 @@
     <label class="col-sm-2 col-form-label">手机号</label>
     <div class="col-sm-10">
       <input type="text" class="form-control" formControlName="phone">
-      {{formGroup.get('phone').invalid}}
-      {{formGroup.get('phone').errors | json}}
-      <small class="text-danger" *ngIf="formGroup.get('phone').invalid">
+      {{formGroup.get('phone')!.invalid}}
+      {{formGroup.get('phone')!.errors | json}}
+      <small class="text-danger" *ngIf="formGroup.get('phone')!.invalid">
         手机号格式不正确
       </small>
     </div>
@@ -40,7 +40,7 @@
     <label class="col-sm-2 col-form-label">班级</label>
     <div class="col-sm-10">
       <app-clazz-select formControlName="clazzId"></app-clazz-select>
-      <small class="text-danger" *ngIf="formGroup.get('clazzId').invalid">
+      <small class="text-danger" *ngIf="formGroup.get('clazzId')!.invalid">
         必须选择班级
       </small>
     </div>

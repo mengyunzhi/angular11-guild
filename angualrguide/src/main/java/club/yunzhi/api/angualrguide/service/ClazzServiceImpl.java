@@ -5,10 +5,14 @@ import club.yunzhi.api.angualrguide.entity.Teacher;
 import club.yunzhi.api.angualrguide.repository.ClazzRepository;
 import net.bytebuddy.utility.RandomString;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityNotFoundException;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -19,6 +23,14 @@ public class ClazzServiceImpl implements ClazzService {
   public ClazzServiceImpl(ClazzRepository clazzRepository, TeacherService teacherService) {
     this.clazzRepository = clazzRepository;
     this.teacherService = teacherService;
+  }
+
+  @Override
+  public List<Clazz> allOfCurrentTeacher() {
+    Teacher teacher = this.teacherService.getCurrentAuditor()
+        .orElseThrow(() -> new AccessDeniedException("匿名用户"));
+    Pageable pageable = PageRequest.of(0, 100000);
+    return this.clazzRepository.findAllByCreateTeacher(teacher, pageable).getContent();
   }
 
   @Override
