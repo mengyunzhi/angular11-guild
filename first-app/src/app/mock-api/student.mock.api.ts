@@ -78,6 +78,49 @@ export class StudentMockApi implements MockApiInterface {
         const ids = httpParams.getAll('ids');
         Assert.isArray(ids, '未接收到ids');
       })
+    }, {
+      method: 'GET',
+      url: '/student/(\\d+)',
+      result: (urlMatches: string[]) => {
+        const id = +urlMatches[1];
+        return {
+          id,
+          name: randomString('姓名'),
+          number: randomString('学号'),
+          phone: (139000000000 + randomNumber(99999999)).toString(),
+          email: randomString('前缀') + '@yunzhi.club',
+          clazz: {
+            id: randomNumber(),
+            name: randomString('班级名称'),
+            teacher: {
+              id: randomNumber(),
+              name: randomString('教师名称')
+            } as Teacher
+          } as Clazz
+        } as Student;
+      }
+    }, {
+      method: 'PUT',
+      url: '/student/(\\d+)',
+      result: (urlMatches: string[], options: RequestOptions) => {
+        const id = +urlMatches[1];
+        const student = options.body as Student;
+        return {
+          id,
+          name: student.name,
+          number: randomString('学号'),
+          phone: student.phone,
+          email: student.email,
+          clazz: {
+            id: student.clazz.id,
+            name: randomString('班级名称'),
+            teacher: {
+              id: randomNumber(),
+              name: randomString('教师名称')
+            } as Teacher
+          } as Clazz
+        } as Student;
+      }
     }
     ];
   }

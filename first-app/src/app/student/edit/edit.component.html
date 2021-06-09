@@ -1,0 +1,49 @@
+<form class="container-sm" (ngSubmit)="onSubmit()" [formGroup]="formGroup">
+  <div class="mb-3 row">
+    <label class="col-sm-2 col-form-label">名称</label>
+    <div class="col-sm-10">
+      <input type="text" class="form-control" formControlName="name">
+      <small class="text-danger" *ngIf="formGroup.get('name')!.invalid">
+        名称不能为空
+      </small>
+    </div>
+  </div>
+  <div class="mb-3 row">
+    <label class="col-sm-2 col-form-label">学号</label>
+    <div class="col-sm-10">
+      <input type="text" readonly class="form-control-plaintext" formControlName="number">
+    </div>
+  </div>
+  <div class="mb-3 row">
+    <label class="col-sm-2 col-form-label">手机号</label>
+    <div class="col-sm-10">
+      <input type="text" class="form-control" formControlName="phone">
+      <small class="text-danger" *ngIf="formGroup.get('phone')!.invalid">
+        手机号格式不正确
+      </small>
+    </div>
+  </div>
+  <div class="mb-3 row">
+    <label class="col-sm-2 col-form-label">邮箱</label>
+    <div class="col-sm-10">
+      <input type="text" class="form-control" formControlName="email">
+    </div>
+  </div>
+  <div class="mb-3 row">
+    <label class="col-sm-2 col-form-label">班级</label>
+    <div class="col-sm-10">
+      <app-clazz-select formControlName="clazzId"></app-clazz-select>
+      <small class="text-danger" *ngIf="formGroup.get('clazzId')!.invalid">
+        必须选择班级
+      </small>
+    </div>
+  </div>
+  <div class="mb-3 row">
+    <div class="col-sm-10 offset-2">
+      <button appLoading class="btn btn-primary" [disabled]="formGroup.invalid || formGroup.pending">
+        <i class="fa fa-save"></i>保存
+      </button>
+    </div>
+  </div>
+</form>
+

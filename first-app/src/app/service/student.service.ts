@@ -29,12 +29,30 @@ export class StudentService {
   }
 
   /**
+   * 批量删除
+   * @param ids 学生ID数组
+   */
+  batchDelete(ids: number[]): Observable<void> {
+    const stringIds = ids.map(id => id.toString());
+    return this.httpClient.delete<void>('/student/batchDeleteIds', {params: {ids: stringIds}});
+  }
+
+
+  /**
    * 删除
    * @param id 学生ID
    */
   delete(id: number): Observable<void> {
     const url = '/student/' + id.toString();
     return this.httpClient.delete<void>(url);
+  }
+
+  /**
+   * 获取学生
+   * @param id 学生ID
+   */
+  getById(id: number): Observable<Student> {
+    return this.httpClient.get<Student>('/student/' + id.toString());
   }
 
   /**
@@ -49,11 +67,11 @@ export class StudentService {
   }
 
   /**
-   * 批量删除
-   * @param ids 学生ID数组
+   * 更新学生
+   * @param id 学生ID
+   * @param student 学生信息
    */
-  batchDelete(ids: number[]): Observable<void> {
-    const stringIds = ids.map(id => id.toString());
-    return this.httpClient.delete<void>('/student/batchDeleteIds', {params: {ids: stringIds}});
+  update(id: number, student: { name: string, phone: string, email: string, clazz: { id: number } }): Observable<Student> {
+    return this.httpClient.put<Student>(`/student/${id}`, student);
   }
 }

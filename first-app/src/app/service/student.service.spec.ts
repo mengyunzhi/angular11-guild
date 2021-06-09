@@ -4,6 +4,8 @@ import {StudentService} from './student.service';
 import {MockApiTestingModule} from '../mock-api/mock-api-testing.module';
 import {HttpClient} from '@angular/common/http';
 import {getTestScheduler} from 'jasmine-marbles';
+import {randomNumber} from '@yunzhi/ng-mock-api';
+import {randomString} from '@yunzhi/ng-mock-api/testing';
 
 describe('StudentService', () => {
   let service: StudentService;
@@ -92,6 +94,42 @@ describe('StudentService', () => {
     console.log(jsonTest.id);
     console.log(jsonTest.name);
     // jsonTest.sayHello();
+  });
+
+  it('getById', () => {
+    // 返回前面已经请求的数据(如有)，避免产生数据污染。
+    getTestScheduler().flush();
+
+    const id = randomNumber();
+    let called = false;
+    service.getById(id).subscribe(student => {
+      called = true;
+      expect(student).toBeTruthy();
+    });
+    expect(called).toBeFalse();
+
+    getTestScheduler().flush();
+    expect(called).toBeTrue();
+  });
+
+  it('update', () => {
+    // 返回前面已经请求的数据(如有)，避免产生数据污染。
+    getTestScheduler().flush();
+
+    const id = randomNumber();
+    let called = false;
+    service.update(id, {
+      name: randomString(),
+      email: randomString(),
+      phone: randomString(),
+      clazz: {id: randomNumber()}}).subscribe(student => {
+        called = true;
+        expect(student).toBeTruthy();
+    });
+    expect(called).toBeFalse();
+
+    getTestScheduler().flush();
+    expect(called).toBeTrue();
   });
 });
 

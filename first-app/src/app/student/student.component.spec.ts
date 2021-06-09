@@ -35,7 +35,7 @@ describe('StudentComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  fit('onInit', () => {
+  it('onInit', () => {
     // 在后台模拟数据返回以前，断言table列表中的`tr`仅有标题一行。
     const table = fixture.debugElement.query(By.css('table')).nativeElement as HTMLTableElement;
     console.log('打印的非对象类型，在控制台查看到的是执行代码时的即时值。当前table的高度为：', table.clientHeight);
