@@ -5,7 +5,9 @@ import club.yunzhi.api.angualrguide.repository.TeacherRepository;
 import net.bytebuddy.utility.RandomString;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.context.ApplicationContext;
 import org.springframework.data.domain.AuditorAware;
+import org.springframework.orm.hibernate5.SpringSessionContext;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -122,18 +124,8 @@ public class TeacherServiceImpl implements TeacherService, UserDetailsService, A
   }
 
   @Override
-  public void logout(String token) {
-    if (this.hashMap.containsKey(token)) {
-      this.hashMap.remove(token);
-    }
-  }
-
-  @Override
-  public void reBindAuthToken(String token, Teacher teacher) {
-    if (this.hashMap.containsKey(token)) {
-      ExpiredUser expiredUser = this.hashMap.get(token);
-      expiredUser.setTeacher(teacher);
-    }
+  public void logout() {
+    SecurityContextHolder.clearContext();
   }
 
   @Override

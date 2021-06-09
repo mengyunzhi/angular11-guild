@@ -59,12 +59,8 @@ public class TeacherController {
 
 
   @RequestMapping("logout")
-  public void logout(HttpServletRequest request) {
-    String token = request.getHeader(MvcSecurityConfig.xAuthTokenKey);
-    if (null == token) {
-      throw new RuntimeException("未获取到token，请检查调用的逻辑性或配置的安全规则是否正常");
-    }
-    this.teacherService.logout(token);
+  public void logout() {
+    this.teacherService.logout();
   }
 
   @GetMapping("page")
@@ -101,7 +97,6 @@ public class TeacherController {
     oldTeacher.setSex(teacher.getSex());
     oldTeacher.setUsername(teacher.getUsername());
     oldTeacher = this.teacherRepository.save(oldTeacher);
-    this.teacherService.reBindAuthToken(request.getHeader(MvcSecurityConfig.xAuthTokenKey), oldTeacher);
     return oldTeacher;
   }
 

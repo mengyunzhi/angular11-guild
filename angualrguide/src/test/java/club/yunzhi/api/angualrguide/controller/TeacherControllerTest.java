@@ -121,33 +121,21 @@ class TeacherControllerTest {
     RestTemplate restTemplate = this.restTemplateBuilder.build();
     HttpHeaders headers = this.getChromeHeaders();
     HttpEntity entity = new HttpEntity(headers);
-    String xAuthToken = null;
-    try {
-      restTemplate.exchange(loginUrl, HttpMethod.GET, entity, Teacher.class);
-    } catch (HttpStatusCodeException exception) {
-      HttpHeaders headers1 = exception.getResponseHeaders();
-      xAuthToken = headers1.getFirst("x-auth-token");
-    }
-    Assertions.assertNotNull(xAuthToken);
 
-    // 第二次请求，携带第一次的token，响应的token不变
-    headers.add("x-auth-token", xAuthToken);
-    String responseToken = null;
-    try {
-      restTemplate.exchange(loginUrl, HttpMethod.GET, entity, Teacher.class);
-    } catch (HttpStatusCodeException exception) {
-      HttpHeaders headers1 = exception.getResponseHeaders();
-      responseToken = headers1.getFirst("x-auth-token");
-    }
-    Assertions.assertNotNull(xAuthToken, responseToken);
-
-    // 第三次请求，加入登录信息
+    // 加入登录信息
     String auth = Base64.getEncoder().encodeToString("zhangsan:codedemo.club".getBytes("utf-8"));
     headers.add("Authorization", "Basic " + auth);
-    restTemplate.exchange(loginUrl, HttpMethod.GET, entity, Teacher.class);
+    ResponseEntity<Teacher> responseEntity = restTemplate.exchange(loginUrl, HttpMethod.GET, entity, Teacher.class);
+    String xAuthToken = responseEntity.getHeaders().get("x-auth-token").get(0);
+    Assertions.assertNotNull(xAuthToken);
 
-    // 第四次请求，去除登录信息，直接使用token，请求成功
+    // 去除登录信息
     headers.remove("Authorization");
+    Assertions.assertThrows(HttpStatusCodeException.class, () ->
+        restTemplate.exchange(loginUrl, HttpMethod.GET, entity, Teacher.class));
+
+    // 加入token
+    headers.add("x-auth-token", xAuthToken);
     restTemplate.exchange(loginUrl, HttpMethod.GET, entity, Teacher.class);
 
     // 注销后再次请求，失败

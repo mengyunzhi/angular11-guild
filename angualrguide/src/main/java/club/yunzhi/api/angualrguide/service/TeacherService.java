@@ -10,7 +10,7 @@ public interface TeacherService {
    *
    * @param xAuthToken token
    * @param auth       是否是认证用户
-   * @param teacher   用户
+   * @param teacher    用户
    */
   void bindAuthTokenLoginUsername(String xAuthToken, Teacher teacher, boolean auth);
 
@@ -28,6 +28,7 @@ public interface TeacherService {
 
   /**
    * 获取当前认证用户
+   *
    * @return 未认证则返回empty
    */
   Optional<Teacher> getCurrentAuditor();
@@ -42,15 +43,6 @@ public interface TeacherService {
 
   /**
    * 注销
-   *
-   * @param token 令牌
    */
-  void logout(String token);
-
-  /**
-   * 重新将token绑定到其它用户名，适用于更新用户
-   * @param token
-   * @param teacher
-   */
-  void reBindAuthToken(String token, Teacher teacher);
+  void logout();
 }

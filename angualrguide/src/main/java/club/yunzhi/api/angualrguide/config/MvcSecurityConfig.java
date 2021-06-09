@@ -1,8 +1,6 @@
 package club.yunzhi.api.angualrguide.config;
 
-import club.yunzhi.api.angualrguide.filter.AddAuthHeaderFilter;
 import club.yunzhi.api.angualrguide.entity.Teacher;
-import club.yunzhi.api.angualrguide.filter.HeaderAuthenticationFilter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -11,23 +9,40 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
+import org.springframework.session.MapSessionRepository;
+import org.springframework.session.SessionRepository;
+import org.springframework.session.config.annotation.web.http.EnableSpringHttpSession;
+import org.springframework.session.web.http.HeaderHttpSessionStrategy;
+import org.springframework.session.web.http.HttpSessionStrategy;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 import java.util.Arrays;
+import java.util.concurrent.ConcurrentHashMap;
 
 @Configuration
 @EnableWebSecurity
+@EnableSpringHttpSession
 public class MvcSecurityConfig extends WebSecurityConfigurerAdapter {
-  private final AddAuthHeaderFilter addAuthHeaderFilter;
-  private final HeaderAuthenticationFilter headerAuthenticationFilter;
-  public static String xAuthTokenKey = "x-auth-token";
 
-  public MvcSecurityConfig(AddAuthHeaderFilter addAuthHeaderFilter, HeaderAuthenticationFilter headerAuthenticationFilter) {
-    this.addAuthHeaderFilter = addAuthHeaderFilter;
-    this.headerAuthenticationFilter = headerAuthenticationFilter;
+  public MvcSecurityConfig() {
+  }
+
+  @Bean
+  public SessionRepository sessionRepository() {
+    SessionRepository mapSessionRepository = new MapSessionRepository();
+    return mapSessionRepository;
+  }
+
+  /**
+   * session认证方式为header认证
+   *
+   * @return Header认证策略
+   */
+  @Bean
+  HttpSessionStrategy sessionStrategy() {
+    return new HeaderHttpSessionStrategy();
   }
 
   /**
@@ -48,9 +63,7 @@ public class MvcSecurityConfig extends WebSecurityConfigurerAdapter {
         .anyRequest().authenticated()
         .and().cors()
         .and().httpBasic()
-        .and().csrf().disable()
-        .addFilterBefore(this.headerAuthenticationFilter, BasicAuthenticationFilter.class)
-        .addFilterAfter(this.addAuthHeaderFilter, BasicAuthenticationFilter.class);
+        .and().csrf().disable();
   }
 
   /**
