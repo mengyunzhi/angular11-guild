@@ -34,8 +34,23 @@ export class EditComponent implements OnInit {
     this.loadData(this.id);
   }
 
-  onSubmit(): void {
-
+  /**
+   * 更新
+   * @param id id
+   * @param formGroup 表单组
+   */
+  onSubmit(id: number, formGroup: FormGroup): void {
+    const formValue = formGroup.value as { name: string, phone: string, email: string, clazzId: number };
+    Assert.isString(formValue.name, formValue.phone, formValue.email, '类型必须为字符串');
+    Assert.isNumber(formValue.clazzId, '类型必须为number');
+    this.studentService.update(id, {
+      name: formValue.name,
+      email: formValue.email,
+      phone: formValue.phone,
+      clazz: {id: formValue.clazzId}
+    }).subscribe(() => {
+      console.log('更新成功');
+    });
   }
 
   /**

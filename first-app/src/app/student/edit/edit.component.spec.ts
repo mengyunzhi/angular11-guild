@@ -7,6 +7,7 @@ import {RouterTestingModule} from '@angular/router/testing';
 import {ActivatedRoute, RouterModule} from '@angular/router';
 import {ClazzSelectModule} from '../../clazz/clazz-select/clazz-select.module';
 import {ReactiveFormsModule} from '@angular/forms';
+import {randomNumber} from '@yunzhi/ng-mock-api';
 
 describe('EditComponent', () => {
   let component: EditComponent;
@@ -30,8 +31,18 @@ describe('EditComponent', () => {
     fixture.detectChanges();
   });
 
-  fit('should create', () => {
+  it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  fit('onSubmit', () => {
+    // 发送数据，使用组件使用MockApi返回的数据初始化
+    getTestScheduler().flush();
+    fixture.autoDetectChanges();
+
+    // 使用组件中的formGroup来触发onSubmit()方法
+    component.onSubmit(component.id as number, component.formGroup);
+    getTestScheduler().flush();
   });
 
   /**
