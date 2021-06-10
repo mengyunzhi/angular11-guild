@@ -87,10 +87,10 @@ export class StudentMockApi implements MockApiInterface {
           id,
           name: randomString('姓名'),
           number: randomString('学号'),
-          phone: (139000000000 + randomNumber(99999999)).toString(),
+          phone: (139 * 10000 * 10000 + randomNumber(99999999)).toString(),
           email: randomString('前缀') + '@yunzhi.club',
           clazz: {
-            id: randomNumber(),
+            id: randomNumber(10),
             name: randomString('班级名称'),
             teacher: {
               id: randomNumber(),
