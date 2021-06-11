@@ -7,7 +7,6 @@ import {MockApiTestingModule} from '../mock-api/mock-api-testing.module';
 import {By} from '@angular/platform-browser';
 import {PageModule} from '../clazz/page/page.module';
 import {PageComponent} from '../clazz/page/page.component';
-import {Page} from '../entity/page';
 
 describe('StudentComponent', () => {
   let component: StudentComponent;

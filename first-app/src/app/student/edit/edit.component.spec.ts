@@ -4,9 +4,10 @@ import {EditComponent} from './edit.component';
 import {MockApiTestingModule} from '../../mock-api/mock-api-testing.module';
 import {getTestScheduler} from 'jasmine-marbles';
 import {RouterTestingModule} from '@angular/router/testing';
-import {ActivatedRoute, RouterModule} from '@angular/router';
+import {ActivatedRoute, Router, RouterModule} from '@angular/router';
 import {ClazzSelectModule} from '../../clazz/clazz-select/clazz-select.module';
 import {ReactiveFormsModule} from '@angular/forms';
+import {of} from 'rxjs';
 
 
 describe('EditComponent', () => {
@@ -19,7 +20,20 @@ describe('EditComponent', () => {
         ClazzSelectModule, ReactiveFormsModule],
       declarations: [EditComponent],
       providers: [
-        {provide: ActivatedRoute, useValue: {snapshot: {params: {id: '123'}}}}
+        {
+          provide: ActivatedRoute,
+          useValue: {
+            params: of({id: '123'})
+          }
+        },
+        {
+          provide: Router,
+          useValue: {
+            navigate: (...args: any) => {
+              console.log('调用了navigate方法', args);
+            }
+          }
+        }
       ]
     })
       .compileComponents();

@@ -30,9 +30,12 @@ export class EditComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.id = +this.activatedRoute.snapshot.params.id;
-    Assert.isNumber(this.id, '接收到的id类型不正确');
-    this.loadData(this.id);
+    this.activatedRoute.params.subscribe(params => {
+      console.log('路由参数发生了变化', params);
+      this.id = +params.id;
+      Assert.isNumber(this.id, '接收到的id类型不正确');
+      this.loadData(this.id);
+    });
   }
 
   /**

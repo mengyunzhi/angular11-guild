@@ -10,6 +10,7 @@ import {map} from 'rxjs/operators';
 import {LoadingModule} from '../../directive/loading/loading.module';
 import {randomString} from '@yunzhi/ng-mock-api/testing';
 import {randomNumber} from '@yunzhi/ng-mock-api';
+import {RouterTestingModule} from '@angular/router/testing';
 
 describe('student -> AddComponent', () => {
   let component: AddComponent;
@@ -19,6 +20,7 @@ describe('student -> AddComponent', () => {
     await TestBed.configureTestingModule({
       declarations: [AddComponent],
       imports: [
+        RouterTestingModule,
         ReactiveFormsModule,
         ClazzSelectModule,
         MockApiTestingModule,
