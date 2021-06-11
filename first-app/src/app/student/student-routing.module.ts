@@ -7,14 +7,16 @@ import {EditComponent} from './edit/edit.component';
 const routes = [
   {
     path: '',
-    component: StudentComponent
-  },
-  {
-    path: 'add',
-    component: AddComponent
-  }, {
-    path: 'edit/:id',
-    component: EditComponent
+    component: StudentComponent,
+    children: [
+      {
+        path: 'add',
+        component: AddComponent
+      }, {
+        path: 'edit/:id',
+        component: EditComponent
+      }
+    ]
   }
 ] as Route[];
 
