@@ -35,7 +35,7 @@ describe('EditComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  fit('onSubmit', () => {
+  it('onSubmit', () => {
     // 发送数据，使用组件使用MockApi返回的数据初始化
     getTestScheduler().flush();
     fixture.autoDetectChanges();
