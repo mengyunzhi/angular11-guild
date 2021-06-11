@@ -2,7 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {YzValidators} from '../../yz-validators';
 import {YzAsyncValidators} from '../../yz-async-validators';
-import {ActivatedRoute} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import {StudentService} from '../../service/student.service';
 import {Assert} from '@yunzhi/ng-mock-api';
 
@@ -17,11 +17,12 @@ export class EditComponent implements OnInit {
 
   constructor(private yzAsyncValidators: YzAsyncValidators,
               private activatedRoute: ActivatedRoute,
-              private studentService: StudentService) {
+              private studentService: StudentService,
+              private router: Router) {
     console.log(this.activatedRoute);
     this.formGroup = new FormGroup({
       name: new FormControl('', Validators.required),
-      number: new FormControl('', Validators.required, yzAsyncValidators.numberNotExist()),
+      number: new FormControl(''),
       phone: new FormControl('', YzValidators.phone),
       email: new FormControl(),
       clazzId: new FormControl(null, Validators.required)
@@ -39,17 +40,18 @@ export class EditComponent implements OnInit {
    * @param id id
    * @param formGroup 表单组
    */
-  onSubmit(id: number, formGroup: FormGroup): void {
+  onSubmit(id: number | undefined, formGroup: FormGroup): void {
     const formValue = formGroup.value as { name: string, phone: string, email: string, clazzId: number };
     Assert.isString(formValue.name, formValue.phone, formValue.email, '类型必须为字符串');
     Assert.isNumber(formValue.clazzId, '类型必须为number');
-    this.studentService.update(id, {
+    Assert.isNumber(id, 'id类型必须为number');
+    this.studentService.update(id as number, {
       name: formValue.name,
       email: formValue.email,
       phone: formValue.phone,
       clazz: {id: formValue.clazzId}
     }).subscribe(() => {
-      console.log('更新成功');
+      this.router.navigate(['../../'], {relativeTo: this.activatedRoute});
     });
   }
 

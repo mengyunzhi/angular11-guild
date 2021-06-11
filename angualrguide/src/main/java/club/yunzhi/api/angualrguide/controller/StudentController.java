@@ -4,7 +4,6 @@ import club.yunzhi.api.angualrguide.annotation.OwnerKey;
 import club.yunzhi.api.angualrguide.annotation.OwnerSecured;
 import club.yunzhi.api.angualrguide.entity.Clazz;
 import club.yunzhi.api.angualrguide.entity.Student;
-import club.yunzhi.api.angualrguide.service.ClazzService;
 import club.yunzhi.api.angualrguide.service.StudentService;
 import com.fasterxml.jackson.annotation.JsonView;
 import org.springframework.data.domain.Page;
@@ -37,6 +36,13 @@ public class StudentController {
     this.studentService.deleteById(id);
   }
 
+  @GetMapping("{id}")
+  @OwnerSecured(StudentService.class)
+  @JsonView(GetByIdJsonView.class)
+  public Student getById(@PathVariable @OwnerKey Long id) {
+    return this.studentService.getById(id);
+  }
+
   @GetMapping("numberIsExist")
   public Boolean numberIsExist(@RequestParam String number) {
     return this.studentService.numberIsExist(number);
@@ -55,9 +61,23 @@ public class StudentController {
     return this.studentService.save(student);
   }
 
+  @PutMapping("{id}")
+  @OwnerSecured(StudentService.class)
+  @JsonView(UpdateJsonView.class)
+  public Student update(@PathVariable @OwnerKey Long id, @RequestBody Student student) {
+    return this.studentService.update(id, student);
+  }
+
   private interface PageOfCurrentTeacherJsonView extends Student.ClazzJsonView, Clazz.TeacherJsonView {
   }
 
   private interface SaveJsonView {
+  }
+
+  private interface UpdateJsonView extends Student.ClazzJsonView {
+  }
+
+  private interface GetByIdJsonView extends Student.ClazzJsonView {
+
   }
 }

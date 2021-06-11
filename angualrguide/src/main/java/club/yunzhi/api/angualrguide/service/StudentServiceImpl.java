@@ -51,6 +51,16 @@ public class StudentServiceImpl implements StudentService {
   }
 
   @Override
+  public Student update(Long id, Student student) {
+    Student oldStudent = this.studentRepository.findById(id).orElseThrow(EntityNotFoundException::new);
+    oldStudent.setName(student.getName());
+    oldStudent.setPhone(student.getPhone());
+    oldStudent.setEmail(student.getEmail());
+    oldStudent.setClazz(student.getClazz());
+    return this.studentRepository.save(oldStudent);
+  }
+
+  @Override
   public void batchDeleteIds(List<Long> ids) {
     Stream<Student> students = ids.stream().map(id -> new Student(id));
     this.studentRepository.deleteAll(students.collect(Collectors.toList()));
@@ -59,6 +69,11 @@ public class StudentServiceImpl implements StudentService {
   @Override
   public void deleteById(Long id) {
     this.studentRepository.deleteById(id);
+  }
+
+  @Override
+  public Student getById(Long id) {
+    return this.studentRepository.findById(id).orElseThrow(EntityNotFoundException::new);
   }
 
   @Override

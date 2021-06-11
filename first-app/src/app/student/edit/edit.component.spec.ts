@@ -7,7 +7,7 @@ import {RouterTestingModule} from '@angular/router/testing';
 import {ActivatedRoute, RouterModule} from '@angular/router';
 import {ClazzSelectModule} from '../../clazz/clazz-select/clazz-select.module';
 import {ReactiveFormsModule} from '@angular/forms';
-import {randomNumber} from '@yunzhi/ng-mock-api';
+
 
 describe('EditComponent', () => {
   let component: EditComponent;

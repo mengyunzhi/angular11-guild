@@ -15,9 +15,13 @@ public interface StudentService extends OwnerAuthority {
 
   void deleteById(Long id);
 
+  Student getById(Long id);
+
   Boolean numberIsExist(String number);
 
   Page<Student> pageOfCurrentTeacher(Pageable pageable);
 
   Student save(Student student);
+
+  Student update(Long id, Student student);
 }
