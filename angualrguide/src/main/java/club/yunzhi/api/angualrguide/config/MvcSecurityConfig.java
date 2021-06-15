@@ -1,6 +1,7 @@
 package club.yunzhi.api.angualrguide.config;
 
 import club.yunzhi.api.angualrguide.entity.Teacher;
+import club.yunzhi.api.angualrguide.property.AppProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -19,14 +20,14 @@ import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 import java.util.Arrays;
-import java.util.concurrent.ConcurrentHashMap;
 
 @Configuration
 @EnableWebSecurity
 @EnableSpringHttpSession
 public class MvcSecurityConfig extends WebSecurityConfigurerAdapter {
-
-  public MvcSecurityConfig() {
+  private final AppProperty appProperty;
+  public MvcSecurityConfig(AppProperty appProperty) {
+    this.appProperty = appProperty;
   }
 
   @Bean
@@ -75,7 +76,7 @@ public class MvcSecurityConfig extends WebSecurityConfigurerAdapter {
   @Bean
   CorsConfigurationSource corsConfigurationSource() {
     CorsConfiguration configuration = new CorsConfiguration();
-    configuration.setAllowedOrigins(Arrays.asList("http://localhost:9876", "http://localhost:4200"));
+    configuration.setAllowedOrigins(this.appProperty.getOrigins());
     configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "PATCH", "DELETE"));
     configuration.setAllowedHeaders(Arrays.asList("content-type", "x-auth-token", "authorization"));
     configuration.setExposedHeaders(Arrays.asList("x-auth-token"));

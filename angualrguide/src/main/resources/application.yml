@@ -9,3 +9,9 @@ spring:
       ddl-auto: update
   datasource:
     url: jdbc:h2:~/data/angular-guild
+
+app:
+  origins:
+    - http://localhost:9876
+    - http://localhost:4200
+    - http://www.yz.com
